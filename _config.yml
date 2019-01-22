@@ -6,8 +6,8 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: thelinux.pro
-email: thiswillnotwork@thelinux.pro
+title: "thelinux.pro"
+email: "thiswillnotwork@thelinux.pro"
 description: > # this means to ignore newlines until "baseurl:"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://thelinux.pro" # the base hostname & protocol for your site
