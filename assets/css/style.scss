@@ -2,3 +2,16 @@
 ---
 
 @import "{{ site.theme }}";
+
+.site-footer {
+  border-top: 1px solid gray;
+  padding: 3px 0;
+  position:fixed;
+  background: url(../images/nav-bg.gif) #353535;
+}
+
+.footer-heading {
+  font-size: 18px;
+}
+
+
