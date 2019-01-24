@@ -5,7 +5,7 @@ date:   2019-01-21 11:30:00 -0500
 categories: yum rpm packages pulp centos linux
 ---
 
-##Build a Server
+## Build a Server
 For this post, I'm using a fresh install of CentOS 7 provisioned locally using Vagrant.
 
 To do this, you need to have Vagrant installed and a provider, such as VirtualBox.
@@ -36,7 +36,7 @@ Vagrant.configure("2") do |config|
 end
 {% endhighlight %}
 
-###Provision
+### Provision
 
 {% highlight bash %}
 $ vagrant up
