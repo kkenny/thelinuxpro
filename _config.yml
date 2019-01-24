@@ -13,6 +13,7 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://thelinux.pro" # the base hostname & protocol for your site
 twitter_username: kameronkenny
 github_username:  kkenny
+linkedin_username: kameronkenny
 
 # Build settings
 markdown: kramdown
