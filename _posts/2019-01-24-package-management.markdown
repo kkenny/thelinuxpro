@@ -95,7 +95,7 @@ done
 ### Admin Client
 #### Configure Pulp Admin Client
 Make the `[server]` section look more like this:
-{% highlight %}
+{% highlight bash %}
 [server]
 host: pulp-master-01
 port: 443
