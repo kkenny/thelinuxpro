@@ -2,7 +2,9 @@
 layout: post
 title:  "RPM Package Management Using Pulp"
 date:   2019-01-21 11:30:00 -0500
-categories: yum rpm packages pulp centos linux
+tags: [vagrant, pulp, rpm, packages, package, rpm package management, virtualbox, bash, linux, apache, pulp-server, yum, centos]
+excerpt: "Use Vagrant and VirtualBox to provision a Pulp server for RPM package management"
+categories: package-management pulp
 ---
 
 ## Build a Server

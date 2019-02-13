@@ -2,6 +2,8 @@
 layout: post
 title:  "Testing for Chef Deprecations Using Foodcritic"
 date:   2019-02-13 16:15:00 -0500
+tags: [testing, chef, foodcritic, bash, deprecations, chefdk]
+excerpt: "Chef Client is on a monthly release cycle with new releases on the first Wednesday of each month. With new releases, deprecations should be paid attention to so that our cookbooks do not become stale and eventually break."
 categories: chef testing foodcritic
 ---
 

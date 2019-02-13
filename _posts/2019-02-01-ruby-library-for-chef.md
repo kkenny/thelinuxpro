@@ -2,6 +2,8 @@
 layout: post
 title:  "Ruby Library for Chef"
 date:   2019-02-01 16:30:00 -0500
+tags: [ruby,library,libraries,chef,cookbook,recipe,bash,mtime,linux]
+excerpt: "Create a library for a Chef cookbook to drive consistency, efficiency, smaller file sizes "
 categories: chef libraries ruby
 ---
 
