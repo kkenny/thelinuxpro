@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Testing for Chef Deprecations Using Foodcritic
+title:  "Testing for Chef Deprecations Using Foodcritic"
 date:   2019-02-13 16:15:00 -0500
 categories: chef testing foodcritic
 ---
