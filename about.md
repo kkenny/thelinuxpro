@@ -18,5 +18,5 @@ My current focus is leading a large distributed team on a journey into Infrastru
 * _[Multipliers](https://books.google.com/books?id=kF26e_S6l_cC)_
 * _[The Phoenix Project](https://books.google.com/books?id=_An-CAAAQBAJ)_
 
-_disclaimer_
+#### _disclaimer_
 _I work for a large company.  This site contains my thoughts and opinions, and doesn't necessarily reflect the company I work for._
