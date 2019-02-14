@@ -18,6 +18,18 @@ linkedin_username: kameronkenny
 
 google_analytics: "UA-118953072-1"
 
+favorite_books:
+  - name: "Extreme Ownership: How U.S. Navy SEALs Lead and Win"
+    url:  'https://books.google.com/books?id=tpspDwAAQBAJ'
+  - name: "Multipliers"
+    url:  'https://books.google.com/books?id=kF26e_S6l_cC'
+  - name: "The Phoenix Project"
+    url:  'https://books.google.com/books?id=_An-CAAAQBAJ'
+
+currently_reading:
+  - name: "The Captain Class: A New Theory on Leadership"
+    url:  'https://books.google.com/books?id=pKD4DAAAQBAJ'
+
 # Build settings
 markdown: kramdown
 

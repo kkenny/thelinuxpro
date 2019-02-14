@@ -14,9 +14,14 @@ I am a proven asset with the ability to think outside the box, stay ahead of the
 My current focus is leading a large distributed team on a journey into Infrastructure as Code.  I can't wait to see the growth of those around me as we embark on this journey together.
 
 ## Favorite Books
-* _[Extreme Ownership: How U.S. Navy SEALs Lead and Win](https://books.google.com/books?id=tpspDwAAQBAJ)_
-* _[Multipliers](https://books.google.com/books?id=kF26e_S6l_cC)_
-* _[The Phoenix Project](https://books.google.com/books?id=_An-CAAAQBAJ)_
+{% for book in site.favorite_books %}
+- _[{{ book.name }}]({{ book.url }})_
+{% endfor %}
+
+## Currently Reading
+{% for book in site.currently_reading %}
+- _[{{ book.name }}]({{ book.url }})_
+{% endfor %}
 
 #### Disclaimer
 _I work for a large company.  This site contains my thoughts and opinions, and doesn't necessarily reflect the company I work for._
