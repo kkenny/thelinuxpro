@@ -19,16 +19,25 @@ linkedin_username: kameronkenny
 google_analytics: "UA-118953072-1"
 
 favorite_books:
-  - name: "Extreme Ownership: How U.S. Navy SEALs Lead and Win"
+  - name: "Extreme Ownership"
+    subtitle: "How U.S. Navy SEALs Lead and Win"
     url:  'https://books.google.com/books?id=tpspDwAAQBAJ'
+    author: "Jocko Willink, Leif Babin"
   - name: "Multipliers"
     url:  'https://books.google.com/books?id=kF26e_S6l_cC'
+    author: "Liz Wiseman, Greg McKeown"
   - name: "The Phoenix Project"
     url:  'https://books.google.com/books?id=_An-CAAAQBAJ'
+    author: "Gene Kim, Kevin Behr, George Spafford"
 
 currently_reading:
-  - name: "The Captain Class: A New Theory on Leadership"
+  - name: "The Captain Class"
+    subtitle: "A New Theory on Leadership"
     url:  'https://books.google.com/books?id=pKD4DAAAQBAJ'
+    author: "Sam Walker"
+
+work_disclaimer: "This site contains my thoughts and opinions, and doesn't reflect those of the company I work for."
+copyright: "Copyright 2019, Kameron Kenny"
 
 # Build settings
 markdown: kramdown

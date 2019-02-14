@@ -15,13 +15,19 @@ My current focus is leading a large distributed team on a journey into Infrastru
 
 ## Favorite Books
 {% for book in site.favorite_books %}
-- _[{{ book.name }}]({{ book.url }})_
+<div class="book">
+[{{ book.name }}]({{ book.url }}) <br />
+_[{{ book.subtitle }}]({{ book.url }})_ <br />
+By: {{ book.author }}
+</div>
 {% endfor %}
 
 ## Currently Reading
 {% for book in site.currently_reading %}
-- _[{{ book.name }}]({{ book.url }})_
+<div class="book">
+[{{ book.name }}]({{ book.url }}) <br />
+_[{{ book.subtitle }}]({{ book.url }})_ <br />
+By: {{ book.author }}
+</div>
 {% endfor %}
 
-#### Disclaimer
-_I work for a large company.  This site contains my thoughts and opinions, and doesn't necessarily reflect the company I work for._
