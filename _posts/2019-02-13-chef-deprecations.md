@@ -26,13 +26,13 @@ log_file='deprecations.log'
 
 for cookbook in `ls -d */`; do
   printf "${cookbook}\n=================" | tee -a $log_file
-  chef exec foodcritic -t deprecated ${i} | tee -a $log_file
+  chef exec foodcritic -t deprecated ${cookbook} | tee -a $log_file
   printf "\n" | tee -a $log_file
 done
 {% endhighlight %}
 
 This will:
-- Itterate over all the directories in the current directory
+- Iterate over all the directories in the current directory
 - Assume they're cookbooks
 - Execute the `deprecations` Foodcritic tests
 - Print the results to the screen
