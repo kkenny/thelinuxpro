@@ -13,14 +13,16 @@ I am a proven asset with the ability to think outside the box, stay ahead of the
 
 My current focus is leading a large distributed team on a journey into Infrastructure as Code.  I can't wait to see the growth of those around me as we embark on this journey together.
 
-## Favorite Books
+### Favorite Books
 {% for book in site.favorite_books %}
+---
 [{{ book.name }}]({{ book.url }}) <br />
 _[{{ book.subtitle }}]({{ book.url }})_ <br />
 By: {{ book.author }}
 {% endfor %}
 
-## Currently Reading
+### Currently Reading
+---
 {% for book in site.currently_reading %}
 [{{ book.name }}]({{ book.url }}) <br />
 _[{{ book.subtitle }}]({{ book.url }})_ <br />
