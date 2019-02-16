@@ -15,19 +15,15 @@ My current focus is leading a large distributed team on a journey into Infrastru
 
 ## Favorite Books
 {% for book in site.favorite_books %}
-<div class="book">
 [{{ book.name }}]({{ book.url }}) <br />
 _[{{ book.subtitle }}]({{ book.url }})_ <br />
 By: {{ book.author }}
-</div>
 {% endfor %}
 
 ## Currently Reading
 {% for book in site.currently_reading %}
-<div class="book">
 [{{ book.name }}]({{ book.url }}) <br />
 _[{{ book.subtitle }}]({{ book.url }})_ <br />
 By: {{ book.author }}
-</div>
 {% endfor %}
 
