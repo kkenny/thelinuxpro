@@ -3,7 +3,7 @@ layout: post
 title:  "Resizing tmux panes"
 date:   2019-03-04 10:30:00 -0500
 tags: [linux, tmux, terminal, resize]
-excerpt: ""
+excerpt: "By default, when you split the current pane, it will always split into two panes of equal size.  Sometimes it could be desired to have one pane larger than"
 categories: tmux
 ---
 
