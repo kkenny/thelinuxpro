@@ -1,0 +1,326 @@
+<html>
+<head>
+<title>Countdown Timer</title>
+<style>
+body { background-color: #333; color: #fff;}
+th { color: #FFF; font-size: 28px; }
+table { border-collapse: collapse; }
+table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-bottom: 0px; }
+#clock { color: #AAA; text-align: center; font-size: 90px; }
+.mainClock { text-align: center; font-size: 20px; border: 1px solid #999; padding: 15px; padding-top: 5px; padding-bottom: 5px; }
+.countdown { text-align: right; font-size: 60px; }
+.warn { color: yellow; }
+.over { color: red; }
+.green { color: lime; }
+#now { color: #FFF; font-size: 20px; }
+#utc_now { color: #FFF; font-size: 20px; }
+.debug { background-color: #000; color: lime; border: 2px; border-color: lime; }
+.notes { background-color: #000; color: #AAA; width: 100%; min-height: 400px;}
+.notesTitle { background-color: #000; color: #AAA; width: 100%; font-size: 20px;}
+div.main { background-color: #222; width: 50%; position: center; margin: auto;}
+.right { text-align: right; border: 0px;}
+.left { text-align: left; border: 0px; }
+.nav { border: 0px; width: 100%; padding:0px; }
+.upNext { color: #fff; font-size: 45px; }
+</style>
+
+</head>
+<body>
+
+<!-- Display the countdown timer in an element -->
+<table class="mainClock">
+<th class="mainClock">Date</th><th class="mainClock">Current TZ</th><th class="mainClock">UTC</th>
+<tr><td class="mainClock"><div id="calDate"></div></td><td class="mainClock"><div id="now"></div></td><td class="mainClock"><div id="utc_now"></div></td></tr>
+</table>
+
+<div class="main">
+
+<table class="nav"><tr>
+<td class="left"><div id="currentSubject" class="upNext"></div></td>
+<td class="right"><div id="countdown" class="countdown"></div></td>
+</tr></table>
+
+<div id="currentStartEnd"></div>
+<div class="notesTitle"><h2>Notes</h2>
+<div class="notes" id="notes"></div>
+</div>
+
+<table class="nav"><tr>
+<td class="left"><div id="upNext" class="upNext"></div></td>
+<td class="right"><div id="nextCountdown" class="countdown"></div></td>
+</tr></table>
+
+<div id="nextStartEnd"></div>
+<table class="nav"><tr>
+<td class="nav"><form class="left"><input type="button" value="Previous" onclick="decArray()"></form></td>
+<td class="nav"><form class="right"><input type="button" value="Next" onclick="incArray()"></form></td>
+</tr></table>
+
+<div id="debug" class="debug"></div>
+</div>
+
+<script src="events.js"></script>
+<script>
+var version = "0.6.017"
+var debug = true;
+
+var style = 'green';
+
+var eventsLength = events.length;
+
+var array_counter = 0;
+var currentObject = array_counter;
+var nextObject = array_counter + 1;
+
+var notes = events[currentObject].notes;
+var currentDate = events[currentObject].date;
+var nextDate = events[nextObject].date;
+var currentStart = currentDate;
+var currentEnd = nextDate;
+var nextStart = nextDate;
+var nextEnd = events[(nextObject + 1)].date;
+var currentSubject = events[currentObject].subject;
+var nextSubject = events[nextObject].subject;
+
+// Set the date we're counting down to
+var countDownDate = new Date(nextDate).getTime();
+var currentTimer = new Date(currentDate).getTime();
+
+document.getElementById("notes").innerHTML = notes;
+document.getElementById("currentSubject").innerHTML = "<div class=upNext>Now: " + currentSubject + "</div>";
+document.getElementById("upNext").innerHTML = "<div class=upNext>Next: " + nextSubject + "</div>";
+document.getElementById("currentStartEnd").innerHTML = "Start Time: " + currentDate + "<br />End Time: " + currentEnd;
+document.getElementById("nextStartEnd").innerHTML = "Start Time: " + nextDate + "<br />End Time: " + nextEnd;
+
+function incArray() {
+  if (array_counter < eventsLength) {
+    array_counter++;
+  }
+  currentObject = array_counter;
+  currentDate = events[currentObject].date;
+  currentSubject = events[currentObject].subject;
+  currentStart = currentDate;
+  currentEnd = nextDate;
+  nextStart = nextDate;
+  nextEnd = events[(nextObject + 1)].date;
+
+  nextObject = array_counter + 1;
+  nextDate = events[nextObject].date;
+  nextSubject = events[nextObject].subject;
+  notes = events[currentObject].notes;
+
+  document.getElementById("notes").innerHTML = notes;
+  document.getElementById("currentSubject").innerHTML = "<div class=upNext>Now: " + currentSubject + "</div>";
+  document.getElementById("upNext").innerHTML = "<div class=upNext>Next: " + nextSubject + "</div>";
+  document.getElementById("currentStartEnd").innerHTML = "Start Time: " + currentDate + "<br />End Time: " + currentEnd;
+  document.getElementById("nextStartEnd").innerHTML = "Start Time: " + nextDate + "<br />End Time: " + nextEnd;
+  countDownDate = new Date(nextDate).getTime();
+  currentTimer = new Date(currentDate).getTime();
+}
+
+function decArray() {
+  if (array_counter > 0) {
+    array_counter--;
+  }
+
+  currentObject = array_counter;
+  nextObject = array_counter + 1;
+  currentDate = events[currentObject].date;
+  nextDate = events[nextObject].date;
+  currentSubject = events[currentObject].subject;
+  nextSubject = events[nextObject].subject;
+  currentStart = currentDate;
+  currentEnd = nextDate;
+  nextStart = nextDate;
+  nextEnd = events[(nextObject + 1)].date;
+  notes = events[currentObject].notes;
+
+  nextObject = array_counter + 1;
+  nextDate = events[nextObject].date;
+  nextSubject = events[nextObject].subject;
+
+  document.getElementById("notes").innerHTML = notes;
+  document.getElementById("currentSubject").innerHTML = "<div class=upNext>Now: " + currentSubject + "</div>";
+  document.getElementById("upNext").innerHTML = "<div class=upNext>Next: " + nextSubject + "</div>";
+  document.getElementById("currentStartEnd").innerHTML = "Start Time: " + currentDate + "<br />End Time: " + currentEnd;
+  document.getElementById("nextStartEnd").innerHTML = "Start Time: " + nextDate + "<br />End Time: " + nextEnd;
+  countDownDate = new Date(nextDate).getTime();
+  currentTimer = new Date(currentDate).getTime();
+}
+
+
+// Update the count down every 1 second
+var x = setInterval(function() {
+  //reset style
+  style = 'green';
+
+  // Get today's date and time
+  var now = new Date().getTime();
+
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+  var cDistance = currentTimer - now;
+
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+// Day or Days?
+  if (days > 0) {
+    if (days == 1){
+      days = (days + ' Day ');
+    } else {
+      days = (days + ' Days ');
+    }
+  } else {
+    days = '';
+  }
+
+// set style for countdown based on remaining time
+  if (days < 1 && hours < 1) {
+    if (minutes < 0) {
+      style = 'over';
+    } else if (minutes < 15) {
+      style = 'warn';
+    } else {
+      style = 'green';
+    }
+  }
+
+// pad single digits with a '0' prefix
+// when time is out, start counting up by inverting
+  if (hours < 0) {
+    hours = (-hours);
+  }
+  if (hours < 10 && hours >= 0) {
+    hours = ('0' + hours);
+  }
+
+  if (minutes < 0) {
+    minutes = (-minutes);
+  }
+  if (minutes < 10 && minutes >= 0) {
+    minutes = ('0' + minutes);
+  }
+
+  if (seconds < 0) {
+    seconds = (-seconds);
+  }
+  if (seconds < 10 && seconds >= 0) {
+    seconds = ('0' + seconds);
+  }
+
+  // Time calculations for days, hours, minutes and seconds
+  var cDays = Math.floor(cDistance / (1000 * 60 * 60 * 24));
+  var cHours = Math.floor((cDistance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var cMinutes = Math.floor((cDistance % (1000 * 60 * 60)) / (1000 * 60));
+  var cSeconds = Math.floor((cDistance % (1000 * 60)) / 1000);
+
+// Day or Days?
+  if (cDays > 0) {
+    if (cDays == 1) {
+      cDays = (cDays + ' Day ');
+    } else {
+      cDays = (cDays + ' Days ');
+    }
+  } else {
+    cDays = '';
+  }
+
+// set style for countdown based on remaining time
+//  if (cDays < 1 && cHours < 1) {
+//    if (cMinutes < 15) {
+//      cStyle = 'warn';
+//    } else if (cMinutes < 0) {
+//      cStyle = 'over';
+//    } else {
+//      cStyle = 'green';
+//    }
+//  }
+
+// pad single digits with a '0' prefix
+// when time is out, start counting up by inverting
+  if (cHours < 0) {
+    cHours = (-cHours);
+  }
+  if (cHours < 10 && cHours > -10) {
+    cHours = ('0' + cHours);
+  }
+
+  if (cMinutes < 0) {
+    cMinutes = (-cMinutes);
+  }
+  if (cMinutes < 10 && cMinutes >= 0) {
+    cMinutes = ('0' + cMinutes);
+  }
+
+  if (cSeconds < 0) {
+    cSeconds = (-cSeconds);
+  }
+  if (cSeconds < 10 && cSeconds >=0) {
+    cSeconds = ('0' + cSeconds);
+  }
+
+// A regular clock
+  var d = new Date();
+
+  var hour = d.getHours();
+  var minute = d.getMinutes();
+  var second = d.getSeconds();
+
+  if (hour < 10 && hour >= 0) {
+    hour = ('0' + hour);
+  }
+
+  if (minute < 10 && minute >= 0) {
+    minute = ('0' + minute);
+  }
+
+  if (second < 10 && second >= 0) {
+    second = ('0' + second);
+  }
+
+// Same for UTC
+  var hourUTC = d.getUTCHours();
+  var minuteUTC = d.getUTCMinutes();
+  var secondUTC = d.getUTCSeconds();
+
+  if (hourUTC < 10) {
+    hourUTC = ('0' + hourUTC);
+  }
+
+  if (minuteUTC < 10) {
+    minuteUTC = ('0' + minuteUTC);
+  }
+
+  if (secondUTC < 10) {
+    secondUTC = ('0' + secondUTC);
+  }
+
+  // current event stuff
+  document.getElementById("calDate").innerHTML = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate();
+  document.getElementById("now").innerHTML = hour + ":" + minute + ":" + second;
+  document.getElementById("utc_now").innerHTML = hourUTC + ":" + minuteUTC + ":" + secondUTC;
+
+  // Display the result in the element with id="clock"
+  document.getElementById("countdown").innerHTML = "<div class=" + style + ">" + cDays + cHours + ":" + cMinutes + ":" + cSeconds + "</div>";
+  document.getElementById("nextCountdown").innerHTML = "<div class=" + style + ">" + days + hours + ":" + minutes + ":" + seconds + "</div>";
+
+  if (debug == true) {
+    document.getElementById("debug").innerHTML = "debug: " + debug + "<br />Version: " + version + "<br />Current time object: " + currentDate + "<br />Current subject object: " + currentSubject + "<br />current notes object: " + notes + "<br />next time object: " + nextDate + "<br />next subject object: " + nextSubject + "<br />current array counter: " + array_counter + "<br />Start Time: " + currentStart + "<br />End Time: " + currentEnd + "<br />" + cDays + "<br />" + cHours + "<br />" + cMinutes + "<br />" + cSeconds;
+  }
+
+  // If the count down is finished, write some text
+  //if (distance < 0) {
+  //  clearInterval(x);
+  //  document.getElementById("clock").innerHTML = "EXPIRED";
+  //}
+}, 1000);
+</script>
+
+</body>
+</html>
+
