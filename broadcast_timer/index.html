@@ -145,8 +145,14 @@ var x = setInterval(function() {
 
   list = "<table class=events><th class=events>Event</th><th class=events>Time</th><th class=events>Time Until</th>";
 
-  for (i = 0; i < aLen; i++) {
 
+  if (aLen > 30) {
+    var listLength = 30;
+  } else {
+    var listLength = aLen;
+  }
+
+  for (i = 0; i < listLength; i++) {
     if (i === array_counter) {
       eventStyle= "events-current";
     } else {
