@@ -55,6 +55,7 @@ var debug = true;
 var style = 'green';
 var eventStyle = "events";
 var list;
+var counter_diff;
 
 var eventsLength = events.length;
 
@@ -152,7 +153,13 @@ var x = setInterval(function() {
       eventStyle = "events";
     }
 
-    list += "<tr><td class=" + eventStyle + ">" + events[i].subject + "</td><td class=" + eventStyle + ">" + events[i].date + "</td><td class=" + eventStyle + ">" + countdown(events[i].date) + "</td></tr>";
+    counter_diff = i - array_counter;
+
+    if (counter_diff < -2) {
+      list += '';
+    } else {
+      list += "<tr><td class=" + eventStyle + ">" + events[i].subject + "</td><td class=" + eventStyle + ">" + events[i].date + "</td><td class=" + eventStyle + ">" + countdown(events[i].date) + "</td></tr>";
+    }
   }
 
   list += "</table>";
