@@ -1,35 +1,56 @@
-body { background-color: #333; color: #fff;}
+body {
+  background-color: #333;
+  color: #fff;
+}
+
 th { color: #FFF; font-size: 28px; }
 table { border-collapse: collapse; }
 table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-bottom: 0px; }
 
+.clear { clear: both ;}
+
 .grid-container {
   display: grid;
   grid-template-areas:
-  'clock main main main main main'
-  'events main main main main main'
-  'events main main main main main';
+  'left right';
   grid-gap: 3px;
   padding: 4px;
+  width: 100%;
 }
 
 .grid-main {
-  grid-area: main;
+  width: 75%;
+  grid-area: right;
+}
+
+.grid-left {
+  grid-area: left;
+  width: 25%;
+  min-width: 500px;
+  border-right: 1px solid #AAA;
 }
 
 .grid-clock {
-  grid-area: clock;
+}
+
+.grid-meta {
+  vertical-align: top;
+  max-height: 100px;
   border: 1px solid #AAA;
+  background-color: #000;
+  color: lime;
+}
+
+.grid-nav {
 }
 
 .grid-events {
-  grid-area: events;
 }
 
 .main {
+  width: 100%;
+  min-width: 100%;
   background-color: #222;
-  position: center;
-/*  margin: auto; */
 }
 
 .mainClock {
@@ -59,22 +80,39 @@ th.events {
 }
 
 table.events {
-  width: 100%;
 }
 
-.countdown { text-align: right; font-size: 60px; }
+.btn-group .button {
+  background-color: #4CAF50; /* Green */
+  border: 1px solid green;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  float: left;
+  border-bottom: 2px solid #AAA;
+}
+
+.btn-group .button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+.btn-group .button:hover {
+  background-color: #3e8e41;
+}
+
+.countdown { float: right; text-align: right; font-size: 60px; }
 .warn { color: yellow; }
 .over { color: red; }
 .green { color: lime; }
-#now { color: #FFF; font-size: 20px; }
-#utc_now { color: #FFF; font-size: 20px; }
 .debug { background-color: #000; color: lime; border: 2px; border-color: lime; }
-.notes { background-color: #000; color: #AAA; width: 100%; min-height: 400px;}
-.notesTitle { background-color: #000; color: #AAA; width: 100%; font-size: 20px;}
+.notes {  min-width: 1000px; width: 100%; background-color: #000; color: #AAA; min-height: 200px; border: 1px solid #aaa;}
+.notesTitle { background-color: #000; color: #AAA; font-size: 20px;}
 
-.right { text-align: right; border: 0px;}
-.left { text-align: left; border: 0px; }
-.nav { border: 0px; width: 100%; padding:0px; }
-.upNext { color: #fff; font-size: 45px; }
+.subject { color: #fff; font-size: 45px; }
+.header { width: 100%;  background-color: #222; }
 
 
