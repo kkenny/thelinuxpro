@@ -22,6 +22,17 @@ body {
 table.events {
   width: 99%;
 }
+.notes {
+  background: #000;
+  margin-top: 10px;
+  font-size: 1.8rem;
+  color: #fff;
+  max-width: 100%; }
+.debug {
+  background: #000;
+  color: lime;
+  margin-top: 15px;
+  border: 1px solid lime; }
 .clock {
   display: none;
   font-size: 1.8rem;
@@ -30,7 +41,7 @@ table.events {
   padding: 5px;
   margin-bottom: 0px; }
 .button {
-  border: 1px solid #666;
+  border: 1px solid #333;
   background-color:  #4CAF50;
   margin-top: 10px;
   margin-bottom: 0px;
@@ -43,13 +54,15 @@ table.events {
   max-width: 99%;
   padding: 0 5px; }
 .header {
-  background: #666;
+  background-color: #666;
   margin-top: 6rem;
   text-align: center; }
+.header.columns {
+  background: #666; }
 .navbar {
   font-size: 3rem;
   font-weight: 600;
-  background-color: #222;
+  background: #222;
   /*display: none;*/ }
 .events {
   text-align: left; }
@@ -57,7 +70,7 @@ table.events {
 /* Larger than phone */
 @media (min-width: 550px) {
   .button {
-    border: 1px solid #666;
+    border: 1px solid #333;
     background-color:  #4CAF50;
     margin-top: 10px;
     margin-bottom: 0px;
@@ -67,6 +80,7 @@ table.events {
   .two-thirds.column { width: 68.8%; }
   .column,
   .columns {
+    background: transparent;
     margin-left: 3px; }
   .clock-wrapper {
     display: block;
@@ -80,7 +94,9 @@ table.events {
     padding: 5px;
     margin-bottom: 0px; }
   .header {
-    margin-top: 0rem; }
+    background-color: #666;
+    text-align: center;
+    margin-top: 6rem; }
   .events {
     text-align: left; }
 }

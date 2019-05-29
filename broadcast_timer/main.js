@@ -1,6 +1,8 @@
 // meta
-var version = "0.9.112"
+var version = "0.10.2"
 var debug = false;
+
+var initialized = false;
 
 var style = 'green';
 var eventStyle = "events";
@@ -9,6 +11,7 @@ var list;
 var counter_diff;
 
 var eventsLength = events.length;
+var eventLength;
 
 var array_counter = 0;
 var currentObject = array_counter;
@@ -43,7 +46,6 @@ function toggleDebug() {
     debug = true;
   }
 }
-
 
 function incArray() {
   if (array_counter < eventsLength) {
@@ -108,8 +110,8 @@ var x = setInterval(function() {
 
   list = "<table class=events><th class=events>Event</th><th class=events>Time</th><th class=events>Time Until</th>";
 
-  if (eventsLength > 20) {
-    var listLength = 20;
+  if (eventsLength > 15) {
+    var listLength = 15;
     var page = true;
   } else {
     var listLength = eventsLength;
@@ -121,9 +123,11 @@ var x = setInterval(function() {
   for (i = 0; i < listLength; i++) {
 
     if (i === array_counter) {
-      eventStyle= "events-current";
+      eventStyle = "events-current";
+      cdFunction = countdown(events[i].date, "current");
     } else {
       eventStyle = "events";
+      cdFunction = countdown(events[i].date, "next");
     }
 
     counter_diff = i - array_counter;
@@ -134,7 +138,7 @@ var x = setInterval(function() {
       	listLength++;
       }
     } else {
-      list += "<tr><td class=" + eventStyle + ">" + events[i].subject + "</td><td class=" + eventStyle + ">" + events[i].date + "</td><td class=" + eventStyle + ">" + countdown(events[i].date) + "</td></tr>";
+      list += "<tr><td class=" + eventStyle + ">" + events[i].subject + "</td><td class=" + eventStyle + ">" + events[i].date + "</td><td class=" + eventStyle + ">" + cdFunction + "</td></tr>";
     }
   }
 
@@ -148,8 +152,8 @@ var x = setInterval(function() {
   document.getElementById("utc_now").innerHTML = clock_dateUTC();
 
 //
-  document.getElementById("countdown").innerHTML = countdown(currentDate);
-  document.getElementById("nextCountdown").innerHTML = countdown(nextDate);
+  document.getElementById("countdown").innerHTML = countdown(currentDate, "current");
+  document.getElementById("nextCountdown").innerHTML = countdown(nextDate, "next");
 
   if (debug === true) {
     document.getElementById("debug").innerHTML = "debug: " + debug + "<br />Version: " + version + "<br />Current time object: " + currentDate + "<br />Current subject object: " + currentSubject + "<br />current notes object: " + notes + "<br />next time object: " + nextDate + "<br />next subject object: " + nextSubject + "<br />current array counter: " + array_counter + "<br />Start Time: " + currentStart + "<br />End Time: " + currentEnd + "<br />" ;

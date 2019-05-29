@@ -1,88 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Broadcast Timer</title>
-  <meta charset="utf-8">
-  <meta name="description" content="Broadcast Timer">
-  <meta name="author" content="Kameron Kenny">
-  <!-- Mobile Specific Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Font -->
-  <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
-  <!-- CSS -->
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/skeleton.css">
-  <link rel="stylesheet" href="css/custom.css">
-<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
-  <!-- No Cache -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+	<title>Broadcast Timer</title>
+	<meta charset="utf-8">
+	<meta name="description" content="Broadcast Timer">
+	<meta name="author" content="Kameron Kenny">
+	<!-- Mobile Specific Metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Font -->
+	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<!-- No Cache -->
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
 </head>
 <body>
 
+<!-- Top Bar -->
 <div class="section hero u-full-width u-max-full-width">
-  <div class="container navbar">
-    <div class="row">
-      <div class="one-half column u-pull-left">
-	<div class="one-third column">
-	  <div class="clock u-pull-left">Date: </div>
-	  <div id="calDate" class="clock u-pull-left"></div>
+	<div class="container navbar">
+		<div class="row">
+			<div class="one-half column u-pull-left">
+				<div class="one-third column">
+					<div class="clock u-pull-left">Date: </div>
+					<div id="calDate" class="clock u-pull-left"></div>
+				</div>
+				<div class="one-third column">
+					<div class="clock u-pull-left">Local: </div>
+					<div id="now" class="clock u-pull-left"></div>
+				</div>
+				<div class="one-third column">
+					<div class="clock u-pull-left">UTC: </div>
+					<div id="utc_now" class="clock u-pull-left"></div>
+				</div>
+			</div>
+			<div class="one-half column u-pull-right">
+				<div class="nav-button">
+					<button class="button" onclick="decArray()">Previous</button>
+					<button class="button" onclick="incArray()">Next</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	<div class="one-third column">
-	  <div class="clock u-pull-left">Local: </div>
-	  <div id="now" class="clock u-pull-left"></div>
-	</div>
-	<div class="one-third column">
-	  <div class="clock u-pull-left">UTC: </div>
-	  <div id="utc_now" class="clock u-pull-left"></div>
-	</div>
-      </div>
-      <div class="one-half column u-pull-right">
-	<div class="nav-button">
-	  <button class="button" onclick="decArray()">Previous</button>
-	  <button class="button" onclick="incArray()">Next</button>
-	</div>
-      </div>
-    </div>
-  </div>
 </div>
+<!-- / Top Bar -->
 
+<!-- mid-section -->
 <div class="section">
-  <div class="container">
-    <div class="row columns">
-      <div class="one-third column events">
-	<div id="events-list"></div>
-      </div>
+	<div class="container">
+		<div class="row columns">
+			<!-- events-list -->
+			<div class="one-third column events">
+				<div id="events-list"></div>
+			</div>
+			<!-- /events-list -->
+			<!-- current-next events -->
+			<div class="two-thirds column">
+				<!-- current-event -->
+				<div class="header">
+					<div class="row">
+						<div class="two-thirds column">
+							<div id="currentSubject" class="subject"></div>
+						</div>
+						<div class="one-third column">
+							<div id="countdown" class="countdown"></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div id="currentStartEnd"></div>
+				</div>
+				<div calss="row">
+					<div class="notes" id="notes"></div>
+				</div>
+				<!-- /current-event -->
 
-      <div class="two-thirds column">
-	<div class="header">
-	  <div class="columns">
-	    <div class="two-thirds column">
-	      <div id="currentSubject" class="subject"></div>
-	    </div>
-	    <div class="one-third column">
-	      <div id="countdown" class="countdown"></div>
-	    </div>
-	  </div>
+				<!-- next-event -->
+				<div class="header">
+					<div class="row">
+						<div class="two-thirds column">
+							<div id="upNext" class="subject"></div>
+						</div>
+						<div class="one-third column">
+							<div id="nextCountdown" class="countdown"></div>
+						</div>
+					</div>
+				</div>
+				<div id="nextStartEnd"></div>
+				<!-- /next-event -->
+				<div id="debug" class="debug"></div>
+			</div>
+			<!-- /current-next-events -->
+		</div>
 	</div>
-	<div id="currentStartEnd"></div>
-	<div class="notes" id="notes"></div>
-	<div class="header">
-	  <div id="upNext" class="subject"></div>
-	  <div id="nextCountdown" class="countdown"></div>
-	  <div id="nextStartEnd"></div>
-	</div>
+</div>
+<!-- /mid-section -->
 
-	<div id="debug" class="debug"></div>
-      </div>
-    </div>
-  </div>
+
+<div class="grid-bottom">
+	<div id="meta" class="grid-meta u-pull-right"></div>
 </div>
 
-  <div class="grid-bottom">
-      <div id="meta" class="grid-meta"></div>
-  </div>
 
 <script src="events.js"></script>
 <script src="main.js"></script>

@@ -70,6 +70,11 @@ var events = [
     "notes": "Demo Monit and how it can be useful for gumby"
   },
   {
+    "date": "May 29, 2019 16:25:00",
+    "subject": "Git Push",
+    "notes": ""
+  },
+  {
     "date": "May 30, 2019 00:00:01",
     "subject": "10-year anniversery",
     "notes": ""
