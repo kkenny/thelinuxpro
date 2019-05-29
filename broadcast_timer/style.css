@@ -12,20 +12,8 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
 
 .clear { clear: both ;}
 
-.grid-container {
-  display: grid;
-  grid-template-areas:
-  'top-bar top-bar'
-  'info-bar info-bar'
-  'left right'
-  'bottom bottom';
-  grid-gap: 3px;
-  padding: 4px;
-  padding-top: 0px;
-  width: 100%;
-}
 
-@media (max-width:600px) {
+@media (min-width:400px) {
 .grid-container {
   display: grid;
   grid-template-areas:
@@ -40,6 +28,22 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
   width: 100%;
 }
 }
+
+@media (min-width:750px) {
+.grid-container {
+  display: grid;
+  grid-template-areas:
+  'top-bar top-bar'
+  'info-bar info-bar'
+  'left right'
+  'bottom bottom';
+  grid-gap: 3px;
+  padding: 4px;
+  padding-top: 0px;
+  width: 100%;
+}
+}
+
 .grid-top-bar {
   grid-area: top-bar;
   padding: 0px;
