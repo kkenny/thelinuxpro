@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Countdown Timer</title>
+  <title>Broadcast Timer</title>
   <link rel="stylesheet" type="text/css" href="style.css">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
@@ -9,22 +9,21 @@
 <body>
 
 <div class="grid-container">
-  <div class="grid-left">
-    <div class="grid-clock">
-      <table width="100%">
-        <th class="mainClock">Date</th><th class="mainClock">Local</th><th class="mainClock">UTC</th>
-        <tr><td class="mainClock" id="calDate"></td><td class="mainClock" id="now"></td><td class="mainClock" id="utc_now"></td></tr>
-      </table>
-    </div>
-
-    <div id="meta" class="grid-meta"></div>
-
-    <div class="grid-nav">
-      <div class="btn-group">
-      <button class="button" onclick="decArray()">Previous</button>
+  <div class="grid-top-bar">
+    <div class="btn-group">
       <button class="button" onclick="incArray()">Next</button>
-      </div>
+      <button class="button" onclick="decArray()">Previous</button>
     </div>
+    <div class="grid-info-bar">
+      <div id="calDate" class="mainClock-cal"></div>
+      <div class="mainClock-left">Local: </div>
+      <div id="now" class="mainClock-right"></div>
+      <div class="mainClock-left">UTC: </div>
+      <div id="utc_now" class="mainClock-right"></div>
+    </div>
+  </div>
+
+  <div class="grid-left">
     <div class="clear"></div>
 
     <div class="grid-events">
@@ -54,6 +53,10 @@
 
       <div id="debug" class="debug"></div>
     </div>
+  </div>
+
+  <div class="grid-bottom">
+      <div id="meta" class="grid-meta"></div>
   </div>
 </div>
 

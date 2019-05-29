@@ -1,6 +1,9 @@
 body {
   background-color: #333;
   color: #fff;
+  padding-top: 0px;
+  padding-left: 0px;
+  margin: 0px;
 }
 
 th { color: #FFF; font-size: 28px; }
@@ -12,10 +15,43 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
 .grid-container {
   display: grid;
   grid-template-areas:
-  'left right';
+  'top-bar top-bar'
+  'info-bar info-bar'
+  'left right'
+  'bottom bottom';
   grid-gap: 3px;
   padding: 4px;
+  padding-top: 0px;
   width: 100%;
+}
+
+@media (max-width:600px) {
+.grid-container {
+  display: grid;
+  grid-template-areas:
+  'top-bar'
+  'info-bar'
+  'left'
+  'right'
+  'bottom';
+  grid-gap: 3px;
+  padding: 4px;
+  padding-top: 0px;
+  width: 100%;
+}
+}
+.grid-top-bar {
+  grid-area: top-bar;
+  padding: 0px;
+  width: 100%;
+  background-color: #222;
+}
+
+.grid-info-bar {
+  grid-area: info-bar;
+  padding-top: 0px;
+  background-color: #222;
+  clear: both;
 }
 
 .grid-main {
@@ -30,15 +66,19 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
   border-right: 1px solid #AAA;
 }
 
+.grid-bottom {
+	grid-area: bottom;
+	background-color: #222;
+}
+
 .grid-clock {
 }
 
 .grid-meta {
-  vertical-align: top;
-  max-height: 100px;
-  border: 1px solid #AAA;
+  border: 0px solid #AAA;
   background-color: #000;
   color: lime;
+  float: right;
 }
 
 .grid-nav {
@@ -53,13 +93,37 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
   background-color: #222;
 }
 
-.mainClock {
+.mainClock-cal {
   text-align: center;
   font-size: 20px;
-  border: 1px solid #999;
-  padding: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  border-left: 1px solid #999;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-right: 1px solid #999;
+  padding: 5px;
+  float: left;
+}
+
+.mainClock-left {
+  text-align: center;
+  font-size: 20px;
+  border-left: 1px solid #999;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-right: 0px solid #999;
+  padding: 5px;
+  float: left;
+}
+
+.mainClock-right {
+  text-align: center;
+  font-size: 20px;
+  border-left: 0px solid #999;
+  border-top: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-right: 1px solid #999;
+  padding: 5px;
+  float: left;
 }
 
 .events {
@@ -92,7 +156,7 @@ table.events {
   display: inline-block;
   font-size: 16px;
   cursor: pointer;
-  float: left;
+  float: right;
   border-bottom: 2px solid #AAA;
 }
 

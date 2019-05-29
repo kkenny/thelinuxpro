@@ -1,5 +1,5 @@
 // meta
-var version = "0.9.002"
+var version = "0.9.012"
 var debug = false;
 
 var style = 'green';
@@ -142,13 +142,10 @@ var x = setInterval(function() {
   document.getElementById("events-list").innerHTML = list;
 
 // A regular clock
-  var cal_date = clock_cal_date();
-  var clock = clock_date();
-  var clockUTC = clock_dateUTC();
 
-  document.getElementById("calDate").innerHTML = cal_date;
-  document.getElementById("now").innerHTML = clock;
-  document.getElementById("utc_now").innerHTML = clockUTC;
+  document.getElementById("calDate").innerHTML = clock_cal_date();
+  document.getElementById("now").innerHTML = clock_date();
+  document.getElementById("utc_now").innerHTML = clock_dateUTC();
 
 //
   document.getElementById("countdown").innerHTML = countdown(currentDate);

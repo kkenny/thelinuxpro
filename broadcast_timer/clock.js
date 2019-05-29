@@ -1,6 +1,6 @@
-var d = new Date();
 
 function clock_cal_date() {
+  var d = new Date();
   var r = d.getFullYear() + "/" + d.getMonth() + "/" + d.getDate();
   return r
 }
@@ -9,6 +9,7 @@ function clock_date() {
 
 // A regular clock
 
+  var d = new Date();
   var hour = d.getHours();
   var minute = d.getMinutes();
   var second = d.getSeconds();
@@ -31,6 +32,7 @@ function clock_date() {
 
 function clock_dateUTC() {
 // Same for UTC
+  var d = new Date();
   var hourUTC = d.getUTCHours();
   var minuteUTC = d.getUTCMinutes();
   var secondUTC = d.getUTCSeconds();
