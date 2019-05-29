@@ -116,7 +116,7 @@ var x = setInterval(function() {
   }
 
   var count_to_end = eventsLength - array_counter;
-	
+
 
   for (i = 0; i < listLength; i++) {
 

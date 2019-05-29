@@ -13,7 +13,6 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
 .clear { clear: both ;}
 
 
-@media (min-width:400px) {
 .grid-container {
   display: grid;
   grid-template-areas:
@@ -29,7 +28,6 @@ table, th, td { border: 0px solid #999; padding: 0px; padding-top: 0px; padding-
 }
 }
 
-@media (min-width:750px) {
 .grid-container {
   display: grid;
   grid-template-areas:
@@ -150,8 +148,8 @@ th.events {
 table.events {
 }
 
-.btn-group .button {
-  background-color: #4CAF50; /* Green */
+/*.btn-group .button {
+  background-color: #4CAF50;
   border: 1px solid green;
   color: white;
   padding: 15px 32px;
@@ -162,7 +160,7 @@ table.events {
   cursor: pointer;
   float: right;
   border-bottom: 2px solid #AAA;
-}
+} */
 
 .btn-group .button:not(:last-child) {
   border-right: none; /* Prevent double borders */

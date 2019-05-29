@@ -1,0 +1,141 @@
+body {
+  background: #222;
+  color: #AAA; }
+.warn	{ color: yellow; }
+.green	{ color: lime; }
+.over	{ color: red; }
+.events-current {
+  background: #666; }
+.subject {
+  float: left;
+  color: #FFF;
+  font-size: 2rem;
+  font-weight: 900; }
+.countdown {
+  float: right;
+  font-size: 2rem;
+  font-weight: 900; }
+.events {
+ /* display: block; */
+  /*width: 99%; */
+  text-align: left;  }
+table.events {
+  width: 99%;
+}
+.clock {
+  display: none;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #AAA;
+  padding: 5px;
+  margin-bottom: 0px; }
+.button {
+  border: 1px solid #666;
+  background-color:  #4CAF50;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  width: 48%;
+  height: 90px;}
+.nav-button {
+  float: right }
+.container {
+  width: 99%;
+  max-width: 99%;
+  padding: 0 5px; }
+.header {
+  background: #666;
+  margin-top: 6rem;
+  text-align: center; }
+.navbar {
+  font-size: 3rem;
+  font-weight: 600;
+  background-color: #222;
+  /*display: none;*/ }
+.events {
+  text-align: left; }
+
+/* Larger than phone */
+@media (min-width: 550px) {
+  .button {
+    border: 1px solid #666;
+    background-color:  #4CAF50;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    height: 45px; }
+  .nav-button {
+    float: right }
+  .two-thirds.column { width: 68.8%; }
+  .column,
+  .columns {
+    margin-left: 3px; }
+  .clock-wrapper {
+    display: block;
+    min-width: 50px;
+  }
+  .clock {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #AAA;
+    padding: 5px;
+    margin-bottom: 0px; }
+  .header {
+    margin-top: 0rem; }
+  .events {
+    text-align: left; }
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  /* Navbar */
+  .clock-wrapper {
+    display: block;
+    min-width: 50px; }
+  .clock {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #AAA;
+    padding: 5px;
+    margin-bottom: 0px; }
+  .navbar,
+  .navbar-spacer {
+    display: block;
+    width: 100%;
+    height: 6.5rem;
+    background: #222;
+    z-index: 99;
+    border-top: 0px solid #eee;
+    border-bottom: 1px solid #eee; }
+  .navbar-spacer {
+    display: none; }
+  .navbar > .container {
+    width: 100%; }
+  .navbar-list {
+    list-style: none;
+    margin-bottom: 0; }
+  .navbar-item {
+    position: relative;
+    float: left;
+    margin-bottom: 0; }
+  .navbar-link {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .2rem;
+    margin-right: 35px;
+    text-decoration: none;
+    line-height: 6.5rem;
+    color: #222; }
+  .navbar-link.active {
+    color: #33C3F0; }
+  .has-docked-nav .navbar {
+    position: fixed;
+    top: 0;
+    left: 0; }
+  .has-docked-nav .navbar-spacer {
+    display: block; }
+  /* Re-overiding the width 100% declaration to match size of % based container */
+  .has-docked-nav .navbar > .container {
+    width: 80%; }
+}
