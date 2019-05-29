@@ -1,6 +1,6 @@
 // meta
-var version = "0.8.037"
-var debug = true;
+var version = "0.9.001"
+var debug = false;
 
 var style = 'green';
 var eventStyle = "events";
@@ -108,13 +108,18 @@ var x = setInterval(function() {
 
   list = "<table class=events><th class=events>Event</th><th class=events>Time</th><th class=events>Time Until</th>";
 
-  if (aLen > 30) {
-    var listLength = 30;
+  if (eventsLength > 20) {
+    var listLength = 20;
+    var page = true;
   } else {
-    var listLength = aLen;
+    var listLength = eventsLength;
   }
 
+  var count_to_end = eventsLength - array_counter;
+	
+
   for (i = 0; i < listLength; i++) {
+
     if (i === array_counter) {
       eventStyle= "events-current";
     } else {
@@ -125,6 +130,9 @@ var x = setInterval(function() {
 
     if (counter_diff < -2) {
       list += '';
+      if (listLength < eventsLength) {
+      	listLength++;
+      }
     } else {
       list += "<tr><td class=" + eventStyle + ">" + events[i].subject + "</td><td class=" + eventStyle + ">" + events[i].date + "</td><td class=" + eventStyle + ">" + countdown(events[i].date) + "</td></tr>";
     }

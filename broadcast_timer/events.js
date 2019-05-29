@@ -1,30 +1,5 @@
 var events = [
   {
-    "date": "May 23, 2019 16:00:00",
-    "subject": "start",
-    "notes": ""
-  },
-  {
-    "date": "May 26, 2019 07:00:00",
-    "subject": "VTO",
-    "notes": "at Crosspoint"
-  },
-  {
-    "date": "May 26, 2019 13:00:00",
-    "subject": "Lunch",
-    "notes": "Something good."
-  },
-  {
-    "date": "May 27, 2019 00:00:01",
-    "subject": "Memorial Day",
-    "notes": ""
-  },
-  {
-    "date": "May 28, 2019 09:00:00",
-    "subject": "1:1 A",
-    "notes": ""
-  },
-  {
     "date": "May 28, 2019 09:30:00",
     "subject": "Team Meeting",
     "notes": ""
