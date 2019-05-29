@@ -1,5 +1,5 @@
 // meta
-var version = "0.9.001"
+var version = "0.9.002"
 var debug = false;
 
 var style = 'green';
