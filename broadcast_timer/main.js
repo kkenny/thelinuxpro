@@ -1,5 +1,5 @@
 // meta
-var version = "0.10.2"
+var version = "0.10.3"
 var debug = false;
 
 var initialized = false;
