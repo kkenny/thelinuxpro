@@ -35,16 +35,6 @@ var events = [
     "notes": "Find out where to go"
   },
   {
-    "date": "May 30, 2019 11:45:00",
-    "subject": "Leave for Lunch",
-    "notes": ""
-  },
-  {
-    "date": "May 30, 2019 12:00:00",
-    "subject": "Lunch w/ Brad",
-    "notes": ""
-  },
-  {
     "date": "May 30, 2019 16:00:00",
     "subject": "Bus",
     "notes": ""
