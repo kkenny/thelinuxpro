@@ -95,9 +95,9 @@ var events = [
 		"notes": ""
 	},
 	{
-		"date": "May 30, 2019 14:30:00",
+		"date": "May 31, 2019 14:30:00",
 		"subject": "TD's for JS vuln",
-		"notes": "https://github.exacttarget.com/tholt/jvmversions  results repo"
+		"notes": "https://github.exacttarget.com/tholt/jvmversions  results repo<br /> need access"
 	},
 	{
 		"date": "May 30, 2019 13:30:00",
