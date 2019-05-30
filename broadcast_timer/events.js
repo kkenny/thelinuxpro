@@ -96,7 +96,7 @@ var events = [
 	},
 	{
 		"date": "May 30, 2019 13:30:00",
-		"subject": "Review Epics on Release"
+		"subject": "Review Epics on Release",
 		"notes": ""
 	}
 ]
