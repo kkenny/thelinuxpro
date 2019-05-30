@@ -85,7 +85,7 @@ var events = [
 		"notes": "<a href='https://gus.my.salesforce.com/0D5B000000sOpB6?fromEmail=1&s1oid=00DT0000000Dpvc&s1nid=000000000000000&s1uid=005B00000018dFP&s1ext=0&emkind=chatterCommentNotification&emtm=1559179844117'>GUS</a>"
 	},
 	{
-		"date": "May 30, 2019 14:30:00",
+		"date": "May 31, 2019 10:00:00",
 		"subject": "Get Backlog Prioritized",
 		"notes": ""
 	},
