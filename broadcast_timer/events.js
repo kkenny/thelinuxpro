@@ -94,6 +94,7 @@ var events = [
 		"subject": "Andy's Sheet for CapAdd",
 		"notes": ""
 	},
+	{
 		"date": "May 30, 2019 14:30:00",
 		"subject": "TD's for JS vuln",
 		"notes": "https://github.exacttarget.com/tholt/jvmversions  results repo"

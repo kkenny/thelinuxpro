@@ -26,31 +26,12 @@ function countdown(targetDate, current) {
   minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
   seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-// Day or Days?
-  if (days > 0) {
-    if (days === 1){
-      rDays = (days + ' Day ');
-    } else {
-      rDays = (days + ' Days ');
-    }
-  } else {
-    rDays = '';
-  }
 
 // set style for countdown based on remaining time
   style = "green"; // reset style
 
   if (current === "current") {
 		style = 'current';
-/*    if (nextDays < 1 && nextHours < 1) {
-      if (nextMinutes < 0) {
-	style = 'over';
-      } else if (nextMinutes < 15) {
-	style = 'warn';
-      } else {
-	style = 'green';
-      }
-    } */
   } else {
     if (days < 1 && hours < 1) {
       if (minutes < 0) {
@@ -61,6 +42,22 @@ function countdown(targetDate, current) {
 	style = 'green';
       }
     }
+  }
+
+  if (days < 0) {
+		days = (-days);
+		days--;
+	}
+
+// Day or Days?
+  if (days > 0) {
+    if (days === 1){
+      rDays = (days + ' Day ');
+    } else {
+      rDays = (days + ' Days ');
+    }
+  } else {
+    rDays = '';
   }
 
 // pad single digits with a '0' prefix
