@@ -41,7 +41,8 @@ function countdown(targetDate, current) {
   style = "green"; // reset style
 
   if (current === "current") {
-    if (nextDays < 1 && nextHours < 1) {
+		style = 'current';
+/*    if (nextDays < 1 && nextHours < 1) {
       if (nextMinutes < 0) {
 	style = 'over';
       } else if (nextMinutes < 15) {
@@ -49,7 +50,7 @@ function countdown(targetDate, current) {
       } else {
 	style = 'green';
       }
-    }
+    } */
   } else {
     if (days < 1 && hours < 1) {
       if (minutes < 0) {

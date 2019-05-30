@@ -1,6 +1,9 @@
 // meta
-var version = "0.10.3"
+var version = "0.10.010"
 var debug = false;
+
+
+events.sort(function(a, b){return new Date(a.date).getTime() - new Date(b.date).getTime()});
 
 var initialized = false;
 
@@ -26,6 +29,7 @@ var nextStart = nextDate;
 var nextEnd = events[(nextObject + 1)].date;
 var currentSubject = events[currentObject].subject;
 var nextSubject = events[nextObject].subject;
+
 
 // Set the date we're counting down to
 var countDownDate = new Date(nextDate).getTime();

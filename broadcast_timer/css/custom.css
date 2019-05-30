@@ -4,8 +4,9 @@ body {
 .warn	{ color: yellow; }
 .green	{ color: lime; }
 .over	{ color: red; }
+.current { color: orange; }
 .events-current {
-  background: #666; }
+  background: #555; }
 .subject {
   float: left;
   color: #FFF;
