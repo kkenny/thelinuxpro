@@ -49,5 +49,10 @@ var events = [
 		"date": "June 03, 2019 15:00:00",
 		"subject": "GUS Template Help",
 		"notes": ""
+	},
+	{
+		"date": "June 28, 2019 10:00:00",
+		"subject": "Linux Lottery Scenario Retro",
+		"notes": ""
 	}
 ]
