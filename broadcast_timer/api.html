@@ -12,32 +12,47 @@
 	<meta http-equiv="Pragma" content="no-cache">
 	<meta http-equiv="Expires" content="0">
 </head>
-<body onLoad="getJson()">
+<body onLoad="getJson(genList)">
 
-<textarea id="data"></textarea><br />
-<input onClick="getJson()" id="getJson" type="button" value="Get" />
-<input onClick="putJson()" id="put" type="button" value="Put" />
-<input onClick="test()" id="test" type="button" value="test" />
+<div id="eventList"></div>
+<div id="newEventList"></div>
+<div id="newEvent"><input type="text" id="newSubject" value="Subject"><input type="text" id="newStartDate" value="June 04, 2019 00:00:00"><input type="text" id="newNotes" value="Notes"><input onClick="createNewEvent()" id="test" type="button" value="Create" /></div>
+<div id="editEvent"><input type=hidden id=editID><input type="text" id="editSubject" value=""><input type="text" id="editStartDate" value=""><input type="text" id="editNotes" value=""><input onClick="submitEditEvent()" id="test" type="button" value="Update" /></div>
+
+<!-- <textarea id="data"></textarea><br /> -->
+<input onClick="getJson(genList)" id="getJson" type="button" value="Get" />
+<input onClick="enableElement('newEvent')" id="put" type="button" value="New Event" />
 
 <p id="result"></p>
 </body>
 
 
 <script>
+var events, eventsList, listLength, object;
+
+function isItArray(object) {
+	console.log(`is ${object} Array = ${Array.isArray(object)}`);
+//	return Array.isArray(object);
+}
+
+function conLog(object) {
+	console.log(`${object}`);
+}
 
 function test() {
 	d = document.getElementById("data").value;
 	document.getElementById("result").innerHTML = d;
 }
 
-function putJson() {
-	var data = document.getElementById("data").value;
+function putJson(data) {
+//	var data = document.getElementById("data").value;
 
 	let req = new XMLHttpRequest();
 
 	req.onreadystatechange = () => {
 		if (req.readyState == XMLHttpRequest.DONE) {
-			document.getElementById("result").innerHTML = req.responseText;
+			document.getElementById("result").innerHTML = new Date().getTime() + " - " + req.status;
+			getJson(genList);
 		}
 	};
 
@@ -47,14 +62,14 @@ function putJson() {
 
 }
 
-function getJson() {
-console.log(`getJson`);
-
+function getJson(callback) {
+	console.log(`getJson`);
 	let req = new XMLHttpRequest();
-
 	req.onreadystatechange = () => {
 		if (req.readyState == XMLHttpRequest.DONE) {
-			document.getElementById("data").innerHTML = JSON.stringify(JSON.parse(req.responseText),null,2);
+			window.events = JSON.parse(req.responseText);
+			window.events.sort(function(a, b){return new Date(a.date).getTime() - new Date(b.date).getTime()});
+			callback(window.events);
 		}
 	};
 
@@ -63,5 +78,104 @@ console.log(`getJson`);
 
 }
 
+function genList(eventsList) {
+	console.log(`inside gen list `);
+	var eventStyle = "events";
+//	isItArray(eventsList);
 
+//	eventsList.sort(function(a, b){return new Date(a.date).getTime() - new Date(b.date).getTime()});
+	listLength = eventsList.length;
+//	conLog("listLength = " + listLength);
+
+	list = "<table class=events><th class=events>ID</th><th class=events>Event</th><th class=events>Time</th><th></th>";
+
+	for (i = 0; i < listLength; i++) {
+		list += "<tr><td class=" + eventStyle + ">" + i + "<td class=" + eventStyle + ">" + eventsList[i].subject + "</td><td class=" + eventStyle + ">" + eventsList[i].date + "</td><td class=" + eventStyle + "><a onClick=deleteEvent(" + i + ")>delete</a>|<a onClick=editEvent(" + i + ")>edit</a></td></tr>";
+	}
+
+	list += "</table>";
+	document.getElementById("eventList").innerHTML = list;
+}
+
+function createNewEvent() {
+//	console.log(`${eventsList}`);
+//	console.log(`${window.events}`);
+	eventsList = window.events;
+
+	var subjectField = document.getElementById("newSubject").value;
+	var dateField = document.getElementById("newStartDate").value;
+	var notesField = document.getElementById("newNotes").value;
+
+	console.log(`${subjectField}`);
+	console.log(`${dateField}`);
+	console.log(`${notesField}`);
+
+	var newEventJson = { date: dateField, subject: subjectField, notes: notesField };
+	eventsList.push(newEventJson);
+	jsonStr = JSON.stringify(eventsList);
+	putJson(jsonStr);
+	disableElement("newEvent");
+//	document.getElementById("newEventList").innerHTML = jsonStr;
+}
+
+function deleteEvent(item) {
+//	console.log(`${eventsList}`);
+//	console.log(`${window.events}`);
+	eventsList = window.events;
+
+	console.log(`splicing ${item}`);
+
+
+	eventsList.splice(item, 1);
+	jsonStr = JSON.stringify(eventsList);
+	putJson(jsonStr);
+//	document.getElementById("newEventList").innerHTML = jsonStr;
+}
+
+function editEvent(item) {
+//	console.log(`${eventsList}`);
+//	console.log(`${window.events}`);
+	enableElement("editEvent");
+	eventsList = window.events;
+
+	console.log(`editing ${item}`);
+
+	var id = item;
+	var d = eventsList[item].date;
+	var s = eventsList[item].subject;
+	var n = eventsList[item].notes;
+
+	document.getElementById("editID").value = id;
+	document.getElementById("editSubject").value = s;
+	document.getElementById("editStartDate").value = d;
+	document.getElementById("editNotes").value = n;
+}
+
+function submitEditEvent() {
+//	console.log(`${eventsList}`);
+//	console.log(`${window.events}`);
+	eventsList = window.events;
+
+	var id = document.getElementById("editID").value;
+	var s = document.getElementById("editSubject").value;
+	var d = document.getElementById("editStartDate").value;
+	var n = document.getElementById("editNotes").value;
+
+	eventsList[id].date = d;
+	eventsList[id].subject = s;
+	eventsList[id].notes = n;
+
+	jsonStr = JSON.stringify(eventsList);
+	putJson(jsonStr);
+	disableElement("editEvent");
+//	document.getElementById("newEventList").innerHTML = jsonStr;
+}
+
+function enableElement(element) {
+	document.getElementById(element).style.display = "block";
+}
+
+function disableElement(element) {
+	document.getElementById(element).style.display = "none";
+}
 </script>
