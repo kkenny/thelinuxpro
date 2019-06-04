@@ -1,5 +1,5 @@
 var version = "0.12.311"
-var debug = true;
+var debug = false;
 var jsonUrl = "https://api.myjson.com/bins/k0abr";
 
 var events, list, counter_diff, eventLength, isEventsArray;
