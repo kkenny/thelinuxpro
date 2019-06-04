@@ -1,21 +1,3 @@
-// meta
-var version = "0.11.121"
-var debug = true;
-
-var dataLoad = false;
-var dataRequested = false;
-var jsonUrl = "https://api.myjson.com/bins/k0abr";
-var events, list, counter_diff, eventLength, isEventsArray;
-var currentObject, nextObject, notes;
-var currentDate, nextDate, currentStart, currentEnd;
-var nextStart, nextEnd, currentSubject, nextSubject;
-
-var initialized = false;
-var style = 'green';
-var eventStyle = "events";
-var array_counter = 0;
-
-
 console.log(`start js`);
 
 function getEvents() {
