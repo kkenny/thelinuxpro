@@ -1,6 +1,10 @@
 body {
   background: #222;
   color: #AAA; }
+textarea {
+	background: #111;
+	color: lime;
+	border: 1px solid #999; }
 .warn	{ color: yellow; }
 .green	{ color: lime; }
 .over	{ color: red; }
