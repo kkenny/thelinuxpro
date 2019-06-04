@@ -7,6 +7,10 @@ textarea {
 	height:50%;
 	color: lime;
 	border: 1px solid #999; }
+#newEvent {
+	display: none;}
+#editEvent {
+	display: none; }
 .warn	{ color: yellow; }
 .green	{ color: lime; }
 .over	{ color: red; }
