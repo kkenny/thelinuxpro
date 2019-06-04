@@ -3,6 +3,8 @@ body {
   color: #AAA; }
 textarea {
 	background: #111;
+	width:80%;
+	height:50%;
 	color: lime;
 	border: 1px solid #999; }
 .warn	{ color: yellow; }
