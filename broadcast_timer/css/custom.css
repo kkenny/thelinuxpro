@@ -52,13 +52,15 @@ table.events {
   padding: 5px;
   margin-bottom: 0px; }
 .button {
+	vertical-align: middle;
   border: 1px solid #333;
   background-color:  #4CAF50;
-  margin-top: 10px;
+  margin-top: 0px;
   margin-bottom: 0px;
-  width: 48%;
+  width: 150px;
   height: 90px;}
 .nav-button {
+	vertical-align: middle;
   float: right }
 .container {
   width: 99%;
@@ -81,12 +83,14 @@ table.events {
 /* Larger than phone */
 @media (min-width: 550px) {
   .button {
+		vertical-align: middle;
     border: 1px solid #333;
     background-color:  #4CAF50;
     margin-top: 10px;
     margin-bottom: 0px;
     height: 45px; }
   .nav-button {
+		vertical-align: middle;
     float: right }
   .two-thirds.column { width: 68.8%; }
   .column,

@@ -8,38 +8,53 @@
 		<link rel="stylesheet" href="css/normalize.css">
 		<link rel="stylesheet" href="css/skeleton.css">
 		<link rel="stylesheet" href="css/custom.css">
+		<link href="css/datepicker.min.css" rel="stylesheet" type="text/css">
 		<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
 		<!-- No Cache -->
 		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 		<meta http-equiv="Pragma" content="no-cache">
 		<meta http-equiv="Expires" content="0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="metadata.js"></script>
 		<script src="eventManage.js"></script>
+		<script src="timePicker.js"></script>
+		<script src="js/datepicker.min.js"></script>
+		<!-- Include English language -->
+		<script src="js/i18n/datepicker.en.js"></script>
 	</head>
 	<body onLoad="getJson(genList)">
+		<div class="u-full-width u-max-full-width container row">
+			<a class="button nav-button" onClick="enableElement('newEvent')" id="put">New Event</a>
+			<a class="button nav-button" onClick="getJson(genList)" id="getJson">Refresh</a>
+			<a class="button nav-button" href="index.html">Time Boxer</a>
+		</div><br />
 
+		<div class="u-pull-right container row" id="editEvent">
+			<div class="u-pull-right">
+				<input type=hidden id=editID>
+				<input type="text" id="editSubject" value="">
+				<input type='text' id='timepickerEdit' class='datepicker-here' data-timepicker='true' data-language='en'>
+				<!-- <input type="text" id="editStartDate" value=""> -->
+				<input type="text" id="editNotes" value="">
+				<input class="" onClick="submitEditEvent()" id="test" type="button" value="Update" />
+			</div>
+		</div>
+		<div class="u-pull-right container row" id="newEvent">
+			<div class="u-pull-right">
+				<form id="newEventForm" onSubmit="return processEventForm(this.form)">
+					<input type="hidden" id="eventID" value="">
+					Subject: <input type="text" id="newSubject" value="">
+					Date/Time: <input type='text' id='timepickerCreate' class='datepicker-here' data-timepicker='true' data-language='en'>
+					<!-- <div class="datepicker-here" data-timepicker="true" data-language='en'></div> -->
+
+					<!-- <input type="text" id="newStartDate" value="June 04, 2019 00:00:00"> -->
+					Notes: <input type="textarea" id="newNotes" value="Notes">
+					<input class="" onClick="createNewEvent()" id="test" type="button" value="Update" />
+				</form>
+			</div>
+		</div>
 		<div id="eventList"></div>
-		<div id="newEventList"></div>
-		<div id="newEvent">
-			<input type="text" id="newSubject" value="Subject">
-			<input type="text" id="newStartDate" value="June 04, 2019 00:00:00">
-			<input type="text" id="newNotes" value="Notes">
-			<input onClick="createNewEvent()" id="test" type="button" value="Create" />
-		</div>
-		<div id="editEvent">
-			<input type=hidden id=editID>
-			<input type="text" id="editSubject" value="">
-			<input type="text" id="editStartDate" value="">
-			<input type="text" id="editNotes" value="">
-			<input onClick="submitEditEvent()" id="test" type="button" value="Update" />
-		</div>
-
-		<input onClick="getJson(genList)" id="getJson" type="button" value="Get" />
-		<input onClick="enableElement('newEvent')" id="put" type="button" value="New Event" />
-		<a class="button nav-button" href="index.html">Time Boxer</a>
 
 		<p id="result"></p>
 	</body>
 </html>
-
-

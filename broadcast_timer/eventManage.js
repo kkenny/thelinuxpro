@@ -73,7 +73,7 @@ function createNewEvent() {
 	eventsList = window.events;
 
 	var subjectField = document.getElementById("newSubject").value;
-	var dateField = document.getElementById("newStartDate").value;
+	var dateField = document.getElementById("timepickerCreate").value;
 	var notesField = document.getElementById("newNotes").value;
 
 	console.log(`${subjectField}`);
@@ -117,7 +117,7 @@ function editEvent(item) {
 
 	document.getElementById("editID").value = id;
 	document.getElementById("editSubject").value = s;
-	document.getElementById("editStartDate").value = d;
+	document.getElementById("timepickerEdit").value = d;
 	document.getElementById("editNotes").value = n;
 }
 
@@ -128,7 +128,7 @@ function submitEditEvent() {
 
 	var id = document.getElementById("editID").value;
 	var s = document.getElementById("editSubject").value;
-	var d = document.getElementById("editStartDate").value;
+	var d = document.getElementById("timepickerEdit").value;
 	var n = document.getElementById("editNotes").value;
 
 	eventsList[id].date = d;
@@ -147,4 +147,19 @@ function enableElement(element) {
 
 function disableElement(element) {
 	document.getElementById(element).style.display = "none";
+}
+
+function processEventForm(form) {
+	var eventId = document.form.eventID.value;
+	var subject = document.form.subject.value;
+	var dateTime = document.form.timepicker-actions.value;
+	var notes = document.form.notes.value;
+
+	document.getElementById("results").innerHTML = eventId + subject + dateTime + notes;
+
+	if (eventId >= 0) {
+		console.log(`eventId = ${eventId}`);
+	} else {
+		console.log(`eventId = ${eventId}`);
+	}
 }
