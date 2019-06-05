@@ -22,6 +22,7 @@ function putJson(data) {
 }
 
 function getJson(callback) {
+	displayMeta();
 	console.log(`getJson`);
 	let req = new XMLHttpRequest();
 	req.onreadystatechange = () => {
@@ -50,7 +51,7 @@ function genList(punchList) {
 	list = "<table id=punchListTable class=punches><th class=punches>Punch Item</th><th class=punches>Status</th><th class=punches>Priority</th><th>Action</th>";
 
 	for (i = 0; i < listLength; i++) {
-		list += "<tr onClick=enablePunchDetail(" + i + ")><td onClick=enablePunchDetail(" + i + ") class=" + itemStyle + ">" + punchList[i].subject + "</td><td class=" + itemStyle + ">" + punchList[i].progress + "</td><td class=" + itemStyle + ">" + punchList[i].priority + "</td><td class=" + itemStyle + "><a onClick=startPunch(" + i +")>start</a> | <a onClick=completePunch(" + i + ")>done</a> | <a onClick=editPunch(" + i + ")>edit</a> | <a onClick=deletePunch(" + i + ")>delete</a></td></tr>";
+		list += "<tr><td onClick=enablePunchDetail(" + i + ") class=" + itemStyle + ">" + punchList[i].subject + "</td><td class=" + itemStyle + ">" + punchList[i].progress + "</td><td class=" + itemStyle + ">" + punchList[i].priority + "</td><td><div class=dropdown><button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button><div class=dropdown-content id='myDropdown" + i + "'><a onClick=startPunch(" + i + ")>start</a><a onClick=completePunch(" + i + ")>done</a><a onClick=editPunch(" + i + ")>edit</a><a onClick=deletePunch(" + i + ")>delete</a></div></div></div></td></tr>";
 	}
 
 	list += "</table>";
@@ -130,4 +131,25 @@ function enableElement(element) {
 function disableElement(element) {
 	console.log(`disabling ${element}`);
 	document.getElementById(element).style.display = "none";
+}
+
+function displayMeta() {
+	document.getElementById("meta").innerHTML = "Version: " + version ;
+}
+
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function dropMenu(item) {
+	window.dropId = "myDropdown" + item;
+  document.getElementById(window.dropId).classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+  var myDropdown = document.getElementById(window.dropId);
+    if (myDropdown.classList.contains('show')) {
+      myDropdown.classList.remove('show');
+    }
+  }
 }
