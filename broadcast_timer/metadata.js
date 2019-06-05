@@ -1,4 +1,4 @@
-var version = "0.13.004"
+var version = "0.13.006"
 var debug = false;
 var jsonUrl = "https://api.myjson.com/bins/k0abr";
 
