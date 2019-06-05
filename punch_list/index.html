@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font -->
+	<!--	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'> -->
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/skeleton.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link href="css/datepicker.min.css" rel="stylesheet" type="text/css">
+		<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
+		<!-- No Cache -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="metadata.js"></script>
+		<script src="eventManage.js"></script>
+		<script src="timePicker.js"></script>
+		<script src="js/datepicker.min.js"></script>
+		<!-- Include English language -->
+		<script src="js/i18n/datepicker.en.js"></script>
+	</head>
+
+	<body onLoad="getJson(genList)">
+
+		<div class="u-full-width u-max-full-width container row">
+			<a class="button" onClick="disableElement('punchList'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</a>
+			<a class="button" onClick="getJson(genList)" id="getJson">Refresh</a>
+			<a class="button" href="https://thelinux.pro/broadcast_timer">Time Boxer</a>
+		</div><br />
+
+		<div class="row" id="editEvent">
+				<input type=hidden id=editID>
+				<input class="u-full-width" type="text" id="editSubject" value=""><br />
+				<input type='text' id='timepickerEdit' class='datepicker-here u-full-width' data-timepicker='true' data-language='en'><br />
+				<!-- <input type="text" id="editStartDate" value=""> -->
+				<textarea class="u-full-width" id="editNotes" value=""></textarea>
+				<input class="u-full-width" onClick="submitEditEvent()" id="test" type="button" value="Update" />
+		</div>
+		<div class="container row" id="newEvent">
+				<form id="newEventForm" onSubmit="return processEventForm(this.form)">
+					<input class="u-full-width" type="text" id="newSubject" value="subject">
+					<input class="u-full-width" type="text" id="newPriority" value="priority">
+					<input type="hidden" id="newProgress" value="new">
+					<input type='text' id='timepickerCreate' class='datepicker-here u-full-width' data-timepicker='true' data-language='en' value="date">
+					<!-- <div class="datepicker-here" data-timepicker="true" data-language='en'></div> -->
+
+					<!-- <input type="text" id="newStartDate" value="June 04, 2019 00:00:00"> -->
+					<textarea class="u-full-width" id="newNotes" value="Notes"></textarea>
+					<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Update" />
+				</form>
+		</div>
+		<div id="punchList"></div>
+		<div id="punchDetail"></div>
+
+		<p id="result"></p>
+	</body>
+</html>
