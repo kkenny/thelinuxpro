@@ -1,4 +1,4 @@
-var version = "0.2.007",
+var version = "0.2.017",
 		debug = false,
 		jsonUrl = "https://api.myjson.com/bins/1dodsj",
 		showDone = false,
