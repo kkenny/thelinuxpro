@@ -7,6 +7,19 @@ textarea {
 	height:50%;
 	color: lime;
 	border: 1px solid #999; }
+  .one.column,
+  .one.columns                    { width: 4.66666666667%; }
+  .two.columns                    { width: 13.3333333333%; }
+  .three.columns                  { width: 22%;            }
+  .four.columns                   { width: 30.6666666667%; }
+  .five.columns                   { width: 39.3333333333%; }
+  .six.columns                    { width: 48%;            }
+  .seven.columns                  { width: 56.6666666667%; }
+  .eight.columns                  { width: 65.3333333333%; }
+  .nine.columns                   { width: 74.0%;          }
+  .ten.columns                    { width: 82.6666666667%; }
+  .eleven.columns                 { width: 91.3333333333%; }
+  .twelve.columns                 { width: 100%; margin-left: 0; }
 #newEvent {
 	display: none;}
 #editEvent {
@@ -104,9 +117,6 @@ textarea {
  /* display: block; */
   /*width: 99%; */
   text-align: left;  }
-table.punches {
-  width: 99%;
-}
 .notes {
   background: #000;
   margin-top: 10px;

@@ -58,12 +58,12 @@ function genList(punchList) {
 		if (punchList[i].progress.toLowerCase() === "in progress") {
 			console.log(`in progress`);
 //			list += "<tr>";
-			list += "<div class='punchlist top-bottom-border'>"; //
+			list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
-					list += "<div class='container " + itemStyle + "' onClick=enablePunchDetail(" + i + ")>" + punchList[i].subject + "</div>"; //
-					list += "<div class='two columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
+					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
+					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='three columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -87,7 +87,7 @@ function genList(punchList) {
 				console.log(`not in progress or not done`);
 			list += "<div class='punchlist top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
-					list += "<div class='container " + itemStyle + "' onClick=enablePunchDetail(" + i + ")>" + punchList[i].subject + "</div>"; //
+					list += "<div class='container " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
 					list += "<div class='two columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
 					list += "<div class='three columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
