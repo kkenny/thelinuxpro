@@ -42,7 +42,7 @@ function genList(punchList) {
 	document.getElementById("showDone").innerHTML = "Show Done: <a href='#' onClick='toggleShowDone()'>" + showDone + "</a>";
 
 	disableElement("punchDetail");
-	enableElement("punchList");
+	enableElement("punchListAll");
 	var itemStyle = "punches";
 	isItArray(punchList);
 
@@ -52,12 +52,13 @@ function genList(punchList) {
 //	list = "<table id=punchListTable class=punches><th class=punches>Punch Item</th><th class=punches>Status</th><th class=punches>Priority</th><th>Action</th>";
 
 
-			list = "<div class='punchlist top-bottom-border'>"; //
 //prioritize in-progress
+	var list = '';
 	for (i = 0; i < listLength; i++) {
 		if (punchList[i].progress.toLowerCase() === "in progress") {
 			console.log(`in progress`);
 //			list += "<tr>";
+			list += "<div class='punchlist top-bottom-border'>"; //
 			list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
 					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
@@ -77,14 +78,18 @@ function genList(punchList) {
 					list += "</div>";
 				list += "</div>";
 				list += "</div>";
+			list += "</div>";
+			document.getElementById("punchListInProgress").innerHTML = list;
 		}
 	}
 
 // then !done
+	var list = '';
 	for (i = 0; i < listLength; i++) {
 		if (punchList[i].progress.toLowerCase() != "in progress") {
 			if (punchList[i].progress.toLowerCase() != "done") {
 				console.log(`not in progress or not done`);
+			list += "<div class='punchlist top-bottom-border'>"; //
 			list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
 					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
@@ -104,16 +109,21 @@ function genList(punchList) {
 					list += "</div>";
 				list += "</div>";
 				list += "</div>";
+				list += "</div>";
+				document.getElementById("punchListNew").innerHTML = list;
 			}
 		}
 	}
 
 // then done
+	var list = '';
 	for (i = 0; i < listLength; i++) {
 		if (showDone === true) {
+			enableElement("punchListDoneWrapper");
 			if (punchList[i].progress.toLowerCase() === "done") {
 				console.log(`show done.`);
-			list += "<div class='punchlist container top-bottom-border'>"; //
+				list += "<div class='punchlist top-bottom-border'>"; //
+				list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
 					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
 					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
@@ -132,12 +142,13 @@ function genList(punchList) {
 					list += "</div>";
 				list += "</div>";
 				list += "</div>";
+				list += "</div>";
+				document.getElementById("punchListDone").innerHTML = list;
 			}
+		} else {
+			disableElement("punchListDoneWrapper");
 		}
 	}
-
-			list += "</div>";
-	document.getElementById("punchList").innerHTML = list;
 }
 
 function startPunch(item) {
@@ -159,7 +170,7 @@ function completePunch(item) {
 function enablePunchDetail(item) {
 	var punchList = window.punches;
 	console.log(`inside enablePunchDetail`);
-	disableElement("punchList");
+	disableElement("punchListAll");
 	console.log(`punchList Disabled`);
 	enableElement("punchDetail");
 	console.log(`punchDetail Enabled`);
@@ -186,7 +197,7 @@ function createNewEvent() {
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
 	disableElement("newEvent");
-	enableElement("punchList");
+	enableElement("punchListAll");
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
 
@@ -249,7 +260,7 @@ function toggleShowDone() {
 
 function editPunch(item) {
 	disableElement("newEvent");
-	disableElement("punchList");
+	disableElement("punchListAll");
 	enableElement("editPunch");
 
 	punchList = window.punches;

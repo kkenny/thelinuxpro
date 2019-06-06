@@ -47,15 +47,31 @@
 					<input class="u-full-width" type="text" id="newPriority" value="priority">
 					<input type="hidden" id="newProgress" value="new">
 					<input type='text' id='timepickerCreate' class='datepicker-here u-full-width' data-timepicker='true' data-language='en' value="date">
-					<!-- <div class="datepicker-here" data-timepicker="true" data-language='en'></div> -->
-
-					<!-- <input type="text" id="newStartDate" value="June 04, 2019 00:00:00"> -->
 					<textarea class="u-full-width" id="newNotes" value="Notes"></textarea>
 					<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Update" />
 				</form>
 		</div>
-		<div id="punchList"></div>
+
+		<div id="punchListAll">
+			<div id="punchListInProgressWrapper" class="listWrapper">
+			<span class="punchListHeader">In Progress</span>
+				<div id="punchListInProgress"></div>
+			</div>
+
+			<div id="punchListNewWrapper" class="listWrapper">
+			<span class="punchListHeader">New</span>
+				<div id="punchListNew"></div>
+			</div>
+
+			<div id="punchListDoneWrapper" class="listWrapper">
+			<span class="punchListHeader">Done</span>
+				<div id="punchListDone"></div>
+			</div>
+		</div>
+
 		<div id="punchDetail"></div>
+
+
 
 		<p id="result"></p>
 		<div id="showDone" class="grid-meta u-pull-right"></div><br />
