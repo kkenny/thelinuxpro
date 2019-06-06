@@ -11,6 +11,18 @@ textarea {
 	display: none;}
 #editEvent {
 	display: none; }
+.punchlist {
+	position: relative;
+	width: 100%;
+	display: table;
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee; }
+.punchlist::after {
+	content: "";
+	clear: both; }
+.top-bottom-border {
+		border-top: 1px solid #eee;
+		border-bottom: 1px solid #eee; }
 .navbar {
   overflow: hidden;
   background-color: #333;
@@ -33,6 +45,7 @@ textarea {
 
 .dropdown .dropbtn {
   cursor: pointer;
+	vertical-align: middle;
   font-size: 16px;
   border: none;
   outline: none;
@@ -113,18 +126,15 @@ table.punches {
   padding: 5px;
   margin-bottom: 0px; }
 .centerMiddle {
-	height: 100%;
-	width: 100%;
 	padding:0px;
 	text-align: center;
-	vertical-align: center;
-	margin-top: 50%; }
+	vertical-align: middle; }
 .button {
 	display: block;
 	padding: 0px;
 	text-align: center;
 	text-decoration: none;
-	font-size: 2rem;
+	font-size: 1.5rem;
 	vertical-align: middle;
   border: 1px solid #333;
   background-color:  #4CAF50;
@@ -133,7 +143,7 @@ table.punches {
 	margin-left: auto;
 	margin-right: auto;
   width: 98%;
-  height: 70px;}
+  height: 50px;}
 .nav-button {
 	vertical-align: middle;
   float: right }
@@ -159,13 +169,19 @@ table.punches {
 @media (min-width: 550px) {
   .button {
 		padding: 0px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 1rem;
 		vertical-align: middle;
-    border: 1px solid #333;
-    background-color:  #4CAF50;
-    margin-top: 10px;
-    margin-bottom: 0px;
-		width: 150px;
-    height: 45px; }
+		border: 1px solid #333;
+		background-color:  #4CAF50;
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: auto;
+		margin-right: auto;
+		width: 20%;
+		height: 40px;
+		float: right;}
   .nav-button {
 		vertical-align: middle;
     float: right }

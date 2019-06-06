@@ -25,11 +25,11 @@
 
 	<body onLoad="getJson(genList)">
 
-		<div class="u-full-width u-max-full-width container row">
+		<div class="column">
 			<button class="button" onClick="disableElement('punchList'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</button>
 			<button class="button" onClick="getJson(genList)" id="getJson">Refresh</button>
 			<button class="button" href="https://thelinux.pro/broadcast_timer">Time Boxer</button>
-		</div><br />
+		</div>
 
 		<div class="row" id="editEvent">
 				<input type=hidden id=editID>
@@ -56,6 +56,7 @@
 		<div id="punchDetail"></div>
 
 		<p id="result"></p>
+		<div id="showDone" class="grid-meta u-pull-right"></div><br />
 		<div id="meta" class="grid-meta u-pull-right"></div>
 	</body>
 </html>
