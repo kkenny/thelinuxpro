@@ -22,7 +22,7 @@ textarea {
   .twelve.columns                 { width: 100%; margin-left: 0; }
 #newEvent {
 	display: none;}
-#editEvent {
+#editPunch {
 	display: none; }
 .punchlist {
 	position: relative;

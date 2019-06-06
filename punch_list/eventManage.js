@@ -85,12 +85,12 @@ function genList(punchList) {
 		if (punchList[i].progress.toLowerCase() != "in progress") {
 			if (punchList[i].progress.toLowerCase() != "done") {
 				console.log(`not in progress or not done`);
-			list += "<div class='punchlist top-bottom-border'>"; //
+			list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
-					list += "<div class='container " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
-					list += "<div class='two columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
+					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
+					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='three columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -113,12 +113,12 @@ function genList(punchList) {
 		if (showDone === true) {
 			if (punchList[i].progress.toLowerCase() === "done") {
 				console.log(`show done.`);
-			list += "<div class='punchlist top-bottom-border'>"; //
+			list += "<div class='punchlist container top-bottom-border'>"; //
 				list += "<div class='ten columns'>";
-					list += "<div class='container " + itemStyle + "' onClick=enablePunchDetail(" + i + ")>" + punchList[i].subject + "</div>"; //
-					list += "<div class='two columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
+					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
+					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='three columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -247,3 +247,46 @@ function toggleShowDone() {
 	getJson(genList);
 }
 
+function editPunch(item) {
+	disableElement("newEvent");
+	disableElement("punchList");
+	enableElement("editPunch");
+
+	punchList = window.punches;
+
+	var id = item;
+
+	var subject = punchList[id].subject;
+	var priority = punchList[id].priority;
+	var progress = punchList[id].progress;
+	var nDate = punchList[id].nDate;
+	var notes = punchList[id].notes;
+
+	document.getElementById("editID").value = id;
+	document.getElementById("editSubject").value = subject;
+	document.getElementById("timepickerEdit").value = nDate;
+	document.getElementById("editNotes").value = notes;
+	document.getElementById("editProgress").value = progress;
+	document.getElementById("editPriority").value = priority;
+}
+
+function submitEditPunch() {
+	punchList = window.punches;
+
+	var id = document.getElementById("editID").value;
+	var subjectField = document.getElementById("editSubject").value;
+	var priorityField = document.getElementById("editPriority").value;
+	var progressField = document.getElementById("editProgress").value;
+	var nDateField = document.getElementById("timepickerEdit").value;
+	var notesField = document.getElementById("editNotes").value;
+
+	punchList[id].subject = subjectField;
+	punchList[id].priority = priorityField;
+	punchList[id].progress = progressField;
+	punchList[id].nDate = nDateField;
+	punchList[id].notes = notesField;
+
+	jsonStr = JSON.stringify(punchList);
+	putJson(jsonStr);
+	disableElement("editPunch");
+}
