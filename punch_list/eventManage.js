@@ -65,6 +65,15 @@ function genList(punchList) {
 					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
 					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+
+					if (punchList[i].tags != undefined) {
+						console.log(`Adding tags object to punchList[${item}]`);
+						list += "<div class='four columns " + itemStyle + "'>Tags: ";
+						for (t = 0; t < punchList[i].tags.length; t++) {
+							list += punchList[i].tags[t] + ", ";
+						}
+						list += "</div>";
+					}
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -96,6 +105,14 @@ function genList(punchList) {
 					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
 					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+					if (punchList[i].tags != undefined) {
+						console.log(`Adding tags object to punchList[${item}]`);
+						list += "<div class='four columns " + itemStyle + "'>Tags: ";
+						for (t = 0; t < punchList[i].tags.length; t++) {
+							list += punchList[i].tags[t] + ", ";
+						}
+						list += "</div>";
+					}
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -129,6 +146,14 @@ function genList(punchList) {
 					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
 					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
 					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+					if (punchList[i].tags != undefined) {
+						console.log(`Adding tags object to punchList[${item}]`);
+						list += "<div class='four columns " + itemStyle + "'>Tags: ";
+						for (t = 0; t < punchList[i].tags.length; t++) {
+							list += punchList[i].tags[t] + ", ";
+						}
+						list += "</div>";
+					}
 				list += "</div>";
 				list += "<div class='two columns'>";
 					list += "<div class=dropdown>";
@@ -301,3 +326,28 @@ function submitEditPunch() {
 	putJson(jsonStr);
 	disableElement("editPunch");
 }
+
+function addTag() {
+	var item = document.getElementById("editID").value;
+	var newTag = document.getElementById("tag").value;
+
+	console.log(`Item: ${item}`);
+	console.log(`New Tag: ${newTag}`);
+	// make sure tags object exists
+	if (punchList[item].tags === undefined) {
+		console.log(`Adding tags object to punchList[${item}]`);
+		punchList[item].tags = [];
+	}
+
+	punchList[item].tags.push(newTag);
+	console.log(`${punchList[item].tags}`);
+
+	jsonStr = JSON.stringify(punchList);
+	putJson(jsonStr);
+	disableElement("editPunch");
+	enableElement("punchListAll");
+}
+
+
+
+
