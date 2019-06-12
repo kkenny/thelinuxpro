@@ -200,7 +200,7 @@ function enablePunchDetail(item) {
 	enableElement("punchDetail");
 	console.log(`punchDetail Enabled`);
 //	html = "";
-	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea></p><input type=button value=close onClick=getJson(genList)>";
+	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea><br /><input onfocus='clearDefault(this)' type='text' id='tag' value='Add tag'><input onClick='addTag()' type=button value='Add' /></p><input type=button value=close onClick=getJson(genList)>";
 	document.getElementById("punchDetail").innerHTML = html;
 }
 
@@ -348,6 +348,9 @@ function addTag() {
 	enableElement("punchListAll");
 }
 
-
-
+function clearDefault(a){
+	if (a.defaultValue == a.value) {
+		a.value="";
+	}
+}
 

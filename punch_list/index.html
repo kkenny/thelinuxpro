@@ -33,21 +33,22 @@
 
 		<div class="row" id="editPunch">
 				<input type=hidden id=editID>
+
 				<input class="u-full-width" type="text" id="editSubject" value=""><br />
 				<input class="u-full-width" type="text" id="editPriority" value=""><br />
 				<input class="u-full-width" type="text" id="editProgress" READONLY><br />
 				<input type='text' id='timepickerEdit' class='datepicker-here u-full-width' data-timepicker='true' data-language='en'><br />
 				<!-- <input type="text" id="editStartDate" value=""> -->
 				<textarea class="u-full-width" id="editNotes" value=""></textarea>
-				<input type='text' id='tag' value="new Tag"><input onClick="addTag()" type=button value="ADD" />
+				<input onfocus="clearDefault(this)" type='text' id='tag' value="new Tag"><input onClick="addTag()" type=button value="ADD" />
 				<input class="u-full-width" onClick="submitEditPunch()" id="test" type="button" value="Update" />
 		</div>
 		<div class="container row" id="newEvent">
 				<form id="newEventForm" onSubmit="return processEventForm(this.form)">
-					<input class="u-full-width" type="text" id="newSubject" value="subject">
-					<input class="u-full-width" type="text" id="newPriority" value="priority">
+					<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newSubject" value="subject">
+					<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newPriority" value="priority">
 					<input type="hidden" id="newProgress" value="new">
-					<input type='text' id='timepickerCreate' class='datepicker-here u-full-width' data-timepicker='true' data-language='en' value="date">
+					<input onfocus="clearDefault(this)" type='text' id='timepickerCreate' class='datepicker-here u-full-width' data-timepicker='true' data-language='en' value="date">
 					<textarea class="u-full-width" id="newNotes" value="Notes"></textarea>
 					<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Update" />
 				</form>
