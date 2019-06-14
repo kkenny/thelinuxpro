@@ -233,7 +233,9 @@ textarea {
 
 /* Larger than tablet */
 @media (min-width: 750px) {
-  body { width: 800px; }
+  body { margin-left: auto;
+		margin-right: auto;
+		width: 800px; }
   /* Navbar */
   .clock-wrapper {
     display: block;
