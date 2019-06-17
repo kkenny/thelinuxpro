@@ -23,7 +23,7 @@
 		<script src="js/i18n/datepicker.en.js"></script>
 	</head>
 
-	<body onLoad="getJson(genList)">
+	<body onLoad="getJson()">
 
 		<div class="column">
 			<button class="button" onClick="disableElement('punchListAll'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</button>
@@ -76,6 +76,7 @@
 
 
 		<p id="result"></p>
+		<div id="clearTags" class="grid-meta u-pull-right"><a href="#" onClick="clearTagFilter()">Clear Tags</a></div><br />
 		<div id="showDone" class="grid-meta u-pull-right"></div><br />
 		<div id="meta" class="grid-meta u-pull-right"></div>
 	</body>

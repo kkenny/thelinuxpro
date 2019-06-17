@@ -11,17 +11,16 @@ function putJson(data) {
 	req.onreadystatechange = () => {
 		if (req.readyState == XMLHttpRequest.DONE) {
 			document.getElementById("result").innerHTML = new Date().getTime() + " - " + req.status;
-			getJson(genList);
+			getJson();
 		}
 	};
 
 	req.open("PUT", jsonUrl, true);
 	req.setRequestHeader("Content-type", "application/json");
 	req.send(data);
-
 }
 
-function getJson(callback) {
+function getJson() {
 	displayMeta();
 	console.log(`getJson`);
 	let req = new XMLHttpRequest();
@@ -29,7 +28,8 @@ function getJson(callback) {
 		if (req.readyState == XMLHttpRequest.DONE) {
 			window.punches = JSON.parse(req.responseText);
 			window.punches.sort(function(a, b){return a.priority - b.priority});
-			callback(window.punches);
+			//callback(window.punches);
+			genStatuses(window.punches);
 		}
 	};
 
@@ -38,142 +38,110 @@ function getJson(callback) {
 
 }
 
-function genList(punchList) {
+function tagFilter(tagItem) {
+	console.log(`In tagFilter function`);
+	window.tagFilterItem = tagItem;
+	getJson();
+}
+
+function clearTagFilter() {
+	console.log(`Clear Tags`);
+	window.tagFilterItem = undefined;
+	getJson();
+}
+
+function getStatus(punchList, statusFilter) {
+	return punchList.filter(function(punch) { return punch.progress.toLowerCase() === statusFilter; });
+}
+
+function genStatuses(punchList) {
+	genList(getStatus(punchList, "in progress"), "punchListInProgress");
+	genList(getStatus(punchList, "new"), "punchListNew");
+	genList(getStatus(punchList, "done"), "punchListDone");
+}
+
+function genList(punchList, element) {
 	document.getElementById("showDone").innerHTML = "Show Done: <a href='#' onClick='toggleShowDone()'>" + showDone + "</a>";
+	console.log(`current tag = ${window.tagFilterItem}`);
 
 	disableElement("punchDetail");
 	enableElement("punchListAll");
 	var itemStyle = "punches";
-	isItArray(punchList);
+//	isItArray(punchList);
 
 //	punchList.sort(function(a, b){return new Date(a.date).getTime() - new Date(b.date).getTime()});
 	listLength = punchList.length;
 
-//	list = "<table id=punchListTable class=punches><th class=punches>Punch Item</th><th class=punches>Status</th><th class=punches>Priority</th><th>Action</th>";
-
-
-//prioritize in-progress
 	var list = '';
+
 	for (i = 0; i < listLength; i++) {
-		if (punchList[i].progress.toLowerCase() === "in progress") {
-			console.log(`in progress`);
-//			list += "<tr>";
+		if (window.tagFilterItem != undefined) {
+		if (punchList[i].tags != undefined && punchList[i].tags.includes(window.tagFilterItem)) {
+			console.log(`in tagFilterIf`);
 			list += "<div class='punchlist top-bottom-border'>"; //
 			list += "<div class='punchlist container top-bottom-border'>"; //
-				list += "<div class='ten columns'>";
-					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
-					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
-					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+			list += "<div class='ten columns'>";
+			list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
+			list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
+			list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
+			list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
 
-					if (punchList[i].tags != undefined) {
-						console.log(`Adding tags object to punchList[${item}]`);
-						list += "<div class='four columns " + itemStyle + "'>Tags: ";
-						for (t = 0; t < punchList[i].tags.length; t++) {
-							list += punchList[i].tags[t] + ", ";
-						}
-						list += "</div>";
-					}
+			if (punchList[i].tags != undefined) {
+				list += "<div class='four columns " + itemStyle + "'>Tags: ";
+				for (t = 0; t < punchList[i].tags.length; t++) {
+					list += "<a href='#' onClick(tagFilter(" + punchList[i].tags[t] + ")>" + punchList[i].tags[t] + "</a>, ";
+				}
 				list += "</div>";
-				list += "<div class='two columns'>";
-					list += "<div class=dropdown>";
-						list += "<button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button>";
-						list += "<div class=dropdown-content id='myDropdown" + i + "'>";
-							list += "<a onClick=startPunch(" + i + ")>start</a>";
-							list += "<a onClick=completePunch(" + i + ")>done</a>";
-							list += "<a onClick=editPunch(" + i + ")>edit</a>";
-							list += "<a onClick=deletePunch(" + i + ")>delete</a>";
-						list += "</div>";
-					list += "</div>";
-				list += "</div>";
-				list += "</div>";
+			}
 			list += "</div>";
-			document.getElementById("punchListInProgress").innerHTML = list;
+			list += "<div class='two columns'>";
+			list += "<div class=dropdown>";
+			list += "<button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button>";
+			list += "<div class=dropdown-content id='myDropdown" + i + "'>";
+			list += "<a onClick=startPunch(" + i + ")>start</a>";
+			list += "<a onClick=completePunch(" + i + ")>done</a>";
+			list += "<a onClick=editPunch(" + i + ")>edit</a>";
+			list += "<a onClick=deletePunch(" + i + ")>delete</a>";
+			list += "</div></div></div></div></div>";
 		}
-	}
-
-// then !done
-	var list = '';
-	for (i = 0; i < listLength; i++) {
-		if (punchList[i].progress.toLowerCase() != "in progress") {
-			if (punchList[i].progress.toLowerCase() != "done") {
-				console.log(`not in progress or not done`);
+		} else {
+			console.log(`in tagFilterElse`);
 			list += "<div class='punchlist top-bottom-border'>"; //
 			list += "<div class='punchlist container top-bottom-border'>"; //
-				list += "<div class='ten columns'>";
-					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
-					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
-					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
-					if (punchList[i].tags != undefined) {
-						console.log(`Adding tags object to punchList[${item}]`);
-						list += "<div class='four columns " + itemStyle + "'>Tags: ";
-						for (t = 0; t < punchList[i].tags.length; t++) {
-							list += punchList[i].tags[t] + ", ";
-						}
-						list += "</div>";
-					}
+			list += "<div class='ten columns'>";
+			list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
+			list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
+			list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
+			list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
+
+			if (punchList[i].tags != undefined) {
+				list += "<div class='four columns " + itemStyle + "'>Tags: ";
+				for (t = 0; t < punchList[i].tags.length; t++) {
+					list += "<a href='#' onClick=tagFilter(\"" + punchList[i].tags[t] + "\")>" + punchList[i].tags[t] + "</a>, ";
+				}
 				list += "</div>";
-				list += "<div class='two columns'>";
-					list += "<div class=dropdown>";
-						list += "<button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button>";
-						list += "<div class=dropdown-content id='myDropdown" + i + "'>";
-							list += "<a onClick=startPunch(" + i + ")>start</a>";
-							list += "<a onClick=completePunch(" + i + ")>done</a>";
-							list += "<a onClick=editPunch(" + i + ")>edit</a>";
-							list += "<a onClick=deletePunch(" + i + ")>delete</a>";
-						list += "</div>";
-					list += "</div>";
-				list += "</div>";
-				list += "</div>";
-				list += "</div>";
-				document.getElementById("punchListNew").innerHTML = list;
 			}
+			list += "</div>";
+			list += "<div class='two columns'>";
+			list += "<div class=dropdown>";
+			list += "<button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button>";
+			list += "<div class=dropdown-content id='myDropdown" + i + "'>";
+			list += "<a onClick=startPunch(" + i + ")>start</a>";
+			list += "<a onClick=completePunch(" + i + ")>done</a>";
+			list += "<a onClick=editPunch(" + i + ")>edit</a>";
+			list += "<a onClick=deletePunch(" + i + ")>delete</a>";
+			list += "</div></div></div></div></div>";
 		}
 	}
 
-// then done
-	var list = '';
-	for (i = 0; i < listLength; i++) {
-		if (showDone === true) {
-			enableElement("punchListDoneWrapper");
-			if (punchList[i].progress.toLowerCase() === "done") {
-				console.log(`show done.`);
-				list += "<div class='punchlist top-bottom-border'>"; //
-				list += "<div class='punchlist container top-bottom-border'>"; //
-				list += "<div class='ten columns'>";
-					list += "<div class='12 columns " + itemStyle + "' onClick=enablePunchDetail(" + i + ")><span class=subject>" + punchList[i].subject + "</span></div>"; //
-					list += "<div class='three columns " + itemStyle + "'>Status: " + punchList[i].progress + "</div>";
-					list += "<div class='two columns " + itemStyle + "'>Priority: " + punchList[i].priority + "</div>";
-					list += "<div class='four columns " + itemStyle + "'>Need By: " + punchList[i].nDate + "</div>";
-					if (punchList[i].tags != undefined) {
-						console.log(`Adding tags object to punchList[${item}]`);
-						list += "<div class='four columns " + itemStyle + "'>Tags: ";
-						for (t = 0; t < punchList[i].tags.length; t++) {
-							list += punchList[i].tags[t] + ", ";
-						}
-						list += "</div>";
-					}
-				list += "</div>";
-				list += "<div class='two columns'>";
-					list += "<div class=dropdown>";
-						list += "<button class=dropbtn onClick=dropMenu(" + i + ")>Act<i class='fa fa-caret-down'></i></button>";
-						list += "<div class=dropdown-content id='myDropdown" + i + "'>";
-							list += "<a onClick=startPunch(" + i + ")>start</a>";
-							list += "<a onClick=completePunch(" + i + ")>done</a>";
-							list += "<a onClick=editPunch(" + i + ")>edit</a>";
-							list += "<a onClick=deletePunch(" + i + ")>delete</a>";
-						list += "</div>";
-					list += "</div>";
-				list += "</div>";
-				list += "</div>";
-				list += "</div>";
-				document.getElementById("punchListDone").innerHTML = list;
-			}
-		} else {
-			disableElement("punchListDoneWrapper");
-		}
+	document.getElementById(element).innerHTML = list;
+
+	if (showDone === false) {
+		disableElement("punchListDoneWrapper");
+	} else {
+		enableElement("punchListDoneWrapper");
 	}
+
 }
 
 function startPunch(item) {
@@ -200,7 +168,7 @@ function enablePunchDetail(item) {
 	enableElement("punchDetail");
 	console.log(`punchDetail Enabled`);
 //	html = "";
-	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea><br /><input onfocus='clearDefault(this)' type='text' id='tag' value='Add tag'><input onClick='addTag()' type=button value='Add' /></p><input type=button value=close onClick=getJson(genList)>";
+	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea><br /><input onfocus='clearDefault(this)' type='text' id='tag' value='Add tag'><input onClick='addTag()' type=button value='Add' /></p><input type=button value=close onClick=getJson()>";
 	document.getElementById("punchDetail").innerHTML = html;
 }
 
@@ -280,7 +248,7 @@ function toggleShowDone() {
 	} else {
 		window.showDone = false;
 	}
-	getJson(genList);
+	getJson();
 }
 
 function editPunch(item) {
@@ -353,4 +321,3 @@ function clearDefault(a){
 		a.value="";
 	}
 }
-
