@@ -154,16 +154,18 @@ function genList(punchList, element) {
 
 }
 
-function startPunch(item) {
+function startPunch(uuid) {
 	var punchList = window.punches;
+	item = findArrayId(uuid);
 	punchList[item].progress = "In Progress";
 
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
 }
 
-function completePunch(item) {
+function completePunch(uuid) {
 	var punchList = window.punches;
+	item = findArrayId(uuid);
 	punchList[item].progress = "Done";
 
 	jsonStr = JSON.stringify(punchList);
