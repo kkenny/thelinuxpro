@@ -26,6 +26,65 @@
 
 <script>
 
+
+function genUid() {
+	function chr4() {
+		return Math.random().toString(16).slice(-4);
+	}
+	return chr4() + chr4() +
+	'-' + chr4() +
+	'-' + chr4() +
+	'-' + chr4() +
+	'-' + chr4() + chr4() + chr4();
+}
+
+function getuuidJson() {
+console.log(`getuuidJson`);
+
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			window.list = JSON.parse(req.responseText);
+			console.log(`uuidList - ${window.list}`);
+			injectUuid();
+		}
+	};
+
+	req.open("GET", jsonUrl, true);
+	req.send();
+}
+
+function injectUuid() {
+	length = window.list.length;
+
+	for (x = 0; x < length; x++) {
+		if (window.list[x].uuid === undefined) {
+			window.list[x].uuid = genUid();
+		}
+	}
+
+	jsonStr = JSON.stringify(window.list);
+	sendJson(jsonStr);
+}
+
+function sendJson(data) {
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			document.getElementById("result").innerHTML += req.status + req.responseText + "<br />";
+		}
+	};
+
+	req.open("PUT", jsonUrl, true);
+	req.setRequestHeader("Content-type", "application/json");
+	req.send(data);
+
+}
+
+//getuuidJson();
+
 function test() {
 	d = document.getElementById("data").value;
 	document.getElementById("result").innerHTML = d;
@@ -64,6 +123,5 @@ console.log(`getJson`);
 	req.send();
 
 }
-
 
 </script>
