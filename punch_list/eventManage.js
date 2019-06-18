@@ -205,6 +205,33 @@ function createNewEvent() {
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
 
+function genDaily() {
+	punchList = window.punches;
+
+	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
+	console.log(`${daily[1]}`);
+
+	for (x = 0; x < daily.length; x++) {
+		var newEventJson = { uuid: genUid(), nDate: "EOD", subject: daily[x], priority: "1", progress: "new", notes: "", tags: [ "work", "daily", "today" ] };
+		punchList.push(newEventJson);
+		jsonStr = JSON.stringify(punchList);
+		putJson(jsonStr);
+	}
+}
+
+function genWeekly() {
+	punchList = window.punches;
+
+	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
+
+	for (x = 0; x < weekly.length; x++) {
+		var newEventJson = { uuid: genUid(), nDate: "Tuesday", subject: weekly[x], priority: "1", progress: "new", notes: "", tags: [ "work", "weekly" ] };
+		punchList.push(newEventJson);
+		jsonStr = JSON.stringify(punchList);
+		putJson(jsonStr);
+	}
+}
+
 function deletePunch(uuid) {
 //	console.log(`${punchList}`);
 //	console.log(`${window.punches}`);
