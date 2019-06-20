@@ -184,6 +184,11 @@ function enablePunchDetail(uuid) {
 }
 
 function createNewEvent() {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 //	console.log(`${punchList}`);
 //	console.log(`${window.punches}`);
 //	disableElement("punchList");
@@ -206,6 +211,11 @@ function createNewEvent() {
 }
 
 function genDaily() {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 	punchList = window.punches;
 
 	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
@@ -220,6 +230,11 @@ function genDaily() {
 }
 
 function genWeekly() {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 	punchList = window.punches;
 
 	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
@@ -233,6 +248,11 @@ function genWeekly() {
 }
 
 function deletePunch(uuid) {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 //	console.log(`${punchList}`);
 //	console.log(`${window.punches}`);
 	punchList = window.punches;
@@ -291,6 +311,11 @@ function toggleShowDone() {
 }
 
 function editPunch(uuid) {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 	disableElement("newEvent");
 	disableElement("punchListAll");
 	enableElement("editPunch");
@@ -336,6 +361,11 @@ function submitEditPunch() {
 }
 
 function addTag() {
+	/* Before doing this,
+			Refresh the array,
+			So that we don't overwrite data */
+getJson();
+
 	var item = document.getElementById("editID").value;
 	var newTag = document.getElementById("tag").value.toLowerCase();
 
