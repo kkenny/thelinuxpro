@@ -21,6 +21,8 @@ function putJson(data) {
 }
 
 function getJson() {
+
+	var GoogleAuth = gapi.auth2.init();
 	if (GoogleAuth.isSignedIn.get() === true) {
 		displayMeta();
 		console.log(`getJson`);
