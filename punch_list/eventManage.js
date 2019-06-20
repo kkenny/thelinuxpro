@@ -38,6 +38,7 @@ function getJson() {
 		req.send();
 	} else {
 		console.log('not logged in');
+	}
 }
 
 function findArrayId(uid) {
