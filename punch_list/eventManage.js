@@ -21,21 +21,23 @@ function putJson(data) {
 }
 
 function getJson() {
-	displayMeta();
-	console.log(`getJson`);
-	let req = new XMLHttpRequest();
-	req.onreadystatechange = () => {
-		if (req.readyState == XMLHttpRequest.DONE) {
-			window.punches = JSON.parse(req.responseText);
-			window.punches.sort(function(a, b){return a.priority - b.priority});
-			//callback(window.punches);
-			genStatuses(window.punches);
-		}
-	};
+	if (GoogleAuth.isSignedIn.get() === true) {
+		displayMeta();
+		console.log(`getJson`);
+		let req = new XMLHttpRequest();
+		req.onreadystatechange = () => {
+			if (req.readyState == XMLHttpRequest.DONE) {
+				window.punches = JSON.parse(req.responseText);
+				window.punches.sort(function(a, b){return a.priority - b.priority});
+				//callback(window.punches);
+				genStatuses(window.punches);
+			}
+		};
 
-	req.open("GET", jsonUrl, true);
-	req.send();
-
+		req.open("GET", jsonUrl, true);
+		req.send();
+	} else {
+		console.log('not logged in');
 }
 
 function findArrayId(uid) {
