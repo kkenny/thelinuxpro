@@ -22,8 +22,8 @@ function putJson(data) {
 
 function getJson() {
 
-	var GoogleAuth = gapi.auth2.init();
-	if (GoogleAuth.isSignedIn.get() === true) {
+//	var GoogleAuth = gapi.auth2.init();
+//	if (GoogleAuth.isSignedIn.get() === true) {
 		displayMeta();
 		console.log(`getJson`);
 		let req = new XMLHttpRequest();
@@ -38,9 +38,9 @@ function getJson() {
 
 		req.open("GET", jsonUrl, true);
 		req.send();
-	} else {
-		console.log('not logged in');
-	}
+//	} else {
+//		console.log('not logged in');
+//	}
 }
 
 function findArrayId(uid) {
