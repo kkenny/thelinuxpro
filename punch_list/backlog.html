@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font -->
+	<!--	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'> -->
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/skeleton.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
+		<!-- No Cache -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="metadata.js"></script>
+		<script src="backlogManage.js"></script>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script>
+		$( function() {
+			$( "#sortable" ).sortable();
+			$( "#sortable" ).disableSelection();
+		} );
+		</script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<button class="button" onClick="disableElement('punchListAll'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</button>
+			<button class="button" onClick="genDaily()" id="daily">Gen Daily</button>
+			<button class="button" onClick="genWeekly()" id="daily">Gen Weekly</button>
+			<button class="button" onClick="getJson(genList)" id="getJson">Refresh</button>
+			<a class="button" href="https://thelinux.pro/broadcast_timer">Time Boxer</a>
+		</div>
+
+		<div class="listWrapper" id="punchListAll">
+			<div id="punchListInProgressWrapper" class="listWrapper">
+				<span class="punchListHeader">Backlog</span>
+				<div id="punchListBacklog"></div>
+			</div>
+		</div>
+
+	<div id="debug1"></div>
+	</body>
+</html>
