@@ -1,0 +1,127 @@
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- Font -->
+<!--	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'> -->
+	<!-- CSS -->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/skeleton.css">
+	<link rel="stylesheet" href="css/custom.css">
+	<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
+	<!-- No Cache -->
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+	<script src="metadata.js"></script>
+</head>
+<body onLoad="getJson()">
+
+<textarea id="data"></textarea><br />
+<input onClick="getJson()" id="getJson" type="button" value="Get" />
+<input onClick="putJson()" id="put" type="button" value="Put" />
+<input onClick="test()" id="test" type="button" value="test" />
+<br />
+<p class="debug" readonly id="result"></p>
+</body>
+
+
+<script>
+
+
+function genUid() {
+	function chr4() {
+		return Math.random().toString(16).slice(-4);
+	}
+	return chr4() + chr4() +
+	'-' + chr4() +
+	'-' + chr4() +
+	'-' + chr4() +
+	'-' + chr4() + chr4() + chr4();
+}
+
+function getuuidJson() {
+console.log(`getuuidJson`);
+
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			window.list = JSON.parse(req.responseText);
+			console.log(`uuidList - ${window.list}`);
+			injectUuid();
+		}
+	};
+
+	req.open("GET", jsonUrl, true);
+	req.send();
+}
+
+function injectUuid() {
+	length = window.list.length;
+
+	for (x = 0; x < length; x++) {
+		if (window.list[x].uuid === undefined) {
+			window.list[x].uuid = genUid();
+		}
+	}
+
+	jsonStr = JSON.stringify(window.list);
+	sendJson(jsonStr);
+}
+
+function sendJson(data) {
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			document.getElementById("result").innerHTML += req.status + req.responseText + "<br />";
+		}
+	};
+
+	req.open("PUT", jsonUrl, true);
+	req.setRequestHeader("Content-type", "application/json");
+	req.send(data);
+
+}
+
+//getuuidJson();
+
+function test() {
+	d = document.getElementById("data").value;
+	document.getElementById("result").innerHTML = d;
+}
+
+function putJson() {
+	var data = document.getElementById("data").value;
+
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			document.getElementById("result").innerHTML += req.status + req.responseText + "<br />";
+		}
+	};
+
+	req.open("PUT", jsonUrl, true);
+	req.setRequestHeader("Content-type", "application/json");
+	req.send(data);
+
+}
+
+function getJson() {
+console.log(`getJson`);
+
+	let req = new XMLHttpRequest();
+
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			document.getElementById("data").innerHTML = JSON.stringify(JSON.parse(req.responseText),null,2);
+			document.getElementById("result").innerHTML += req.status + "<br />";
+		}
+	};
+
+	req.open("GET", jsonUrl, true);
+	req.send();
+
+}
+
+</script>
