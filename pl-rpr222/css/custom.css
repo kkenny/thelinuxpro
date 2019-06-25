@@ -1,13 +1,11 @@
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
-#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; color: #AAA;}
+#sortable li { font-size: 1.4em; color: #AAA;}
 #sortable li span { position: absolute; margin-left: -1.3em; }
   .portlet {
-    margin: 0 1em 1em 0;
     padding: 0.3em;
   }
   .backlog-list-header {
     padding: 0.2em 0.3em;
-    margin-bottom: 0.1em;
     position: relative;
   }
   .portlet-toggle {
