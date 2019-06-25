@@ -90,10 +90,11 @@ function genList(punchList, element) {
 	var list = '<ol id="sortable">';
 
 	for (i = 0; i < listLength; i++) {
+		if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" } else { var style = "punch-default" }
 		if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
 			setPriority(punchList[i].uuid, 99999);
 		} else if (punchList[i].progress.toLowerCase() != "done"){
-			list += '<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + punchList[i].subject + ' |   ' + punchList[i].progress + '</li>';
+			list += '<li class="' + style + '"><div class="portlet"><div class="backlog-list-header">' + punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div></div><div class="backlog-list-content"><div style="punch-list-backlog-details">' + punchList[i].progress + '<br /> Created:' + punchList[i].cDate + '<br /> Modified: ' + punchList[i].mDate + '<br /><textarea>' + punchList[i].notes + '</textarea><br /><input onfocus="clearDefault(this)" type="text" id="tag" value="Add tag"><input onClick="addTag()" type=button value="Add" /> </div></div></div></div></li>';
 		}
 	}
 
@@ -108,6 +109,8 @@ function mkSortable() {
 
 	$( function() {
 		$( "#sortable" ).sortable({
+			cancel: ".portlet-toggle",
+			placeholder: "portlet-placeholder ui-corner-all",
 			start: function(event, ui) {
 				window.sortObjectUUID = punchList[ui.item.index()].uuid;
 				console.log(`Start Position: ${ui.item.index()}`);
@@ -117,6 +120,18 @@ function mkSortable() {
 				console.log(`New Position: ${ui.item.index()}`);
 			}
 		});
+
+    $( ".portlet" )
+      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+      .find( ".backlog-list-header" )
+        .addClass( "ui-widget-header ui-corner-all" )
+        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+
+    $( ".portlet-toggle" ).on( "click", function() {
+      var icon = $( this );
+      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+      icon.closest( ".portlet" ).find( ".backlog-list-content" ).toggle();
+    });
 		$( "#sortable" ).disableSelection();
 	} );
 }
