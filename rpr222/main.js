@@ -44,7 +44,7 @@ function toggleDebug() {
 }
 
 function selectEvent(id) {
-	console.log(`inside selectEvent()`);
+//	console.log(`inside selectEvent()`);
 
 	currentObject = id;
 	array_counter = id;
@@ -77,7 +77,7 @@ function selectEvent(id) {
 }
 
 function incArray() {
-	console.log("inside incArray");
+//	console.log("inside incArray");
 	console.log(`array_counter = ${array_counter}`);
 	console.log(`eventsLength = ${eventsLength}`);
 	console.log(`events = ${events}`);
@@ -88,7 +88,7 @@ function incArray() {
 }
 
 function decArray() {
-	console.log("inside decArray");
+//	console.log("inside decArray");
 	console.log(`array_counter = ${array_counter}`);
 	console.log(`eventsLength = ${eventsLength}`);
 	console.log(`events = ${events}`);
@@ -100,7 +100,7 @@ function decArray() {
 }
 
 function genList() {
-	console.log(`inside gen list `);
+//	console.log(`inside gen list `);
 	list = "<table class=events><th class=events>Event</th><th class=events>Time</th><th class=events>Time Until</th>";
 
 	if (eventsLength > 15) {
@@ -143,7 +143,7 @@ function main(array, dataLoad, aLen) {
 	isEventsArray = Array.isArray(events);
 	eventsLength = aLen;
 
-	console.log(`inside main`);
+//	console.log(`inside main`);
 	console.log(`events = ${events}`);
 	console.log(`dataLoad = ${dataLoad}`);
 	console.log(`${isEventsArray}`);
@@ -160,7 +160,7 @@ function main(array, dataLoad, aLen) {
 	currentStart = currentDate;
 	currentEnd = nextDate;
 	nextStart = nextDate;
-	nextEnd = events[(nextObject + 1)].date;
+	nextEnd = events[(nextObject)].date;
 	currentSubject = events[currentObject].subject;
 	nextSubject = events[nextObject].subject;
 
@@ -182,6 +182,42 @@ console.log(`nextDate = ${nextDate}`);
 
 	// Update the count down every 1 second
 	var x = setInterval(function() {
+
+		window.stopwatch++;
+		stopwatch = window.stopwatch;
+
+//		console.log(stopwatch);
+
+		swDays = Math.floor(stopwatch / (60 * 60 * 24));
+		swHours = Math.floor((stopwatch % (60 * 60 * 24)) / (1000 * 60 * 60));
+		swSeconds = Math.floor(stopwatch % (60));
+		swMinutes = Math.floor(stopwatch / 60);
+//		swMinutes = Math.floor((nextDistance % (1000 * 60 * 60)) / (1000 * 60));
+		if (swDays === 0) {
+			var swd = '';
+		} else {
+			var swd = swDays + 'Days ';
+		}
+
+		if (swHours < 10) {
+			var swh = '0' + swHours;
+		} else {
+			var swh = swHours;
+		}
+
+		if (swMinutes < 10) {
+			var swm = '0' + swMinutes;
+		} else {
+			var swm = swMinutes;
+		}
+
+		if (swSeconds < 10) {
+			var sws = '0' + swSeconds;
+		} else {
+			var sws = swSeconds;
+		}
+
+		document.getElementById("stopwatch").innerHTML = swDays + swHours + ":" + swMinutes + ":" + swSeconds;
 
 	  document.getElementById("meta").innerHTML = "Version: " + version + "<br />Debug: <a onclick=toggleDebug()>" + debug + "</a>";
 	  document.getElementById("events-list").innerHTML = genList();
@@ -355,4 +391,7 @@ function countdown(targetDate, nextDate, current) {
 	return r;
 }
 
-
+function resetStopWatch() {
+	console.log("Reset Stopwatch");
+	window.stopwatch = 0;
+}

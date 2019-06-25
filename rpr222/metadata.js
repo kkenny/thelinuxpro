@@ -1,4 +1,4 @@
-var version = "0.14.031"
+var version = "0.14.032"
 var debug = false;
 var jsonUrl = 'https://api.myjson.com/bins/13hsch';
 
@@ -13,4 +13,4 @@ var initialized = false;
 var style = 'green';
 var eventStyle = "events";
 var array_counter = 0;
-
+window.stopwatch = 0;

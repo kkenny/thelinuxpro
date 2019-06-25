@@ -44,8 +44,8 @@
 			</div>
 			<div class="one-half column u-pull-right">
 				<div class="nav-button">
-					<button class="button" onclick="decArray()">Previous</button>
-					<button class="button" onclick="incArray()">Next</button>
+					<button class="button" onclick="decArray(), resetStopWatch()">Previous</button>
+					<button class="button" onclick="incArray(), resetStopWatch()">Next</button>
 				</div>
 			</div>
 		</div>
@@ -72,6 +72,7 @@
 				</div>
 				<div class="row">
 					<div id="currentStartEnd"></div>
+					<div id="stopwatch"></div>
 				</div>
 				<div calss="row">
 					<div class="notes" id="notes"></div>
