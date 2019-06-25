@@ -1,4 +1,4 @@
-var version = "0.5.143",
+var version = "0.5.148",
 		debug = false,
 		jsonUrl = 'https://api.myjson.com/bins/dyaht',
 		showDone = false,

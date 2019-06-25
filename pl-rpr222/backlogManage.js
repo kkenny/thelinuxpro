@@ -1,5 +1,7 @@
 var punches, punchList, listLength, object;
 
+console.log(version);
+
 function isItArray(object) {
 	console.log(`is ${object} Array = ${Array.isArray(object)}`);
 //	return Array.isArray(object);
