@@ -94,7 +94,24 @@ function genList(punchList, element) {
 		if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
 			setPriority(punchList[i].uuid, 99999);
 		} else if (punchList[i].progress.toLowerCase() != "done"){
-			list += '<li class="' + style + '"><div class="portlet"><div class="backlog-list-header">' + punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div></div><div class="backlog-list-content"><div style="punch-list-backlog-details">' + punchList[i].progress + '<br /> Created:' + punchList[i].cDate + '<br /> Modified: ' + punchList[i].mDate + '<br /><textarea>' + punchList[i].notes + '</textarea><br /><input onfocus="clearDefault(this)" type="text" id="tag" value="Add tag"><input onClick="addTag()" type=button value="Add" /> </div></div></div></div></li>';
+			list += '<li class="' + style + '">';
+			list += '<div class="portlet">';
+			list += '<div class="backlog-list-header">';
+			list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
+			list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
+			if (style === "inProgress") {
+				list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
+			} else if (style === "punch-default") {
+				list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=startPunch("' + punchList[i].uuid + '")>Start</a></div>';
+			}
+			list += '</div>';
+			list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">' + punchList[i].progress + '<br />';
+			list += 'Created: ' + punchList[i].cDate + '<br /> ';
+			list += 'Modified: ' + punchList[i].mDate + '<br />';
+			list += 'Tags: ' + punchList[i].tags + '<br />';
+			list += '<textarea>' + punchList[i].notes + '</textarea><br />';
+			list += '<button class="button" onClick=editPunch("' + punchList[i].uuid + '")>edit</button>';
+			list += '</div></div></div></li>';
 		}
 	}
 
@@ -134,6 +151,12 @@ function mkSortable() {
     });
 		$( "#sortable" ).disableSelection();
 	} );
+
+// pop-over dialog
+	$( "#dialog" ).dialog({ autoOpen: false });
+	$( "#opener" ).click(function() {
+		$( "#dialog" ).dialog( "open" );
+	});
 }
 
 function setPriority(sortObject, newPosition) {
@@ -296,9 +319,7 @@ function editPunch(uuid) {
 	/* Before doing this,
 			Refresh the array,
 			So that we don't overwrite data */
-getJson();
 
-	disableElement("newEvent");
 	disableElement("punchListAll");
 	enableElement("editPunch");
 
@@ -312,29 +333,43 @@ getJson();
 	var progress = punchList[id].progress;
 	var nDate = punchList[id].nDate;
 	var notes = punchList[id].notes;
+	var tags = punchList[id].tags;
 
-	document.getElementById("editID").value = id;
-	document.getElementById("editSubject").value = subject;
-	document.getElementById("timepickerEdit").value = nDate;
-	document.getElementById("editNotes").value = notes;
-	document.getElementById("editProgress").value = progress;
-	document.getElementById("editPriority").value = priority;
+	var html = '<div class="container listWrapper">';
+	html += '<input type=hidden id="editID" value="' + uuid + '">';
+	html += '<div class="edit-row"><div class="three columns">Subject:</div><div class="nine columns"><input class="twelve columns" type=text id="editSubject" value="' + subject + '"></div></div>';
+	html += '<div class="three columns">Priority:</div><div class="nine columns"><input type=text id="editPriority" value="' + priority + '"></div>';
+	html += '<div class="three columns">Need By:</div><div class="nine columns"><input type=text id="timepickerEdit" value="' + nDate + '"></div>';
+	html += '<div class="three columns">Progress:</div><div id="editProgress" class="nine columns">';
+	html +=  progress;
+	html += '</div>';
+	html += '<div class="three columns">Tags:</div><div class="nine columns"><input type=text id="editTags" value="' + tags + '"></div>';
+	html += '<div class="three columns">Notes: </div><div class="nine columns"><textarea class="edit-text-box" id="editNotes">' + notes + '</textarea></div>';
+	html += '<button onClick=submitEditPunch("' + uuid + '")>Update</button>';
+	html += '<button onClick=\'disableElement("editPunch"),enableElement("punchListAll")\'>Close</button>';
+	html += '</div>';
+
+	document.getElementById("editPunch").innerHTML = html;
+
 }
 
-function submitEditPunch() {
+function submitEditPunch(uuid) {
 	punchList = window.punches;
 
-	var id = document.getElementById("editID").value;
+//	var uuid = document.getElementById("editID").value;
+	var id = findArrayId(uuid);
 	var subjectField = document.getElementById("editSubject").value;
 	var priorityField = document.getElementById("editPriority").value;
-	var progressField = document.getElementById("editProgress").value;
+	var progressField = document.getElementById("editProgress").innerHTML;
 	var nDateField = document.getElementById("timepickerEdit").value;
+	var tagsField = document.getElementById("editTags").value.toLowerCase();
 	var notesField = document.getElementById("editNotes").value;
 
 	punchList[id].subject = subjectField;
 	punchList[id].priority = priorityField;
 	punchList[id].progress = progressField;
 	punchList[id].nDate = nDateField;
+	punchList[id].tags = tagsField;
 	punchList[id].notes = notesField;
 
 	jsonStr = JSON.stringify(punchList);

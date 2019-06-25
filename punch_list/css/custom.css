@@ -6,6 +6,7 @@
   }
   .backlog-list-header {
     padding: 0.2em 0.3em;
+		padding-bottom: 0.9em;
     position: relative;
   }
   .portlet-toggle {
@@ -25,13 +26,17 @@
   }
 .ui-widget-content { background: #000; color: #aaa;}
 .ui-widget-header { background: #333; color: #aaa;}
-.punch-default { border: 0px solid #AAA; background: #000; }
-.inProgress { background: /*#80ffcc;*/ #555; color: #000; }
+a.punch-default { color: #aaa; font-size: 12px; text-decoration: none;}
+a.punch-default:hover { color: #00FFFF; }
+.punch-default { border: 0px solid #AAA; color: #aaa; font-size: 12px; }
+.inProgress { color: orange; font-size: 12px; }
 .hide { display: none; }
 .punch-list-backlog-details {
 	font-size: 18px;
 	color: #aaa;
 }
+.edit-row { padding-top: 5px; }
+.edit-text-box { width: 100%; min-height: 200px; }
 body {
   background: #222;
   color: #AAA; }
