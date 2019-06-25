@@ -25,6 +25,8 @@
     margin: 0 1em 1em 0;
     height: 50px;
   }
+.ui-widget-content { background: #000; color: #aaa;}
+.ui-widget-header { background: #333; color: #aaa;}
 .punch-default { border: 0px solid #AAA; background: #000; }
 .inProgress { background: /*#80ffcc;*/ #555; color: #000; }
 .hide { display: none; }
