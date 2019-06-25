@@ -26,7 +26,7 @@ function putJson(data) {
 		}
 	};
 
-	req.open("PUT", "https://api.myjson.com/bins/k0abr", true);
+	req.open("PUT", "https://api.myjson.com/bins/13hsch", true);
 	req.setRequestHeader("Content-type", "application/json");
 	req.send(data);
 
@@ -43,7 +43,7 @@ function getJson(callback) {
 		}
 	};
 
-	req.open("GET", "https://api.myjson.com/bins/k0abr", true);
+	req.open("GET", "https://api.myjson.com/bins/13hsch", true);
 	req.send();
 
 }
