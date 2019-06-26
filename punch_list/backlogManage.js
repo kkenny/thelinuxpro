@@ -171,7 +171,7 @@ function genList(punchList, element) {
 				list += '<div class="portlet">';
 				list += '<div class="backlog-list-header">';
 				list += '<div class="one column">' + punchList[i].priority + '</div><div class=subject>' + punchList[i].subject + '</div>';
-				list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
+				list += '<div class="two columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
 				// status dropdown
 				list += '<div class="dropdown one column">';
 				list += '<img class="top dropbtn" onclick=progressMenuDrop("' + punchList[i].uuid + '") src="images/down-carrot.png">';
@@ -236,6 +236,22 @@ function genList(punchList, element) {
 mkSortable();
 enableDrop();
 }
+
+var t = 0;
+var x = setInterval(function() {
+	punchList = window.punches;
+	for ( i = 0; i < punchList.length; i++ ) {
+		if ( punchList[i].progress.toLowerCase() != "done" && punchList[i].startTime != undefined ) {
+			distance = (new Date().getTime() - new Date(punchList[i].startTime).getTime());
+			seconds = Math.floor((distance / 1000) % 60);
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+			document.getElementById("timer-" + punchList[i].uuid).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+		}
+	}
+}, 1000);
 
 function mainMenuDrop() {
 	document.getElementById("mainMenuDropdown").classList.toggle("show");
