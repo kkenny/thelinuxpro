@@ -90,47 +90,114 @@ function genList(punchList, element) {
 	var list = '<ol id="sortable">';
 
 	for (i = 0; i < listLength; i++) {
-		if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" } else { var style = "punch-default" }
-		if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
-			setPriority(punchList[i].uuid, 99999);
-		} else if (punchList[i].progress.toLowerCase() != "done"){
-			list += '<li class="' + style + '">';
-			list += '<div class="portlet">';
-			list += '<div class="backlog-list-header">';
-			list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
-			list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
-			if (style === "inProgress") {
-				list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
-			} else if (style === "punch-default") {
-				list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=startPunch("' + punchList[i].uuid + '")>Start</a></div>';
+		if (window.tagFilterItem != undefined) {
+			console.log('in tags filter');
+			if (punchList[i].tags != undefined && punchList[i].tags.includes(window.tagFilterItem)) {
+				if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" } else { var style = "punch-default" }
+				if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
+					setPriority(punchList[i].uuid, 99999);
+				} else if (punchList[i].progress.toLowerCase() != "done"){
+					list += '<li class="' + style + '">';
+					list += '<div class="portlet">';
+					list += '<div class="backlog-list-header">';
+					list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
+					list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
+					if (style === "inProgress") {
+						list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
+					} else if (style === "punch-default") {
+						list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=startPunch("' + punchList[i].uuid + '")>Start</a></div>';
+					}
+					if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
+						list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
+					} else {
+						list += '<div class="three columns punch-default">&nbsp;</div>';
+					}
+					if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
+						console.log('overdue');
+						list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+					} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
+						console.log('due soon');
+						list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
+					} else {
+						list += '<div class="two columns punch-default">&nbsp;</div>';
+					}
+					if ( punchList[i].tags != undefined ) {
+						list += '<div class="four columns punch-default">';
+						for (t = 0; t < punchList[i].tags.length; t++) {
+							list += '<a class="punch-default" href="#" onClick=tagFilter("' + punchList[i].tags[t] + '")>' + punchList[i].tags[t] + '</a>';
+							if ( (t + 1) < punchList[i].tags.length ) {
+								list += ", ";
+							}
+						}
+					}
+					list += '</div>';
+					list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
+					if ( punchList[i].nDate > "" ) {
+						list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
+					}
+					if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
+						list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
+					}
+					if ( punchList[i].notes != "" ) {
+						list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
+					}
+					list += '<button class="button" onClick=editPunch("' + punchList[i].uuid + '")>edit</button>';
+					list += '</div></div></div></li>';
+				}
 			}
-			//console.log("Need by " + new Date(punchList[i].nDate).getTime());
-			//console.log("Now " + new Date().getTime());
-			//console.log("gap " + (new Date(punchList[i].nDate).getTime() - new Date().getTime()));
-			list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
-			if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
-				console.log('overdue');
-				list += '<div class="two columns punch-default overdue">OVERDUE</div>';
-			} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
-				console.log('due soon');
-				list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
+		} else {
+			console.log('in no tags filter');
+			if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" } else { var style = "punch-default" }
+			if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
+				setPriority(punchList[i].uuid, 99999);
+			} else if (punchList[i].progress.toLowerCase() != "done"){
+				list += '<li class="' + style + '">';
+				list += '<div class="portlet">';
+				list += '<div class="backlog-list-header">';
+				list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
+				list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
+				if (style === "inProgress") {
+					list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
+				} else if (style === "punch-default") {
+					list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=startPunch("' + punchList[i].uuid + '")>Start</a></div>';
+				}
+				if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
+					list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
+				} else {
+					list += '<div class="three columns punch-default">&nbsp;</div>';
+				}
+				if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
+					console.log('overdue');
+					list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+				} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
+					console.log('due soon');
+					list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
+				} else {
+					list += '<div class="two columns punch-default">&nbsp;</div>';
+				}
+				if ( punchList[i].tags != undefined ) {
+					list += '<div class="four columns punch-default">';
+					for (t = 0; t < punchList[i].tags.length; t++) {
+						list += '<a class="punch-default" href="#" onClick=tagFilter("' + punchList[i].tags[t] + '")>' + punchList[i].tags[t] + '</a>';
+						if ( (t + 1) < punchList[i].tags.length ) {
+							list += ", ";
+						}
+					}
+				}
+				list += '</div>';
+				list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
+				if ( punchList[i].nDate > "" ) {
+					list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
+				}
+				if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
+					list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
+				}
+				if ( punchList[i].notes != "" ) {
+					list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
+				}
+				list += '<button class="button" onClick=editPunch("' + punchList[i].uuid + '")>edit</button>';
+				list += '</div></div></div></li>';
 			}
-			list += '</div>';
-			list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
-//			list += punchList[i].progress + '<br />';
-//			list += 'Created: ' + punchList[i].cDate + '<br /> ';
-//			list += 'Modified: ' + punchList[i].mDate + '<br />';
-			if ( punchList[i].nDate > "" ) {
-				list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
-			}
-			if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
-				list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
-			}
-			if ( punchList[i].notes != "" ) {
-				list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
-			}
-			list += '<button class="button" onClick=editPunch("' + punchList[i].uuid + '")>edit</button>';
-			list += '</div></div></div></li>';
 		}
 	}
 
@@ -377,7 +444,8 @@ function editPunch(uuid) {
 	html += '<div class="three columns">Progress:</div><div id="editProgress" class="nine columns">';
 	html +=  progress;
 	html += '</div>';
-	html += '<div class="three columns">Tags:</div><div class="nine columns"><input type=text id="editTags" value="' + tags + '"></div>';
+	html += '<div class="three columns">Tags:</div><div class="nine columns"> ' + tags + '</div>';
+	html += '<div class="three columns">Add Tag:</div><div class="nine columns"><input type="text" id="addTag-' + uuid + '"><button onClick=addTag("' + uuid + '")>Add Tag</button></div>';
 	html += '<div class="three columns">Notes: </div><div class="nine columns"><textarea class="edit-text-box" id="editNotes">' + notes + '</textarea></div>';
 	html += '<button onClick=submitEditPunch("' + uuid + '")>Update</button>';
 	html += '<button onClick=\'disableElement("editPunch"),enableElement("punchListAll")\'>Close</button>';
@@ -411,30 +479,34 @@ function submitEditPunch(uuid) {
 	disableElement("editPunch");
 }
 
-function addTag() {
+function addTag(uuid) {
 	/* Before doing this,
 			Refresh the array,
 			So that we don't overwrite data */
-getJson();
 
-	var item = document.getElementById("editID").value;
-	var newTag = document.getElementById("tag").value.toLowerCase();
+	var item = findArrayId(uuid);
+//	var item = document.getElementById("addTag-" + uuid).value;
+	var newTag = document.getElementById("addTag-" + uuid).value.toLowerCase();
+	var stripLeadingSpace = newTag.replace(', ', ',');
+	var newTags = stripLeadingSpace.split(",");
 
-	console.log(`Item: ${item}`);
-	console.log(`New Tag: ${newTag}`);
 	// make sure tags object exists
 	if (punchList[item].tags === undefined) {
 		console.log(`Adding tags object to punchList[${item}]`);
 		punchList[item].tags = [];
 	}
 
-	punchList[item].tags.push(newTag);
-	console.log(`${punchList[item].tags}`);
+	for ( nt = 0; nt < newTags.length; nt++ ) {
+		punchList[item].tags.push(newTags[nt]);
+		console.log(`${punchList[item].tags}`);
+	}
 
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
-	disableElement("editPunch");
-	enableElement("punchListAll");
+	editPunch(uuid);
+//	disableElement("editPunch");
+//	enableElement("punchListAll");
+		disableElement("punchListAll");
 }
 
 function clearDefault(a){
