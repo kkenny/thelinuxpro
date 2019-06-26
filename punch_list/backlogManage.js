@@ -104,12 +104,27 @@ function genList(punchList, element) {
 			} else if (style === "punch-default") {
 				list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=startPunch("' + punchList[i].uuid + '")>Start</a></div>';
 			}
+			//console.log("Need by " + new Date(punchList[i].nDate).getTime());
+			//console.log("Now " + new Date().getTime());
+			//console.log("gap " + (new Date(punchList[i].nDate).getTime() - new Date().getTime()));
+			list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
+			if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
+				list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+			}
 			list += '</div>';
-			list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">' + punchList[i].progress + '<br />';
-			list += 'Created: ' + punchList[i].cDate + '<br /> ';
-			list += 'Modified: ' + punchList[i].mDate + '<br />';
-			list += 'Tags: ' + punchList[i].tags + '<br />';
-			list += '<textarea>' + punchList[i].notes + '</textarea><br />';
+			list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
+//			list += punchList[i].progress + '<br />';
+//			list += 'Created: ' + punchList[i].cDate + '<br /> ';
+//			list += 'Modified: ' + punchList[i].mDate + '<br />';
+			if ( punchList[i].nDate > "" ) {
+				list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
+			}
+			if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
+				list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
+			}
+			if ( punchList[i].notes != "" ) {
+				list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
+			}
 			list += '<button class="button" onClick=editPunch("' + punchList[i].uuid + '")>edit</button>';
 			list += '</div></div></div></li>';
 		}
@@ -203,6 +218,17 @@ function enablePunchDetail(uuid) {
 //	html = "";
 	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea><br /><input onfocus='clearDefault(this)' type='text' id='tag' value='Add tag'><input onClick='addTag()' type=button value='Add' /></p><input type=button value=close onClick=getJson()>";
 	document.getElementById("punchDetail").innerHTML = html;
+}
+
+function genEventForm() {
+
+	document.getElementById("newSubject").value = "subject";
+	document.getElementById("newPriority").value = "priority";
+	document.getElementById("timepickerCreate").value = "date";
+	document.getElementById("newNotes").value = '';
+
+	disableElement('punchListAll');
+	enableElement('newEvent');
 }
 
 function createNewEvent() {
@@ -326,6 +352,10 @@ function editPunch(uuid) {
 	punchList = window.punches;
 	item = findArrayId(uuid);
 
+	if ( punchList[item].tags === undefined ) {
+		punchList[item].tags = [];
+	}
+
 	var id = item;
 
 	var subject = punchList[id].subject;
@@ -404,7 +434,7 @@ getJson();
 }
 
 function clearDefault(a){
-	if (a.defaultValue == a.value) {
+	if (a.defaultValue === a.value) {
 		a.value="";
 	}
 }

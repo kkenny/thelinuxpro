@@ -3,7 +3,8 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<!-- Font -->
-	<!--	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'> -->
+		<link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" type="text/css" href="css/datepicker.min.css">
 		<!-- CSS -->
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
@@ -20,19 +21,14 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="metadata.js"></script>
 		<script src="backlogManage.js"></script>
+		<script src="js/datepicker.min.js"></script>
+		<script src="js/i18n/datepicker.en.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
-		<script>
-		$( function() {
-			$( "#sortable" ).sortable();
-			$( "#sortable" ).disableSelection();
-		} );
-		</script>
-
 	</head>
 
 	<body>
 		<div class="container">
-			<button class="button" onClick="disableElement('punchListAll'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</button>
+			<button class="button" onClick="genEventForm()" id="put">New Punch Item</button>
 			<button class="button" onClick="genDaily()" id="daily">Gen Daily</button>
 			<button class="button" onClick="genWeekly()" id="daily">Gen Weekly</button>
 			<button class="button" onClick="getJson(genList)" id="getJson">Refresh</button>
@@ -46,6 +42,17 @@
 				<span class="punchListHeader">Backlog</span>
 				<div id="punchListBacklog"></div>
 			</div>
+		</div>
+
+		<div class="container row" id="newEvent">
+			<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newSubject" value="subject">
+			<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newPriority" value="priority">
+			<input type="hidden" id="newProgress" value="new">
+			<input onfocus="clearDefault(this)" type="text" id="timepickerCreate" class="datepicker-here u-full-width" data-timepicker="true" data-language="en" value="date">
+			Notes:<br />
+			<textarea class="u-full-width" id="newNotes" value=""></textarea>
+			<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Create" />
+			<input class="u-full-width" onClick="disableElement('newEvent'),enableElement('punchListAll')" id="nevermind" type="button" value="Nevermind." />
 		</div>
 
 
