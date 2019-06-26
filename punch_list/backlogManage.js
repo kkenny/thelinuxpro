@@ -90,10 +90,15 @@ function genList(punchList, element) {
 
 	var list = '<ol id="sortable">';
 
+	var countInProgress = 0;
+	var countWaiting = 0;
+	var countNew = 0;
+	var countDone = 0;
 	for (i = 0; i < listLength; i++) {
-			if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" }
-			else if (punchList[i].progress.toLowerCase() === "waiting") { var style = "waiting" }
-			else { var style = "punch-default" }
+			if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress"; countInProgress++; }
+			else if (punchList[i].progress.toLowerCase() === "waiting") { var style = "waiting"; countWaiting++;}
+			else if (punchList[i].progress.toLowerCase() === "new") { var style = "punch-default"; countNew++;}
+			else { var style = "punch-default"; countDone++ }
 
 		if (window.tagFilterItem != undefined) {
 			console.log('in tags filter');
@@ -232,6 +237,11 @@ function genList(punchList, element) {
 
 	list += "</ol>";
 	document.getElementById(element).innerHTML = list;
+	document.getElementById("stats").innerHTML = '<div class="ten columns punch-default">Total items:</div><div class="one column punch-default">' + punchList.length;
+	document.getElementById("stats").innerHTML += '</div><div class="ten columns punch-default">Blocked items:</div><div class="one column punch-default">' + countWaiting;
+	document.getElementById("stats").innerHTML += '</div><div class="ten columns punch-default">In Progress:</div><div class="one column punch-default">' + countInProgress;
+	document.getElementById("stats").innerHTML += '</div><div class="ten columns punch-default">New Items:</div><div class="one column punch-default">' + countNew;
+	document.getElementById("stats").innerHTML += '</div><div class="ten columns punch-default">Done Items:</div><div class="one column punch-default">' + countDone + '</div>';
 
 mkSortable();
 enableDrop();

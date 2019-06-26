@@ -1,3 +1,6 @@
+.column-left { display: hidden; }
+.column-right { display: hidden; }
+.column-middle { width: 50%; overflow: hidden; float: left;}
 #mainMenuWrapper:after { content: ""; clear: both; }
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
 #sortable li { font-size: 1.4em; color: #AAA;}
@@ -33,8 +36,8 @@
 .ui-widget-header { background: #333; color: #aaa;}
 a.punch-default { color: #00BFFF; font-size: 12px; text-decoration: none;}
 a.punch-default:hover { color: #00FFFF; text-shadow: 0px 0px 23px #FFF; }
-.punch-default { border: 0px solid #AAA; color: #aaa; font-size: 12px; }
-.inProgress { color: orange; font-size: 12px; }
+.punch-default { border: 0px solid #AAA; color: #aaa; font-size: 12px; font-family: Arial, Helvetica, sans-serif;}
+  .inProgress { color: orange; font-size: 12px; }
 .waiting { color: red; font-size: 12px; }
 .overdue { color: red; font-size: 12px; }
 .duesoon { color: yellow; font-size: 12px;}
@@ -304,7 +307,19 @@ textarea {
 @media (min-width: 750px) {
   body { margin-left: auto;
 		margin-right: auto;
-		width: 800px; }
+		width: 90%; }
+	.column-left {
+		display: block;
+		margin-top: 100px;
+		margin-left: auto;
+		width: 25%;
+		height: 99%;
+		background-color: #000;
+		overflow: hidden;
+		float: left;
+		border-right: 3px solid #000;
+	}
+	.column-right { display: block; width: 25%; overflow: hidden; float: left;}
   /* Navbar */
   .clock-wrapper {
     display: block;
