@@ -132,12 +132,6 @@ function genList(punchList, element) {
 					}
 					list += '</div>';
 					list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
-					if ( punchList[i].nDate > "" ) {
-						list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
-					}
-					if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
-						list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
-					}
 					if ( punchList[i].notes != "" ) {
 						list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
 					}
@@ -186,12 +180,6 @@ function genList(punchList, element) {
 				}
 				list += '</div>';
 				list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';
-				if ( punchList[i].nDate > "" ) {
-					list += '<div class="two columns punch-default">Needed By:</div><div class="ten columns punch-default">' + punchList[i].nDate + '</div>';
-				}
-				if ( punchList[i].tags != undefined && punchList[i].tags != [] ) {
-					list += '<div class="two columns punch-default">Tags:</div><div class="ten columns punch-default">' + punchList[i].tags + '</div>';
-				}
 				if ( punchList[i].notes != "" ) {
 					list += '<textarea class="edit-text-box" readonly>' + punchList[i].notes + '</textarea><br />';
 				}
@@ -444,7 +432,7 @@ function editPunch(uuid) {
 	html += '<div class="three columns">Progress:</div><div id="editProgress" class="nine columns">';
 	html +=  progress;
 	html += '</div>';
-	html += '<div class="three columns">Tags:</div><div class="nine columns"> ' + tags + '</div>';
+	html += '<div class="three columns">Tags:</div><div class="nine columns">' + tags + '&nbsp; </div>';
 	html += '<div class="three columns">Add Tag:</div><div class="nine columns"><input type="text" id="addTag-' + uuid + '"><button onClick=addTag("' + uuid + '")>Add Tag</button></div>';
 	html += '<div class="three columns">Notes: </div><div class="nine columns"><textarea class="edit-text-box" id="editNotes">' + notes + '</textarea></div>';
 	html += '<button onClick=submitEditPunch("' + uuid + '")>Update</button>';
@@ -544,6 +532,8 @@ function signOut() {
 }
 
 getJson();
+
+document.getElementById("versionInfo").innerHTML = version;
 
 $('li').on("click", function(event){
   var target = event.target,
