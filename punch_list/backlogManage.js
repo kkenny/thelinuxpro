@@ -106,7 +106,7 @@ function genList(punchList, element) {
 					list += '<div class="portlet">';
 					list += '<div class="backlog-list-header">';
 					list += '<div class="one column">' +punchList[i].priority + '</div><div class="ten columns subject">' + punchList[i].subject + '</div>';
-					list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
+					list += '<div class="two columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
 					// status dropdown
 					list += '<div class="dropdown one column">';
 					list += '<img class="top dropbtn" onclick=progressMenuDrop("' + punchList[i].uuid + '") src="images/down-carrot.png">';
@@ -125,7 +125,7 @@ function genList(punchList, element) {
 					}
 */
 					if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
-						list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
+					list += '<div class="three columns punch-default"><div class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
 					} else {
 						list += '<div class="three columns punch-default">&nbsp;</div>';
 					}
@@ -190,7 +190,7 @@ function genList(punchList, element) {
 				}
 */
 				if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
-					list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
+					list += '<div class="three columns punch-default"><div class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
 				} else {
 					list += '<div class="three columns punch-default">&nbsp;</div>';
 				}
@@ -237,7 +237,6 @@ mkSortable();
 enableDrop();
 }
 
-var t = 0;
 var x = setInterval(function() {
 	punchList = window.punches;
 	for ( i = 0; i < punchList.length; i++ ) {
@@ -248,7 +247,39 @@ var x = setInterval(function() {
 			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
+			if (hours < 10) {
+				hours = ('0' + hours);
+			}
+			if (minutes < 10) {
+				minutes = ('0' + minutes);
+			}
+			if (seconds < 10) {
+				seconds = ('0' + seconds);
+			}
+
 			document.getElementById("timer-" + punchList[i].uuid).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+		}
+
+		if ( punchList[i].progress.toLowerCase() != "done" && punchList[i].nDate != "" ) {
+			var style = "punch-list";
+			distance = -(new Date().getTime() - new Date(punchList[i].nDate).getTime());
+			if ( (distance / 1000) <= 0 ) { style = "overdue" }
+			else if ( (distance / 1000) <= 259200 ) { style = "duesoon" }
+			seconds = Math.floor((distance / 1000) % 60);
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+			if (hours < 0)   { hours = -(hours); }
+			if (minutes < 0) { minutes = -(minutes); }
+			if (seconds < 0) { seconds = -(seconds); }
+
+			if (hours < 10)   { hours = ('0' + hours); }
+			if (minutes < 10) { minutes = ('0' + minutes); }
+			if (seconds < 10) { seconds = ('0' + seconds); }
+
+			document.getElementById("countdown-" + punchList[i].uuid).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+			document.getElementById("countdown-" + punchList[i].uuid).classList.add(style);
 		}
 	}
 }, 1000);
