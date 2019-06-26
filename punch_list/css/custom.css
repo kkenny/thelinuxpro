@@ -24,6 +24,10 @@
     margin: 0 1em 1em 0;
     height: 50px;
   }
+.ui-icon,
+.ui-widget-content .ui-icon {
+	background-image: url("https://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_ffffff_256x240.png");
+}
 .ui-widget-content { background: #000; color: #aaa;}
 .ui-widget-header { background: #333; color: #aaa;}
 a.punch-default { color: #aaa; font-size: 12px; text-decoration: none;}
