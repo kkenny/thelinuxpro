@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- Font -->
+	<!--	<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'> -->
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/skeleton.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<link href="css/datepicker.min.css" rel="stylesheet" type="text/css">
+		<!--  <link rel="stylesheet" type="text/css" href="style.css"> -->
+		<!-- No Cache -->
+		<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Expires" content="0">
+		<meta name="google-signin-client_id" content="999467953896-gku66r62t0sbodkroiqre0g43l8teal1.apps.googleusercontent.com">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="metadata.js"></script>
+		<script src="eventManage.js"></script>
+		<script src="timePicker.js"></script>
+		<script src="js/datepicker.min.js"></script>
+		<!-- Include English language -->
+		<script src="js/i18n/datepicker.en.js"></script>
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="g-signin2 u-pull-right" data-onsuccess="onSignIn"></div>
+			<div class="u-pull-right" id="signOut"><a href="#" onclick="signOut();">Sign out</a></div>
+
+		</div>
+
+		<div class="container">
+			<button class="button" onClick="disableElement('punchListAll'), disableElement('punchDetail'), enableElement('newEvent')" id="put">New Punch Item</button>
+			<button class="button" onClick="genDaily()" id="daily">Gen Daily</button>
+			<button class="button" onClick="genWeekly()" id="daily">Gen Weekly</button>
+			<button class="button" onClick="getJson(genList)" id="getJson">Refresh</button>
+			<a class="button" href="https://thelinux.pro/broadcast_timer">Time Boxer</a>
+		</div>
+
+		<div class="row" id="editPunch">
+				<input type=hidden id=editID>
+
+				<input class="u-full-width" type="text" id="editSubject" value=""><br />
+				<input class="u-full-width" type="text" id="editPriority" value=""><br />
+				<input class="u-full-width" type="text" id="editProgress" READONLY><br />
+				<input type='text' id='timepickerEdit' class='datepicker-here u-full-width' data-timepicker='true' data-language='en'><br />
+				<!-- <input type="text" id="editStartDate" value=""> -->
+				<textarea class="u-full-width" id="editNotes" value=""></textarea>
+				<input onfocus="clearDefault(this)" type='text' id='tag' value="new Tag"><input onClick="addTag()" type=button value="ADD" />
+				<input class="u-full-width" onClick="submitEditPunch()" id="test" type="button" value="Update" />
+		</div>
+		<div class="container row" id="newEvent">
+				<form id="newEventForm" onSubmit="return processEventForm(this.form)">
+					<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newSubject" value="subject">
+					<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newPriority" value="priority">
+					<input type="hidden" id="newProgress" value="new">
+					<input onfocus="clearDefault(this)" type='text' id='timepickerCreate' class='datepicker-here u-full-width' data-timepicker='true' data-language='en' value="date">
+					<textarea class="u-full-width" id="newNotes" value="Notes"></textarea>
+					<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Update" />
+				</form>
+		</div>
+
+		<div class="listWrapper" id="punchListAll">
+			<div id="punchListInProgressWrapper" class="listWrapper">
+			<span class="punchListHeader">In Progress</span>
+				<div id="punchListInProgress"></div>
+			</div>
+
+			<div id="punchListNewWrapper" class="listWrapper">
+			<span class="punchListHeader">New</span>
+				<div id="punchListNew"></div>
+			</div>
+
+			<div id="punchListDoneWrapper" class="listWrapper">
+			<span class="punchListHeader">Done</span>
+				<div id="punchListDone"></div>
+			</div>
+		</div>
+
+		<div id="punchDetail"></div>
+
+
+
+		<p id="result"></p>
+		<div id="clearTags" class="grid-meta u-pull-right"><a href="#" onClick="clearTagFilter()">Clear Tags</a></div><br />
+		<div id="showDone" class="grid-meta u-pull-right"></div><br />
+		<div id="meta" class="grid-meta u-pull-right"></div>
+	</body>
+</html>
