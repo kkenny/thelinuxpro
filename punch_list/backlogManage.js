@@ -109,8 +109,10 @@ function genList(punchList, element) {
 			//console.log("gap " + (new Date(punchList[i].nDate).getTime() - new Date().getTime()));
 			list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
 			if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
+				console.log('overdue');
 				list += '<div class="two columns punch-default overdue">OVERDUE</div>';
-			} else if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 259200 ) {
+			} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
+				console.log('due soon');
 				list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
 			}
 			list += '</div>';
