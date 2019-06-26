@@ -80,6 +80,7 @@ function genBacklog(punchList) {
 }
 
 function genList(punchList, element) {
+	document.getElementById("versionInfo").innerHTML = '<div class="u-pull-right">' + version + '</div>';
 	enableElement("punchListAll");
 	var itemStyle = "punches";
 //	isItArray(punchList);
@@ -100,7 +101,7 @@ function genList(punchList, element) {
 					list += '<li class="' + style + '">';
 					list += '<div class="portlet">';
 					list += '<div class="backlog-list-header">';
-					list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
+					list += '<div class="one column">' +punchList[i].priority + '</div><div class="ten columns subject">' + punchList[i].subject + '</div>';
 					list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
 					if (style === "inProgress") {
 						list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
@@ -114,7 +115,7 @@ function genList(punchList, element) {
 					}
 					if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
 						console.log('overdue');
-						list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+						list += '<div class="two columns punch-default overdue">OVER DUE</div>';
 					} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
 						console.log('due soon');
 						list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
@@ -148,7 +149,7 @@ function genList(punchList, element) {
 				list += '<li class="' + style + '">';
 				list += '<div class="portlet">';
 				list += '<div class="backlog-list-header">';
-				list += punchList[i].priority + '<div class=subject>' + punchList[i].subject + '</div>';
+				list += '<div class="one column">' +punchList[i].priority + '</div><div class=subject>' + punchList[i].subject + '</div>';
 				list += '<div class="two columns ' + style + '">' + punchList[i].progress + '</div>';
 				if (style === "inProgress") {
 					list += '<div class="two columns ' + style + '"><a class="punch-default" href="#" onClick=completePunch("' + punchList[i].uuid + '")>Finish</a></div>';
@@ -162,7 +163,7 @@ function genList(punchList, element) {
 				}
 				if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
 					console.log('overdue');
-					list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+					list += '<div class="two columns punch-default overdue">OVER DUE</div>';
 				} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
 					console.log('due soon');
 					list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
@@ -215,7 +216,7 @@ function mkSortable() {
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
       .find( ".backlog-list-header" )
-        .addClass( "ui-widget-header ui-corner-all" )
+        .addClass( "ui-corner-all" )
         .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
 
     $( ".portlet-toggle" ).on( "click", function() {
@@ -533,7 +534,6 @@ function signOut() {
 
 getJson();
 
-document.getElementById("versionInfo").innerHTML = version;
 
 $('li').on("click", function(event){
   var target = event.target,

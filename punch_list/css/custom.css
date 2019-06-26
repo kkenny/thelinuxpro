@@ -30,8 +30,8 @@
 }
 .ui-widget-content { background: #000; color: #aaa;}
 .ui-widget-header { background: #333; color: #aaa;}
-a.punch-default { color: #aaa; font-size: 12px; text-decoration: none;}
-a.punch-default:hover { color: #00FFFF; }
+a.punch-default { color: #00BFFF; font-size: 12px; text-decoration: none;}
+a.punch-default:hover { color: #00FFFF; text-shadow: 0px 0px 23px #FFF; }
 .punch-default { border: 0px solid #AAA; color: #aaa; font-size: 12px; }
 .inProgress { color: orange; font-size: 12px; }
 .overdue { color: red; }
@@ -45,6 +45,9 @@ a.punch-default:hover { color: #00FFFF; }
 .edit-text-box { width: 100%; min-height: 200px; font-size: 12px; }
 .ui-widget textarea { font-size: 12px; }
 body {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
   background: #222;
   color: #AAA; }
 textarea {
@@ -164,6 +167,7 @@ textarea {
 .punches-current {
   background: #555; }
 .subject {
+	overflow: hidden;
 	width: 89%;
   float: left;
   color: #FFF;
