@@ -237,6 +237,10 @@ mkSortable();
 enableDrop();
 }
 
+function mainMenuDrop() {
+	document.getElementById("mainMenuDropdown").classList.toggle("show");
+}
+
 function progressMenuDrop(uuid) {
 	document.getElementById("progressDropdown-" + uuid).classList.toggle("show");
 }

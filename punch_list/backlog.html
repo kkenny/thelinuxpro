@@ -27,6 +27,18 @@
 	</head>
 
 	<body>
+		<div class="dropdown u-pull-right" id=mainMenuWrapper>
+			<button class="top dropbtn" onclick=mainMenuDrop() id=mainMenu>Menu</button>
+			<div id=mainMenuDropdown class="dropdown-content punch-default">
+				<a href="#" onclick="genEventForm()">New Punch Item</a>
+				<a href="#" onclick="genDaily()">Generate Daily Punches</a>
+				<a href="#" onclick="genWeekly()">Generate Weekly Punches</a>
+				<a href="#" onclick="getJson(genList)">Refresh</a>
+				<a href="https://thelinux.pro/broadcast_timer">Broadcast Timer</a>
+			</div>
+		</div>
+
+	<!-- // Old Menu Buttons
 		<div class="container">
 			<button class="button" onClick="genEventForm()" id="put">New Punch Item</button>
 			<button class="button" onClick="genDaily()" id="daily">Gen Daily</button>
@@ -34,6 +46,7 @@
 			<button class="button" onClick="getJson(genList)" id="getJson">Refresh</button>
 			<a class="button" href="https://thelinux.pro/broadcast_timer">Time Boxer</a>
 		</div>
+	-->
 
 		<div id="editPunch" class="listWrapper"></div>
 

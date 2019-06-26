@@ -1,3 +1,4 @@
+#mainMenuWrapper:after { content: ""; clear: both; }
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
 #sortable li { font-size: 1.4em; color: #AAA;}
 #sortable li span { position: absolute; margin-left: -1.3em; }
@@ -73,8 +74,9 @@ textarea {
 	clear: both; }
 .listWrapper {
 	margin: 5px;
+	background: #333;
 	margin-bottom: 10px;
-	border: 1px solid #999; }
+	border: 0px solid #999; }
 .punchListHeader {
 	color: #00bfff;
 	padding: 4px;
