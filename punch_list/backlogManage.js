@@ -110,6 +110,8 @@ function genList(punchList, element) {
 			list += '<div class="three columns punch-default">' + punchList[i].nDate + '</div>';
 			if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
 				list += '<div class="two columns punch-default overdue">OVERDUE</div>';
+			} else if ( new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 259200 ) {
+				list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
 			}
 			list += '</div>';
 			list += '<div class="backlog-list-content"><div style="punch-list-backlog-details">';

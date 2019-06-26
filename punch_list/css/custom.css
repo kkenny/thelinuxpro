@@ -31,6 +31,7 @@ a.punch-default:hover { color: #00FFFF; }
 .punch-default { border: 0px solid #AAA; color: #aaa; font-size: 12px; }
 .inProgress { color: orange; font-size: 12px; }
 .overdue { color: red; }
+.duesoon { color: yellow; }
 .hide { display: none; }
 .punch-list-backlog-details {
 	font-size: 18px;
