@@ -111,7 +111,7 @@ function genList(punchList, element) {
 					list += '<div class="portlet">';
 					list += '<div class="backlog-list-header">';
 					list += '<div class="one column">' +punchList[i].priority + '</div><div class="ten columns subject">' + punchList[i].subject + '</div>';
-					list += '<div class="two columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
+					list += '<div class="three columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
 					// status dropdown
 					list += '<div class="dropdown one column">';
 					list += '<img class="top dropbtn" onclick=progressMenuDrop("' + punchList[i].uuid + '") src="images/down-carrot.png">';
@@ -130,18 +130,18 @@ function genList(punchList, element) {
 					}
 */
 					if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
-					list += '<div class="three columns punch-default"><div class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
+					list += '<div class="three columns punch-default"><div id="neededBy" class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
 					} else {
 						list += '<div class="three columns punch-default">&nbsp;</div>';
 					}
 					if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
 						console.log('overdue');
-						list += '<div class="two columns punch-default overdue">OVER DUE</div>';
+						list += '<div id="neededBy" class="two columns punch-default overdue">OVER DUE</div>';
 					} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
 						console.log('due soon');
-						list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
+						list += '<div id="neededBy" class="two columns punch-default duesoon">DUE SOON</div>';
 					} else {
-						list += '<div class="two columns punch-default">&nbsp;</div>';
+						list += '<div id="neededBy" class="two columns punch-default">&nbsp;</div>';
 					}
 					if ( punchList[i].tags != undefined ) {
 						list += '<div class="four columns punch-default">';
@@ -176,9 +176,9 @@ function genList(punchList, element) {
 				list += '<div class="portlet">';
 				list += '<div class="backlog-list-header">';
 				list += '<div class="one column">' + punchList[i].priority + '</div><div class=subject>' + punchList[i].subject + '</div>';
-				list += '<div class="two columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
+				list += '<div class="three columns"><div class="twelve columns ' + style + '">' + punchList[i].progress + '</div><div class="twelve columns punch-default" style="color: lime" id="timer-' + punchList[i].uuid + '"></div></div>';
 				// status dropdown
-				list += '<div class="dropdown one column">';
+				list += '<div class="dropdown two columns">';
 				list += '<img class="top dropbtn" onclick=progressMenuDrop("' + punchList[i].uuid + '") src="images/down-carrot.png">';
 				list += '<div id="progressDropdown-' + punchList[i].uuid + '" class="dropdown-content punch-default">';
 				list += '<a href="#" onClick=mkPunchNew("' + punchList[i].uuid + '")>New</a>';
@@ -195,18 +195,18 @@ function genList(punchList, element) {
 				}
 */
 				if ( punchList[i].nDate != null && punchList[i].nDate != undefined && punchList[i].nDate != '' ) {
-					list += '<div class="three columns punch-default"><div class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
+					list += '<div class="three columns punch-default"><div id="neededBy" class="twelve columns punch-default">' + punchList[i].nDate + '</div><div class="twelve columns punch-default" id="countdown-' + punchList[i].uuid + '"></div></div>';
 				} else {
 					list += '<div class="three columns punch-default">&nbsp;</div>';
 				}
 				if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
 					console.log('overdue');
-					list += '<div class="two columns punch-default overdue">OVER DUE</div>';
+					list += '<div id="neededBy" class="two columns punch-default overdue">OVER DUE</div>';
 				} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
 					console.log('due soon');
-					list += '<div class="two columns punch-default duesoon">DUE SOON</div>';
+					list += '<div id="neededBy" class="two columns punch-default duesoon">DUE SOON</div>';
 				} else {
-					list += '<div class="two columns punch-default">&nbsp;</div>';
+					list += '<div id="neededBy" class="two columns punch-default">&nbsp;</div>';
 				}
 				if ( punchList[i].tags != undefined ) {
 					list += '<div class="four columns punch-default">';
@@ -325,6 +325,7 @@ function mkSortable() {
 		$( "#sortable" ).sortable({
 			cancel: ".portlet-toggle",
 			placeholder: "portlet-placeholder ui-corner-all",
+			revert: true,
 			start: function(event, ui) {
 				window.sortObjectUUID = punchList[ui.item.index()].uuid;
 				console.log(`Start Position: ${ui.item.index()}`);
@@ -381,6 +382,7 @@ function startPunch(uuid) {
 	}
 
 	punchList[item].progress = "In Progress";
+	punchList[item].priority = 0;
 
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
@@ -461,8 +463,9 @@ getJson();
 	var notesField = document.getElementById("newNotes").value;
 
 	var newTag = document.getElementById("tagsCreate").value.toLowerCase();
-	var stripLeadingSpace = newTag.replace(', ', ',');
-	var newTags = stripLeadingSpace.split(",");
+	var stripLeadingSpace = newTag.replace(/, /g, ',');
+	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
+	var newTags = noSpaces.split(",");
 
 	// make sure tags object exists
 /*
@@ -645,7 +648,8 @@ function addTag(uuid) {
 //	var item = document.getElementById("addTag-" + uuid).value;
 	var newTag = document.getElementById("addTag-" + uuid).value.toLowerCase();
 	var stripLeadingSpace = newTag.replace(', ', ',');
-	var newTags = stripLeadingSpace.split(",");
+	var noSpaces = stripLeadingSpace.replace(' ', '_');
+	var newTags = noSpaces.split(",");
 
 	// make sure tags object exists
 	if (punchList[item].tags === undefined) {

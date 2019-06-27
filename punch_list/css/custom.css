@@ -1,6 +1,14 @@
-.column-left { display: hidden; }
-.column-right { display: hidden; }
-.column-middle { width: 50%; overflow: hidden; float: left;}
+#neededBy { display: none; }
+.subject {
+	overflow: hidden;
+	width: 89%;
+  float: left;
+  color: #FFF;
+  font-size: 1.5rem;
+  font-weight: 900; }
+.column-left { display: none; }
+.column-right { display: none; }
+.column-middle { width: 100%; overflow: auto; float: left;}
 #mainMenuWrapper:after { content: ""; clear: both; }
 #sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
 #sortable li { font-size: 1.4em; color: #AAA;}
@@ -159,7 +167,7 @@ textarea {
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
   display: none;
-  position: absolute;
+  position: relative;
   background-color: #f1f1f1;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -186,13 +194,6 @@ textarea {
 .current { color: orange; }
 .punches-current {
   background: #555; }
-.subject {
-	overflow: hidden;
-	width: 89%;
-  float: left;
-  color: #FFF;
-  font-size: 2rem;
-  font-weight: 900; }
 .countdown {
   float: right;
   font-size: 2rem;
@@ -261,6 +262,14 @@ textarea {
 
 /* Larger than phone */
 @media (min-width: 550px) {
+#neededBy { display: block; }
+.subject {
+	overflow: hidden;
+	width: 89%;
+  float: left;
+  color: #FFF;
+  font-size: 2rem;
+  font-weight: 900; }
   .button {
 		padding: 0px;
 		text-align: center;
@@ -305,6 +314,14 @@ textarea {
 
 /* Larger than tablet */
 @media (min-width: 750px) {
+	#neededBy { display: block; }
+.subject {
+	overflow: hidden;
+	width: 89%;
+  float: left;
+  color: #FFF;
+  font-size: 2rem;
+  font-weight: 900; }
   body { margin-left: auto;
 		margin-right: auto;
 		width: 90%; }
