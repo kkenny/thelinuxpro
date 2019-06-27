@@ -280,7 +280,8 @@ var x = setInterval(function() {
 			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
 			days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
-			if (hours < 0)   { hours = -(hours); }
+			if (days < 0) { days = (days + 1); }
+			if (hours < 0)   { hours = (-(hours) - 1); }
 			if (minutes < 0) { minutes = -(minutes); }
 			if (seconds < 0) { seconds = -(seconds); }
 
