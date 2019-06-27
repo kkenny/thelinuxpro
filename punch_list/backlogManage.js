@@ -460,7 +460,24 @@ getJson();
 	var nDateField = document.getElementById("timepickerCreate").value;
 	var notesField = document.getElementById("newNotes").value;
 
-	var newEventJson = { uuid: genUid(), nDate: nDateField, subject: subjectField, priority: priorityField, progress: progressField, notes: notesField };
+	var newTag = document.getElementById("tagsCreate").value.toLowerCase();
+	var stripLeadingSpace = newTag.replace(', ', ',');
+	var newTags = stripLeadingSpace.split(",");
+
+	// make sure tags object exists
+/*
+	if (punchList[item].tags === undefined) {
+		console.log(`Adding tags object to punchList[${item}]`);
+		punchList[item].tags = [];
+	}
+
+	for ( nt = 0; nt < newTags.length; nt++ ) {
+		punchList[item].tags.push(newTags[nt]);
+		console.log(`${punchList[item].tags}`);
+	}
+*/
+
+	var newEventJson = { uuid: genUid(), nDate: nDateField, subject: subjectField, priority: priorityField, progress: progressField, tags: newTags, notes: notesField };
 	punchList.push(newEventJson);
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
