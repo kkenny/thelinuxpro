@@ -62,7 +62,7 @@
 
 			<div class="listWrapper" id="punchListAll">
 				<div id="punchListInProgressWrapper" class="listWrapper">
-					<span class="punchListHeader">Backlog</span>
+					<span class="punchListHeader">Parking Lot</span>
 					<div id="punchListBacklog"></div>
 				</div>
 			</div>
@@ -72,6 +72,7 @@
 				<input onfocus="clearDefault(this)" class="u-full-width" type="text" id="newPriority" value="priority">
 				<input type="hidden" id="newProgress" value="new">
 				<input onfocus="clearDefault(this)" type="text" id="timepickerCreate" class="datepicker-here u-full-width" data-timepicker="true" data-language="en" value="date">
+				<input onFocus="clearDefault(this)" type="text" id="tagsCreate" class="u-full-width" value="tag1,tag2, tag3">
 				Notes:<br />
 				<textarea class="u-full-width" id="newNotes" value=""></textarea>
 				<input class="u-full-width" onClick="createNewEvent()" id="test" type="button" value="Create" />
