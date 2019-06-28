@@ -12,6 +12,7 @@
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 		<script src="metadata.js"></script>
 		<script src="backlogManage.js"></script>
+		<script src="eventsList.js"></script>
 		<script src="js/datepicker.min.js"></script>
 		<script src="js/i18n/datepicker.en.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -27,7 +28,7 @@
 		<link rel="stylesheet" href="css/custom.css">
 	</head>
 
-	<body>
+	<body onLoad="getEvents()">
 		<div class="dropdown u-pull-right" id=mainMenuWrapper>
 			<button class="top dropbtn" onclick=mainMenuDrop() id=mainMenu>Menu</button>
 			<div id=mainMenuDropdown class="dropdown-content punch-default">
@@ -58,9 +59,7 @@
 		</div>
 
 		<div id=middle class="column-middle">
-
 			<div id="editPunch" class="listWrapper"></div>
-
 			<div class="listWrapper" id="punchListAll">
 				<div id="punchListInProgressWrapper" class="listWrapper">
 					<span class="punchListHeader">Parking Lot</span>
@@ -85,12 +84,12 @@
 				<div style="width: 100%;" class='punch-default u-pull-right'><a class='punch-default u-pull-right' href='#' onClick=clearTagFilter()>Clear Tags</a></div>
 				<div style="width: 100%;" class='punch-default u-pull-right' id=versionInfo></div>
 			</div>
-			<div id="debug1"></div>
-
 		</div>
 
-		<div id=right class="column-right">
-			<div class="twelve columns"> </div>
+		<div id=right class="column-right" style="float:left">
+			<div class="twelve columns events">
+				<div id="events-list"></div>
+			</div>
 		</div>
 		</div>
 	</body>
