@@ -326,6 +326,7 @@ function mkSortable() {
 			cancel: ".portlet-toggle",
 			placeholder: "portlet-placeholder ui-corner-all",
 			revert: true,
+			distance: 50,
 			start: function(event, ui) {
 				window.sortObjectUUID = punchList[ui.item.index()].uuid;
 				console.log(`Start Position: ${ui.item.index()}`);
