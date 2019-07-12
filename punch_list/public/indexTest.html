@@ -1,0 +1,142 @@
+<html class="mdl-js">
+	<head>
+		<meta name="google-signin-client_id" content="999467953896-tcsf2i6f8rmvb9o8mpsprv43rfr9k8bq.apps.googleusercontent.com">
+		<meta name="google-signin-cookiepolicy" content="single_host_origin">
+		<meta name="google-signin-scope" content="profile email">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Punch List</title>
+		<style media="screen">
+			body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+			#message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+			#message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+			#message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+			#message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+			#message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+			#message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+			#load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+			@media (max-width: 600px) {
+				body, #message { margin-top: 0; background: white; box-shadow: none; }
+				body { border-top: 16px solid #ffa100; }
+			}
+		</style>
+
+		<!-- CSS -->
+		<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+		<link href="https://fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="css/datepicker.min.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+		<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/4.0.0/firebaseui.css">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/skeleton.css">
+		<link rel="stylesheet" href="css/custom.css">
+		<!-- scripts -->
+		<style>.abcRioButton{-webkit-border-radius:1px;border-radius:1px;-webkit-box-shadow 0 2px 4px 0px rgba(0,0,0,.25);box-shadow:0 2px 4px 0 rgba(0,0,0,.25);-webkit-box-sizing:border-box;box-sizing:border-box;-webkit-transition:background-color .218s,border-color .218s,box-shadow .218s;transition:background-color .218s,border-color .218s,box-shadow .218s;-webkit-user-select:none;-webkit-appearance:none;background-color:#fff;background-image:none;color:#262626;cursor:pointer;outline:none;overflow:hidden;position:relative;text-align:center;vertical-align:middle;white-space:nowrap;width:auto}.abcRioButton:hover{-webkit-box-shadow:0 0 3px 3px rgba(66,133,244,.3);box-shadow:0 0 3px 3px rgba(66,133,244,.3)}.abcRioButtonBlue{background-color:#4285f4;border:none;color:#fff}.abcRioButtonBlue:hover{background-color:#4285f4}.abcRioButtonBlue:active{background-color:#3367d6}.abcRioButtonLightBlue{background-color:#fff;color:#757575}.abcRioButtonLightBlue:active{background-color:#eee;color:#6d6d6d}.abcRioButtonIcon{float:left}.abcRioButtonBlue .abcRioButtonIcon{background-color:#fff;-webkit-border-radius:1px;border-radius:1px}.abcRioButtonSvg{display:block}.abcRioButtonContents{font-family:Roboto,arial,sans-serif;font-size:14px;font-weight:500;letter-spacing:.21px;margin-left:6px;margin-right:6px;vertical-align:top}.abcRioButtonContentWrapper{height:100%;width:100%}.abcRioButtonBlue .abcRioButtonContentWrapper{border:1px solid transparent}.abcRioButtonErrorWrapper,.abcRioButtonWorkingWrapper{display:none;height:100%;width:100%}.abcRioButtonErrorIcon,.abcRioButtonWorkingIcon{margin-left:auto;margin-right:auto}.abcRioButtonErrorState,.abcRioButtonWorkingState{border:1px solid #d5d5d5;border:1px solid rgba(0,0,0,.17);-webkit-box-shadow:0 1px 0 rgba(0,0,0,.05);box-shadow:0 1px 0 rgba(0,0,0,.05);color:#262626}.abcRioButtonErrorState:hover,.abcRioButtonWorkingState:hover{border:1px solid #aaa;border:1px solid rgba(0,0,0,.25);-webkit-box-shadow:0 1px 0 rgba(0,0,0,.1);box-shadow:0 1px 0 rgba(0,0,0,.1)}.abcRioButtonErrorState:active,.abcRioButtonWorkingState:active{border:1px solid #aaa;border:1px solid rgba(0,0,0,.25);-webkit-box-shadow:inset 0 1px 0 #ddd;box-shadow:inset 0 1px 0 #ddd;color:#262626}.abcRioButtonWorkingState,.abcRioButtonWorkingState:hover{background-color:#f5f5f5}.abcRioButtonWorkingState:active{background-color:#e5e5e5}.abcRioButtonErrorState,.abcRioButtonErrorState:hover{background-color:#fff}.abcRioButtonErrorState:active{background-color:#e5e5e5}.abcRioButtonWorkingState .abcRioButtonWorkingWrapper,.abcRioButtonErrorState .abcRioButtonErrorWrapper{display:block}.abcRioButtonErrorState .abcRioButtonContentWrapper,.abcRioButtonWorkingState .abcRioButtonContentWrapper,.abcRioButtonErrorState .abcRioButtonWorkingWrapper{display:none}.-webkit-keyframes abcRioButtonWorkingIconPathSpinKeyframes{0%{-webkit-transform:rotate(0)}} </style>
+	</head>
+
+	<body>
+		<div class="g-signin2" data-onsuccess="onSignIn" data-them="dark" data-gapiscan="true" data-onload="true">
+			<div style="height:36px;width:120px;" class="abcRioButton abcRioButtonLightBlue">
+				<div class="abcRioButtonContentWrapper">
+					<div class="abcRioButtonIcon" style="padding:8px">
+						<div style="width:18px;height:18px;" class="abcRioButtonSvgImageWithFallback abcRioButtonIconImage abcRioButtonIconImage18">
+							<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" viewBox="0 0 48 48" class="abcRioButtonSvg">
+								<g>
+									<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path>
+									<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path>
+									<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path>
+									<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path>
+									<path fill="none" d="M0 0h48v48H0z"></path>
+								</g>
+							</svg>
+						</div>
+					</div>
+					<span style="font-size:13px;line-height:34px;" class="abcRioButtonContents">
+						<span id="not_signed_innc8uxt9zex0r" style="display: none;">Sign in</span>
+						<span id="connectednc8uxt9zex0r" style="">Signed in</span>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div id="firebaseui-auth-container"></div>
+
+		<div class="dropdown u-pull-right" id="mainMenuWrapper">
+			<button class="top dropbtn" onclick="mainMenuDrop()" id="mainMenu">Menu</button>
+			<div id="mainMenuDropdown" class="dropdown-content punch-default">
+				<a href="#" onclick="genEventForm()">New Punch Item</a>
+				<a href="#" onclick="genDaily()">Generate Daily Punches</a>
+				<a href="#" onclick="genWeekly()">Generate Weekly Punches</a>
+				<a href="#" onclick="getJson(genList)">Refresh</a>
+				<a href="https://thelinux.pro/broadcast_timer">Broadcast Timer</a>
+			</div>
+		</div>
+
+		<div id="container">
+			<div id="left" class="column-left">
+				<div class="eight columns"> &nbsp; </div>
+				<div class="four columns subject" style="border-bottom: 2px solid #fff">STATS</div>
+				<div class="eight columns"> &nbsp; </div>
+				<div id="stats" class="four columns"></div>
+			</div>
+
+			<!-- start column middle -->
+			<div id="middle" class="column-middle">
+				<div id="editPunch" class="listWrapper"></div>
+				<div class="listWrapper" id="punchListAll">
+					<div id="punchListInProgressWrapper" class="listWrapper">
+						<!-- the list -->
+						<span class="punchListHeader">Parking Lot</span>
+						<div id="punchListBacklog">
+							<ol id="sortable" class="punchListBacklog">
+								<li id="li-LjSn-QOEX1suzA0cwyQ" class="punch-default">
+									<div id="div-portlet-LjSn-QOEX1suzA0cwyQ" class="portlet">
+											<div class="container one column">
+												<div class="twelve columns">1</div>
+											</div>
+											<div class="container eleven columns">
+												<div class="twelve columns subject">test</div>
+												<div class="three columns">
+													<div class="twelve columns punch-default">new</div>
+													<div class="twelve columns punch-default" style="color: lime" id="timer--LjSn-QOEX1suzA0cwyQ"></div>
+												</div>
+												<div id="dropdown-wrapper-LjSn-QOEX1suzA0cwyQ" class="dropdown one column">
+													<img class="top dropbtn" onclick="progressMenuDrop(&quot;-LjSn-QOEX1suzA0cwyQ&quot;)" src="images/down-carrot.png">
+													<div id="progressDropdown--LjSn-QOEX1suzA0cwyQ" class="dropdown-content punch-default">
+														<a href="#" onclick="mkPunchNew(&quot;-LjSn-QOEX1suzA0cwyQ&quot;)">New</a>
+														<a href="#" onclick="startPunch(&quot;-LjSn-QOEX1suzA0cwyQ&quot;)">Start</a>
+														<a href="#" onclick="waitingPunch(&quot;-LjSn-QOEX1suzA0cwyQ&quot;)">Waiting</a>
+														<a href="#" onclick="completePunch(&quot;-LjSn-QOEX1suzA0cwyQ&quot;)">Finish</a>
+													</div>
+												</div>
+												<div id="div-needby-wrapper-LjSn-QOEX1suzA0cwyQ" class="three columns punch-default">
+													<div id="neededBy-LjSn-QOEX1suzA0cwyQ" class="twelve columns punch-default">
+														<div>July 11, 2019 17:30</div>
+													</div>
+													<div id="countdown--LjSn-QOEX1suzA0cwyQ" class="twelve columns punch-default"></div>
+												</div>
+												<div id="neededBy-status-LjSn-QOEX1suzA0cwyQ" class="two columns punch-default duesoon">DUE SOON</div>
+												<div id="tags-wrapper-LjSn-QOEX1suzA0cwyQ" class="four columns punch-default">
+													<a class="punch-default" href="#" onclick="tagFilter(&quot;foo&quot;)">foo</a>
+													<span>, </span>
+													<a class="punch-default" href="#" onclick="tagFilter(&quot;bar&quot;)">bar</a>
+												</div>
+												<div class="backlog-list-content">
+													<div style="punch-list-backlog-details"></div>
+												</div>
+											</div>
+									</div>
+								</li>
+							</ol>
+						</div>
+						<!-- end the list -->
+					</div>
+				</div>
+			</div>
+			<!-- end column middle -->
+		</div>
+		<!-- end container -->
+
+	</body>
+</html>
