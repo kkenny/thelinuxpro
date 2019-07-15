@@ -60,19 +60,8 @@
 
 
 	<body>
-		<div class="g-signin2" data-onsuccess="onSignIn" data-them="dark"></div>
 		<div id="firebaseui-auth-container"></div>
 
-		<div class="dropdown u-pull-right" id=mainMenuWrapper>
-			<button class="top dropbtn" onclick=mainMenuDrop() id=mainMenu>Menu</button>
-			<div id=mainMenuDropdown class="dropdown-content punch-default">
-				<a href="#" onclick="genEventForm()">New Punch Item</a>
-				<a href="#" onclick="genDaily()">Generate Daily Punches</a>
-				<a href="#" onclick="genWeekly()">Generate Weekly Punches</a>
-				<a href="#" onclick="getJson(genList)">Refresh</a>
-				<a href="https://thelinux.pro/broadcast_timer">Broadcast Timer</a>
-			</div>
-		</div>
 
 		<div id=container>
 			<div id=left class="column-left">
@@ -83,11 +72,21 @@
 			</div>
 
 			<div id=middle class="column-middle">
+		<div class="dropdown u-pull-right" id=mainMenuWrapper>
+			<button class="top dropbtn" onclick=mainMenuDrop() id=mainMenu>Menu</button>
+			<div id=mainMenuDropdown class="dropdown-content punch-default">
+				<a href="#" onclick="genEventForm()">New Punch Item</a>
+				<a href="#" onclick="genDaily()">Generate Daily Punches</a>
+				<a href="#" onclick="genWeekly()">Generate Weekly Punches</a>
+				<a href="#" onclick="getJson(genList)">Refresh</a>
+				<a href="https://thelinux.pro/broadcast_timer">Broadcast Timer</a>
+			</div>
+		</div>
 				<div id="editPunch" class="listWrapper"></div>
 				<div class="listWrapper" id="punchListAll">
 					<div id="punchListInProgressWrapper" class="listWrapper">
 						<!-- the list -->
-						<span class="punchListHeader">Parking Lot</span>
+						<span class="punchListHeader">Punches</span>
 						<div id="punchListBacklog">
 							<ol id="sortable" class="punchListBacklog"></ol>
 						</div>
@@ -112,6 +111,8 @@
 					<div style="width: 100%;" class='punch-default u-pull-right'><a class='punch-default u-pull-right' href='#' onClick=clearTagFilter()>Clear Tags</a></div>
 					<div style="width: 100%;" class='punch-default u-pull-right' id=versionInfo></div>
 				</div>
+				<div id="whoami"></div>
+		<div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
 			</div>
 
 			<div id=right class="column-right" style="float:left">
@@ -120,6 +121,5 @@
 				</div>
 			</div>
 		</div>
-		<div id="whoami"></div>
   </body>
 </html>

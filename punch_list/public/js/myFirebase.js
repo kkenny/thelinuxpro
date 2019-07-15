@@ -169,6 +169,40 @@ function newPunch(uid, subject, priority, progress, needBy, notes, tags) {
 	return firebase.database().ref().update(updates);
 }
 
+function genDaily() {
+
+	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
+	console.log(`${daily[1]}`);
+	priority = parseInt("3");
+
+	var d = new Date();
+	var needBy = d.setHours(17,0,0);
+
+	var newTag = "work,daily";
+	var stripLeadingSpace = newTag.replace(/, /g, ',');
+	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
+	var newTags = noSpaces.split(",");
+
+	for (x = 0; x < daily.length; x++) {
+		newPunch(window.uid, daily[x], priority, "new", needBy, "", newTags);
+	}
+}
+
+function genWeekly() {
+getJson();
+
+	punchList = window.punches;
+
+	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
+
+	for (x = 0; x < weekly.length; x++) {
+		var newEventJson = { uuid: genUid(), nDate: "Tuesday", subject: weekly[x], priority: "1", progress: "new", notes: "", tags: [ "work", "weekly" ] };
+		punchList.push(newEventJson);
+		jsonStr = JSON.stringify(punchList);
+		putJson(jsonStr);
+	}
+}
+
 // Read the punches via listener
 
 // standard functions
@@ -301,6 +335,10 @@ function progressMenuDrop(uuid) {
 	document.getElementById("progressDropdown" + uuid).classList.toggle("show");
 }
 
+function toggleElement(element) {
+	document.getElementById(element).classList.toggle("show");
+}
+
 window.onclick = function(event) {
 	if (!event.target.matches('.dropbtn')) {
 		var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -327,7 +365,7 @@ function editPunch(uuid) {
 		var data = snapshot.val();
 		console.log(data);
 
-	var nDate = data.needByDate;
+	var nDate = new Date(data.needByDate);
 	var notes = data.notes;
 	var priority = data.priority;
 	var progress = data.progress;
@@ -405,6 +443,19 @@ function createTimer(element,timeTo) {
 	}, 1000);
 }
 
+function formatDate(d) {
+	d = new Date(d);
+	var minutes = d.getMinutes();
+	var hours = d.getHours();
+
+	if (minutes < 10) { minutes = ('0' + minutes); }
+	if (hours === 0)  { hours = ('0' + hours);     }
+
+	var	s = d.getFullYear() + '/' + d.getMonth() + '/' + d.getDate() + ' ' + hours + ':' + minutes;
+
+	return s;
+}
+
 
 // load punches
 
@@ -425,12 +476,12 @@ function addPunchElement(childKey, childData) {
 		genPunchListItem('<div id="priority-container' + childKey + '" class="priority container one column"></div>', '#div-portlet' + childKey);
 		genPunchListItem('<div id="details-container' + childKey + '" class="container eleven columns details-container"></div>', '#div-portlet' + childKey);
 		genPunchListItem('<div id="priority' + childKey + '" class="twelve columns priority">' + childData.priority + '</div>', '#priority-container' + childKey);
-		genPunchListItem('<div id="subject' + childKey + '" class="twelve columns subject">' + childData.subject + '</div>', '#details-container' + childKey);
+		genPunchListItem('<div id="subject' + childKey + '" class="ten columns subject">' + childData.subject + '</div><div id="detail-link' + childKey + '" class="two columns"><a style="margin-left: 10px;" class="punch-default" href="#" onclick=toggleElement(\'backlog-list-content' + childKey + '\')>details</a></div>', '#details-container' + childKey);
 		genPunchListItem('<div id="details-col-one' + childKey + '" class="three columns"></div>', '#details-container' + childKey);
-		genPunchListItem('<div id="progress"' + childKey +'" class="twelve columns ' + style + '">' + childData.progress + '</div>', '#details-col-one' + childKey);
+		genPunchListItem('<div id="progress' + childKey +'" class="twelve columns ' + style + '">' + childData.progress + '</div>', '#details-col-one' + childKey);
 		genPunchListItem('<div class="twelve columns punch-default" style="color: lime" id="timer' + childKey + '"></div>', '#details-col-one' + childKey);
 		// status dropdown
-		genPunchListItem('<div id="dropdown-wrapper' + childKey + '" class="dropdown one column"></div>', '#details-container' + childKey);
+		genPunchListItem('<div id="dropdown-wrapper' + childKey + '" class="dropdown two columns"></div>', '#details-container' + childKey);
 		genPunchListItem('<img class="top dropbtn" onclick=progressMenuDrop("' + childKey + '") src="images/down-carrot.png">', '#dropdown-wrapper' + childKey);
 		genPunchListItem('<div id="progressDropdown' + childKey + '" class="dropdown-content punch-default"></div>', '#dropdown-wrapper' + childKey);
 		genPunchListItem('<a href="#" onClick=mkPunchNew("' + childKey + '")>New</a>', '#progressDropdown' + childKey);
@@ -438,12 +489,11 @@ function addPunchElement(childKey, childData) {
 		genPunchListItem('<a href="#" onClick=waitingPunch("' + childKey + '")>Waiting</a>', '#progressDropdown' + childKey);
 		genPunchListItem('<a href="#" onClick=completePunch("' + childKey + '")>Finish</a>', '#progressDropdown' + childKey);
 
-		genPunchListItem('<div id="details-col-three' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
-		genPunchListItem('<div id="details-col-four' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
+		genPunchListItem('<div id="details-col-three' + childKey + '" class="five columns punch-default"></div>', '#details-container' + childKey);
 		genPunchListItem('<div id="details-col-five' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
 		if ( childData.needByDate != null && childData.needByDate != undefined && childData.needByDate != '' ) {
 			genPunchListItem('<div id="neededBy' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
-			genPunchListItem('<div id="needby-data' + childKey + '">' + childData.needByDate + '</div>', '#neededBy' + childKey);
+			genPunchListItem('<div id="needby-data' + childKey + '">' + formatDate(childData.needByDate) + '</div>', '#neededBy' + childKey);
 			genPunchListItem('<div id="needby-date-timer' + childKey + '"></div>', '#neededBy' + childKey);
 			createTimer('needby-date-timer' + childKey, childData.needByDate);
 			genPunchListItem('<div id="countdown-' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
@@ -452,8 +502,6 @@ function addPunchElement(childKey, childData) {
 					$( '#needby-data' + childKey ).addClass( "overdue" );
 			} else if ( ((new Date(childData.needByDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
 					$( '#needby-data' + childKey ).addClass( "duesoon" );
-			} else {
-				genPunchListItem('<div id="neededBy-status' + childKey +'" class="twelve columns punch-default">&nbsp;</div>', '#details-col-four' + childKey);
 			}
 		}
 
@@ -467,7 +515,7 @@ function addPunchElement(childKey, childData) {
 		}
 		genPunchListItem('<div id="backlog-list-content' + childKey + '" class="backlog-list-content details-container"><div id="punch-list-backlog-details' + childKey + '" class="punch-list-backlog-details"></div></div>', '#div-portlet' + childKey) ;
 		if ( childData.startTime != undefined ) {
-			genPunchListItem('<div id="startTime" class="three columns punch-default started">' + new Date(childData.startTime) + '</div>', '#punch-list-backlog-details' + childKey);
+			genPunchListItem('<div id="startTime" class="three columns punch-default started">' + formatDate(childData.startTime) + '</div>', '#punch-list-backlog-details' + childKey);
 			var time = new Date(childData.startTime).getTime();
 			createTimer("timer" + childKey, time);
 		}
@@ -477,7 +525,6 @@ function addPunchElement(childKey, childData) {
 		genPunchListItem('<button class="button" onClick=editPunch("' + childKey + '")>edit</button>', '#punch-list-backlog-details' + childKey);
 	}
 
-	enableDetail();
 
 }
 
@@ -509,6 +556,7 @@ function loadPunches(uid) {
 
 
 mkSortable();
+//enableDetail();
 
 }
 
@@ -740,36 +788,6 @@ getJson();
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
 
-function genDaily() {
-getJson();
-
-	punchList = window.punches;
-
-	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
-	console.log(`${daily[1]}`);
-
-	for (x = 0; x < daily.length; x++) {
-		var newEventJson = { uuid: genUid(), nDate: "EOD", subject: daily[x], priority: "1", progress: "new", notes: "", tags: [ "work", "daily", "today" ] };
-		punchList.push(newEventJson);
-		jsonStr = JSON.stringify(punchList);
-		putJson(jsonStr);
-	}
-}
-
-function genWeekly() {
-getJson();
-
-	punchList = window.punches;
-
-	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
-
-	for (x = 0; x < weekly.length; x++) {
-		var newEventJson = { uuid: genUid(), nDate: "Tuesday", subject: weekly[x], priority: "1", progress: "new", notes: "", tags: [ "work", "weekly" ] };
-		punchList.push(newEventJson);
-		jsonStr = JSON.stringify(punchList);
-		putJson(jsonStr);
-	}
-}
 
 function deletePunch(uuid) {
 getJson();
