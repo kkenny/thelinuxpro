@@ -179,7 +179,7 @@ function setPriority(sortObject, newPosition) {
 
 	firebase.database().ref().update(priority);
 
-//	loadPunches(window.uid);
+	loadPunches(window.uid);
 }
 
 function startPunch(reference) {
@@ -256,9 +256,7 @@ function mkSortable(){
 			}
 		});
 	});
-}
 
-function enableDetail(){
 	$(function() {
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
@@ -315,96 +313,6 @@ window.onclick = function(event) {
 }
 // end menus //
 
-// edit punch
-function editPunch(uuid) {
-	disableElement("punchListAll");
-	enableElement("editPunch");
-
-	var punchRef = firebase.database().ref('users/' + uid + '/punches/' + uuid);
-
-
-	punchRef.once('value').then(function(snapshot) {
-		var data = snapshot.val();
-		console.log(data);
-
-	var nDate = data.needByDate;
-	var notes = data.notes;
-	var priority = data.priority;
-	var progress = data.progress;
-	var subject = data.subject;
-	var tags = data.tags;
-
-	var html = '<div class="container listWrapper">';
-	html += '<input type=hidden id="editID" value="' + uuid + '">';
-	html += '<div class="edit-row"><div class="three columns">Subject:</div><div class="nine columns"><input class="twelve columns" type=text id="editSubject" value="' + subject + '"></div></div>';
-	html += '<div class="three columns">Priority:</div><div class="nine columns"><input type=text id="editPriority" value="' + priority + '"></div>';
-	html += '<div class="three columns">Need By:</div><div class="nine columns"><input type=text id="timepickerEdit" value="' + nDate + '"></div>';
-	html += '<div class="three columns">Progress:</div><div id="editProgress" class="nine columns">';
-	html +=  progress;
-	html += '</div>';
-	html += '<div class="three columns">Add Tag:</div><div class="nine columns"><input type="text" id="editTags" value="' + tags + '"></div>';
-	html += '<div class="three columns">Notes: </div><div class="nine columns"><textarea class="edit-text-box" id="editNotes">' + notes + '</textarea></div>';
-	html += '<button onClick=submitEditPunch("' + uuid + '")>Update</button>';
-	html += '<button onClick=\'disableElement("editPunch"),enableElement("punchListAll")\'>Close</button>';
-	html += '</div>';
-
-	document.getElementById("editPunch").innerHTML = html;
-	});
-
-}
-
-function submitEditPunch(uuid) {
-	var punchRef = firebase.database().ref('users/' + window.uid + '/punches/' + uuid);
-
-//	var uuid = document.getElementById("editID").value;
-	var subjectField = document.getElementById("editSubject").value;
-	var priorityField = parseInt(document.getElementById("editPriority").value);
-	var progressField = document.getElementById("editProgress").innerHTML;
-	var nDateField = document.getElementById("timepickerEdit").value;
-
-	var tagsField = document.getElementById("editTags").value.toLowerCase();
-	var stripLeadingSpace = tagsField.replace(/, /g, ',');
-	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
-	var tagField = noSpaces.split(",");
-
-	var notesField = document.getElementById("editNotes").value;
-
-	var punchData = {
-		subject: subjectField,
-		priority: priorityField,
-		progress: progressField,
-		needByDate: nDateField,
-		notes: notesField,
-		tags: tagField
-	};
-
-	var updates = {};
-	updates['users/' + uid + '/punches/' + uuid] = punchData;
-	firebase.database().ref().update(updates);
-	disableElement('editPunch');
-	enableElement('punchListAll');
-}
-
-function createTimer(element,timeTo) {
-	var x = setInterval(function() {
-		distance = (new Date().getTime() - new Date(timeTo).getTime());
-		seconds = Math.floor((distance / 1000) % 60);
-		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-		if (days < 0)     { days = (days + 1);         }
-		if (hours < 0)    { hours = (-(hours) - 1);    }
-		if (hours < 10)   { hours = ('0' + hours);     }
-		if (minutes < 0)  { minutes = -(minutes);      }
-		if (minutes < 10) { minutes = ('0' + minutes); }
-		if (seconds < 0)  { seconds = -(seconds);      }
-		if (seconds < 10) { seconds = ('0' + seconds); }
-
-		document.getElementById(element).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
-	}, 1000);
-}
-
 
 // load punches
 
@@ -412,103 +320,85 @@ function genPunchListItem(elementData, element) {
 	$( elementData ).appendTo( element );
 }
 
-function addPunchElement(childKey, childData) {
-
-	if (childData.progress.toLowerCase() === "in progress") { var style = "inProgress"; }
-	else if (childData.progress.toLowerCase() === "waiting") { var style = "waiting"; }
-	else if (childData.progress.toLowerCase() === "new") { var style = "punch-default"; }
-	else { style = "punch-default"; }
-
-	if (childData.progress.toLowerCase() != "done") {
-		genPunchListItem('<li id="' + childKey + '" class="' + style + '"></li>', '#sortable');
-		genPunchListItem('<div id="div-portlet' + childKey + '" class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>', '#' + childKey);
-		genPunchListItem('<div id="priority-container' + childKey + '" class="priority container one column"></div>', '#div-portlet' + childKey);
-		genPunchListItem('<div id="details-container' + childKey + '" class="container eleven columns details-container"></div>', '#div-portlet' + childKey);
-		genPunchListItem('<div id="priority' + childKey + '" class="twelve columns priority">' + childData.priority + '</div>', '#priority-container' + childKey);
-		genPunchListItem('<div id="subject' + childKey + '" class="twelve columns subject">' + childData.subject + '</div>', '#details-container' + childKey);
-		genPunchListItem('<div id="details-col-one' + childKey + '" class="three columns"></div>', '#details-container' + childKey);
-		genPunchListItem('<div id="progress"' + childKey +'" class="twelve columns ' + style + '">' + childData.progress + '</div>', '#details-col-one' + childKey);
-		genPunchListItem('<div class="twelve columns punch-default" style="color: lime" id="timer' + childKey + '"></div>', '#details-col-one' + childKey);
-		// status dropdown
-		genPunchListItem('<div id="dropdown-wrapper' + childKey + '" class="dropdown one column"></div>', '#details-container' + childKey);
-		genPunchListItem('<img class="top dropbtn" onclick=progressMenuDrop("' + childKey + '") src="images/down-carrot.png">', '#dropdown-wrapper' + childKey);
-		genPunchListItem('<div id="progressDropdown' + childKey + '" class="dropdown-content punch-default"></div>', '#dropdown-wrapper' + childKey);
-		genPunchListItem('<a href="#" onClick=mkPunchNew("' + childKey + '")>New</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=startPunch("' + childKey + '")>Start</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=waitingPunch("' + childKey + '")>Waiting</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=completePunch("' + childKey + '")>Finish</a>', '#progressDropdown' + childKey);
-
-		genPunchListItem('<div id="details-col-three' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
-		genPunchListItem('<div id="details-col-four' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
-		genPunchListItem('<div id="details-col-five' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
-		if ( childData.needByDate != null && childData.needByDate != undefined && childData.needByDate != '' ) {
-			genPunchListItem('<div id="neededBy' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
-			genPunchListItem('<div id="needby-data' + childKey + '">' + childData.needByDate + '</div>', '#neededBy' + childKey);
-			genPunchListItem('<div id="needby-date-timer' + childKey + '"></div>', '#neededBy' + childKey);
-			createTimer('needby-date-timer' + childKey, childData.needByDate);
-			genPunchListItem('<div id="countdown-' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
-
-			if ( (new Date(childData.needByDate).getTime() - new Date().getTime()) <= 0 ) {
-					$( '#needby-data' + childKey ).addClass( "overdue" );
-			} else if ( ((new Date(childData.needByDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
-					$( '#needby-data' + childKey ).addClass( "duesoon" );
-			} else {
-				genPunchListItem('<div id="neededBy-status' + childKey +'" class="twelve columns punch-default">&nbsp;</div>', '#details-col-four' + childKey);
-			}
-		}
-
-		if ( childData.tags != undefined ) {
-			var tags = childData.tags;
-			var i;
-			for (i=0; i<tags.length; i++) {
-				tagData = tags[i];
-				genPunchListItem('<a class="punch-default" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + ', </a>', '#details-col-five' + childKey);
-			}
-		}
-		genPunchListItem('<div id="backlog-list-content' + childKey + '" class="backlog-list-content details-container"><div id="punch-list-backlog-details' + childKey + '" class="punch-list-backlog-details"></div></div>', '#div-portlet' + childKey) ;
-		if ( childData.startTime != undefined ) {
-			genPunchListItem('<div id="startTime" class="three columns punch-default started">' + new Date(childData.startTime) + '</div>', '#punch-list-backlog-details' + childKey);
-			var time = new Date(childData.startTime).getTime();
-			createTimer("timer" + childKey, time);
-		}
-		if ( childData.notes != "" ) {
-			genPunchListItem('<textarea class="edit-text-box" readonly>' + childData.notes + '</textarea><br />', '#punch-list-backlog-details' + childKey);
-		}
-		genPunchListItem('<button class="button" onClick=editPunch("' + childKey + '")>edit</button>', '#punch-list-backlog-details' + childKey);
-	}
-
-	enableDetail();
-
-}
-
-function deletePunchElement(childKey) {
-	$('#' + childKey).remove();
-}
-
 function loadPunches(uid) {
 
 	document.getElementById("sortable").innerHTML = '';
-	var punchesRef = firebase.database().ref('users/' + uid + '/punches').orderByChild('priority');
+	var punchesRef = firebase.database().ref('users/' + uid + '/punches'); //.orderByChild('priority');
 	var itemStyle = "punches";
 //	list = '<ol id="sortable">';
 
-	punchesRef.on('child_added', function(data) {
-		addPunchElement(data.key, data.val());
+	punchesRef.once('value', function(snapshot) {
+		snapshot.forEach(function(childSnapshot) {
+			var childKey = childSnapshot.key;
+			var childData = childSnapshot.val();
+			console.log("Child Key: " + childKey);
+
+			if (childData.progress.toLowerCase() === "in progress") { var style = "inProgress"; }
+			else if (childData.progress.toLowerCase() === "waiting") { var style = "waiting"; }
+			else if (childData.progress.toLowerCase() === "new") { var style = "punch-default"; }
+			else { style = "punch-default"; }
+
+			if (childData.progress.toLowerCase() != "done") {
+				genPunchListItem('<li id="' + childKey + '" class="' + style + '"></li>', '#sortable');
+				genPunchListItem('<div id="div-portlet' + childKey + '" class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>', '#' + childKey);
+				genPunchListItem('<div id="priority-container' + childKey + '" class="priority container one column"></div>', '#div-portlet' + childKey);
+				genPunchListItem('<div id="details-container' + childKey + '" class="container eleven columns details-container"></div>', '#div-portlet' + childKey);
+				genPunchListItem('<div id="priority' + childKey + '" class="twelve columns priority">' + childData.priority + '</div>', '#priority-container' + childKey);
+				genPunchListItem('<div id="subject' + childKey + '" class="twelve columns subject">' + childData.subject + '</div>', '#details-container' + childKey);
+				genPunchListItem('<div id="details-col-one' + childKey + '" class="three columns"></div>', '#details-container' + childKey);
+				genPunchListItem('<div id="progress"' + childKey +'" class="twelve columns ' + style + '">' + childData.progress + '</div>', '#details-col-one' + childKey);
+				genPunchListItem('<div class="twelve columns punch-default" style="color: lime" id="timer' + childKey + '"></div>', '#details-col-one' + childKey);
+				// status dropdown
+				genPunchListItem('<div id="dropdown-wrapper' + childKey + '" class="dropdown one column"></div>', '#details-container' + childKey);
+				genPunchListItem('<img class="top dropbtn" onclick=progressMenuDrop("' + childKey + '") src="images/down-carrot.png">', '#dropdown-wrapper' + childKey);
+				genPunchListItem('<div id="progressDropdown' + childKey + '" class="dropdown-content punch-default"></div>', '#dropdown-wrapper' + childKey);
+				genPunchListItem('<a href="#" onClick=mkPunchNew("' + childKey + '")>New</a>', '#progressDropdown' + childKey);
+				genPunchListItem('<a href="#" onClick=startPunch("' + childKey + '")>Start</a>', '#progressDropdown' + childKey);
+				genPunchListItem('<a href="#" onClick=waitingPunch("' + childKey + '")>Waiting</a>', '#progressDropdown' + childKey);
+				genPunchListItem('<a href="#" onClick=completePunch("' + childKey + '")>Finish</a>', '#progressDropdown' + childKey);
+
+				genPunchListItem('<div id="details-col-three' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
+				genPunchListItem('<div id="details-col-four' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
+				genPunchListItem('<div id="details-col-five' + childKey + '" class="three columns punch-default"></div>', '#details-container' + childKey);
+				if ( childData.needByDate != null && childData.needByDate != undefined && childData.needByDate != '' ) {
+					genPunchListItem('<div id="neededBy' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
+					genPunchListItem('<div id="needby-data' + childKey + '">' + childData.needByDate + '</div>', '#neededBy' + childKey);
+					genPunchListItem('<div id="countdown-' + childKey + '" class="twelve columns punch-default"></div>', '#details-col-three' + childKey);
+
+					if ( (new Date(childData.needByDate).getTime() - new Date().getTime()) <= 0 ) {
+						genPunchListItem('<div id="neededBy-status' + childKey + '" class="twelve columns punch-default overdue">OVER DUE</div>', '#details-col-four' + childKey);
+					} else if ( ((new Date(childData.needByDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
+						genPunchListItem('<div id="neededBy-status' + childKey +'" class="twelve columns punch-default duesoon">DUE SOON</div>', '#details-col-four' + childKey);
+					} else {
+						genPunchListItem('<div id="neededBy-status' + childKey +'" class="twelve columns punch-default">&nbsp;</div>', '#details-col-four' + childKey);
+					}
+				}
+
+				if ( childData.tags != undefined ) {
+					var tags = childData.tags;
+					var i;
+					for (i=0; i<tags.length; i++) {
+						tagData = tags[i];
+						genPunchListItem('<a class="punch-default" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + ', </a>', '#details-col-five' + childKey);
+					}
+				}
+				genPunchListItem('<div id="backlog-list-content' + childKey + '" class="backlog-list-content details-container"><div id="punch-list-backlog-details' + childKey + '" class="punch-list-backlog-details"></div></div>', '#div-portlet' + childKey) ;
+				if ( childData.startTime != undefined ) {
+					genPunchListItem('<div class="three columns punch-default">' + new Date(childData.startTime) + '</div>', '#punch-list-backlog-details' + childKey);
+				}
+				if ( childData.notes != "" ) {
+					genPunchListItem('<textarea class="edit-text-box" readonly>' + childData.notes + '</textarea><br />', '#punch-list-backlog-details' + childKey);
+				}
+				genPunchListItem('<button class="button" onClick=editPunch("' + childKey + '")>edit</button>', '#punch-list-backlog-details' + childKey);
+
+//				genPunchListItem(list, '#sortable');
+			}
+		});
 	});
-
-	punchesRef.on('child_changed', function(data) {
-		deletePunchElement(data.key);
-		addPunchElement(data.key, data.val());
-		loadPunches(uid);
-	});
-
-	punchesRef.on('child_removed', function(data) {
-		deletePunchElement(data.key);
-	});
-
-
 
 mkSortable();
+//	genPunchListItem('</ol>';
+//	document.getElementById("punchListBacklog").innerHTML = list;
 
 }
 
@@ -548,7 +438,6 @@ function createNewEvent() {
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
 
-
 // load everything up!
 window.onload = function() {
   initApp();
@@ -581,6 +470,53 @@ function getStatus(punchList, statusFilter) {
 
 window.punches = '';
 
+var x = setInterval(function() {
+	punchList = window.punches;
+	for ( i = 0; i < punchList.length; i++ ) {
+		if ( punchList[i].progress.toLowerCase() != "done" && punchList[i].startTime != undefined ) {
+			distance = (new Date().getTime() - new Date(punchList[i].startTime).getTime());
+			seconds = Math.floor((distance / 1000) % 60);
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+			if (hours < 10) {
+				hours = ('0' + hours);
+			}
+			if (minutes < 10) {
+				minutes = ('0' + minutes);
+			}
+			if (seconds < 10) {
+				seconds = ('0' + seconds);
+			}
+
+			document.getElementById("timer-" + punchList[i].uuid).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+		}
+
+		if ( punchList[i].progress.toLowerCase() != "done" && punchList[i].nDate != "" ) {
+			var style = "punch-list";
+			distance = -(new Date().getTime() - new Date(punchList[i].nDate).getTime());
+			if ( (distance / 1000) <= 0 ) { style = "overdue" }
+			else if ( (distance / 1000) <= 259200 ) { style = "duesoon" }
+			seconds = Math.floor((distance / 1000) % 60);
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+			if (days < 0) { days = (days + 1); }
+			if (hours < 0)   { hours = (-(hours) - 1); }
+			if (minutes < 0) { minutes = -(minutes); }
+			if (seconds < 0) { seconds = -(seconds); }
+
+			if (hours < 10)   { hours = ('0' + hours); }
+			if (minutes < 10) { minutes = ('0' + minutes); }
+			if (seconds < 10) { seconds = ('0' + seconds); }
+
+			document.getElementById("countdown-" + punchList[i].uuid).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+			document.getElementById("countdown-" + punchList[i].uuid).classList.add(style);
+		}
+	}
+}, 1000);
 
 
 function mkSortable() {
@@ -827,12 +763,12 @@ function editPunch(uuid) {
 
 	var id = item;
 
-	var subject = punchRef.subject;
-	var priority = punchRef.priority;
-	var progress = punchRef.progress;
-	var nDate = punchRef.nDate;
-	var notes = punchRef.notes;
-	var tags = punchRef.tags;
+	var subject = punchList[id].subject;
+	var priority = punchList[id].priority;
+	var progress = punchList[id].progress;
+	var nDate = punchList[id].nDate;
+	var notes = punchList[id].notes;
+	var tags = punchList[id].tags;
 
 	var html = '<div class="container listWrapper">';
 	html += '<input type=hidden id="editID" value="' + uuid + '">';
@@ -865,12 +801,12 @@ function submitEditPunch(uuid) {
 	//var tagsField = document.getElementById("editTags").value.toLowerCase();
 	var notesField = document.getElementById("editNotes").value;
 
-	punchRef.subject = subjectField;
-	punchRef.priority = priorityField;
-	punchRef.progress = progressField;
-	punchRef.nDate = nDateField;
-	//punchRef.tags = tagsField;
-	punchRef.notes = notesField;
+	punchList[id].subject = subjectField;
+	punchList[id].priority = priorityField;
+	punchList[id].progress = progressField;
+	punchList[id].nDate = nDateField;
+	//punchList[id].tags = tagsField;
+	punchList[id].notes = notesField;
 
 	jsonStr = JSON.stringify(punchList);
 	putJson(jsonStr);
