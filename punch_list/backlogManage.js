@@ -54,13 +54,13 @@ function findArrayId(uid) {
 }
 
 function tagFilter(tagItem) {
-	console.log(`In tagFilter function`);
+	//console.log(`In tagFilter function`);
 	window.tagFilterItem = tagItem;
 	getJson();
 }
 
 function clearTagFilter() {
-	console.log(`Clear Tags`);
+	//console.log(`Clear Tags`);
 	window.tagFilterItem = undefined;
 	getJson();
 }
@@ -101,7 +101,7 @@ function genList(punchList, element) {
 			else { var style = "punch-default"; countDone++ }
 
 		if (window.tagFilterItem != undefined) {
-			console.log('in tags filter');
+			//console.log('in tags filter');
 			if (punchList[i].tags != undefined && punchList[i].tags.includes(window.tagFilterItem)) {
 				if (punchList[i].progress.toLowerCase() === "in progress") { var style = "inProgress" } else { var style = "punch-default" }
 				if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
@@ -135,10 +135,10 @@ function genList(punchList, element) {
 						list += '<div class="three columns punch-default">&nbsp;</div>';
 					}
 					if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
-						console.log('overdue');
+						//console.log('overdue');
 						list += '<div id="neededBy" class="two columns punch-default overdue">OVER DUE</div>';
 					} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
-						console.log('due soon');
+						//console.log('due soon');
 						list += '<div id="neededBy" class="two columns punch-default duesoon">DUE SOON</div>';
 					} else {
 						list += '<div id="neededBy" class="two columns punch-default">&nbsp;</div>';
@@ -167,7 +167,7 @@ function genList(punchList, element) {
 				}
 			}
 		} else {
-			console.log('in no tags filter');
+			//console.log('in no tags filter');
 
 			if (punchList[i].progress.toLowerCase() === "done" && punchList[i].priority != 99999) {
 				setPriority(punchList[i].uuid, 99999);
@@ -200,10 +200,10 @@ function genList(punchList, element) {
 					list += '<div class="three columns punch-default">&nbsp;</div>';
 				}
 				if ( (new Date(punchList[i].nDate).getTime() - new Date().getTime()) <= 0 ) {
-					console.log('overdue');
+					//console.log('overdue');
 					list += '<div id="neededBy" class="two columns punch-default overdue">OVER DUE</div>';
 				} else if ( ((new Date(punchList[i].nDate).getTime() - new Date().getTime()) / 1000) <= 259200 ) {
-					console.log('due soon');
+					//console.log('due soon');
 					list += '<div id="neededBy" class="two columns punch-default duesoon">DUE SOON</div>';
 				} else {
 					list += '<div id="neededBy" class="two columns punch-default">&nbsp;</div>';
@@ -248,6 +248,7 @@ enableDrop();
 }
 
 var x = setInterval(function() {
+	//console.log("Inside interval, window.punches = " + window.punches);
 	punchList = window.punches;
 	for ( i = 0; i < punchList.length; i++ ) {
 		if ( punchList[i].progress.toLowerCase() != "done" && punchList[i].startTime != undefined ) {
