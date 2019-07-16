@@ -14,6 +14,7 @@ if (!firebase.apps.length) {
 }
 
 function initApp() {
+	console.log("function: initApp()");
   // Auth state changes.
   // [START authstatelistener]
   firebase.auth().onAuthStateChanged(function(user){
@@ -135,6 +136,7 @@ function handleSignOut() {
 }
 
 function writeUserData(userId, name, email, imageUrl) {
+	console.log("function: writeUserData(" + userId + ", " + name + ", " + email + ", " + imageUrl + ")");
   firebase.database().ref('users/' + userId).update({
     username: name,
     email: email,
@@ -148,7 +150,7 @@ function writeUserData(userId, name, email, imageUrl) {
 //});
 
 function newPunch(uid, subject, priority, progress, needBy, notes, tags) {
-
+	console.log("function: newPunch(" + uid + ", " + subject + ", " + priority + ", " + progress + ", " + needBy + ", " + notes + ", " + tags + ")");
 	var punchData = {
 		uid: uid,
 		subject: subject,
@@ -170,6 +172,7 @@ function newPunch(uid, subject, priority, progress, needBy, notes, tags) {
 }
 
 function genDaily() {
+	console.log("function: genDaily()");
 
 	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
 	console.log(`${daily[1]}`);
@@ -189,17 +192,24 @@ function genDaily() {
 }
 
 function genWeekly() {
-getJson();
+	console.log("function: genWeekly()");
 
-	punchList = window.punches;
+//get next monday:
+	// var d = new Date();
+	// d.setDate(d.getDate() + (1 + 7 - d.getDay()) % 7);
+	// console.log(d)
 
+//	};
 	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
+	var priority = parseInt("5");
+	var newTag = "work,weekly";
+	var stripLeadingSpace = newTag.replace(/, /g, ',');
+	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
+	var newTags = noSpaces.split(",");
+	var needBy = '';
 
 	for (x = 0; x < weekly.length; x++) {
-		var newEventJson = { uuid: genUid(), nDate: "Tuesday", subject: weekly[x], priority: "1", progress: "new", notes: "", tags: [ "work", "weekly" ] };
-		punchList.push(newEventJson);
-		jsonStr = JSON.stringify(punchList);
-		putJson(jsonStr);
+		newPunch(window.uid, weekly[x], priority, "new", needBy, "", newTags);
 	}
 }
 
@@ -207,6 +217,8 @@ getJson();
 
 // standard functions
 function setPriority(sortObject, newPosition) {
+	console.log("function: setPriority(" + sortObject + ", " + newPosition + ")");
+
 	var priority = {};
 
 	priority['users/' + window.uid + '/punches/' + sortObject + '/priority' ] = parseInt(newPosition);
@@ -217,6 +229,7 @@ function setPriority(sortObject, newPosition) {
 }
 
 function startPunch(reference) {
+	console.log("function: startPunch(" + reference + ")");
 
 	var start = new Date().getTime();
 
@@ -230,10 +243,15 @@ function startPunch(reference) {
 	firebase.database().ref().update(progress);
 	firebase.database().ref().update(startTime);
 
-	loadPunches(window.uid);
+	$( "#" + reference )
+		.removeClass("waiting")
+		.addClass( "inProgress" );
+	$( "#progress" + reference ).addClass( "inProgress" );
+//	loadPunches(window.uid);
 }
 
 function completePunch(reference) {
+	console.log("function: completePunch(" + reference + ")");
 	var end = new Date().getTime();
 
 	// Write the new punch data
@@ -246,23 +264,31 @@ function completePunch(reference) {
 	firebase.database().ref().update(progress);
 	firebase.database().ref().update(endTime);
 
-	loadPunches(window.uid);
+	deletePunchElement(reference);
+
+//	loadPunches(window.uid);
 }
 
 function waitingPunch(reference) {
+	console.log("function: waitingPunch(" + reference + ")");
 	var progress = {};
 	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "waiting";
 	firebase.database().ref().update(progress);
 
-	loadPunches(window.uid);
+	$( "#" + reference )
+		.removeClass( "inProgress" )
+		.addClass( "waiting" );
+
+//	loadPunches(window.uid);
 }
 
 function mkPunchNew(reference) {
+	console.log("function: mkPunchNew(" + reference + ")");
 	var progress = {};
 	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "new";
 	firebase.database().ref().update(progress);
 
-	loadPunches(window.uid);
+//	loadPunches(window.uid);
 }
 
 function clearDefault(a){
@@ -272,6 +298,7 @@ function clearDefault(a){
 }
 
 function mkSortable(){
+	console.log("function: mkSortable()");
 	$( function() {
 		$( "#sortable" ).sortable({
 			cancel: ".portlet-toggle",
@@ -285,6 +312,7 @@ function mkSortable(){
 			},
 			stop: function(event, ui) {
 //				setPriority(window.sortObjectUUID, ui.item.index());
+				console.log(event, ui);
 				setPriority(ui.item.context.id, ui.item.index());
 				console.log(`New Position: ${ui.item.index()}`);
 			}
@@ -293,6 +321,7 @@ function mkSortable(){
 }
 
 function enableDetail(){
+	console.log("function: enableDetail()");
 	$(function() {
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
@@ -424,23 +453,34 @@ function submitEditPunch(uuid) {
 }
 
 function createTimer(element,timeTo) {
-	var x = setInterval(function() {
-		distance = (new Date().getTime() - new Date(timeTo).getTime());
-		seconds = Math.floor((distance / 1000) % 60);
-		minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		days = Math.floor(distance / (1000 * 60 * 60 * 24));
+	if (timeTo != null && timeTo != undefined && new Date(timeTo).getTime() != 'Invalid Date') {
+		var x = setInterval(function() {
+			distance = (new Date().getTime() - new Date(timeTo).getTime());
+			seconds = Math.floor((distance / 1000) % 60);
+			minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			days = Math.floor(distance / (1000 * 60 * 60 * 24));
 
-		if (days < 0)     { days = (days + 1);         }
-		if (hours < 0)    { hours = (-(hours) - 1);    }
-		if (hours < 10)   { hours = ('0' + hours);     }
-		if (minutes < 0)  { minutes = -(minutes);      }
-		if (minutes < 10) { minutes = ('0' + minutes); }
-		if (seconds < 0)  { seconds = -(seconds);      }
-		if (seconds < 10) { seconds = ('0' + seconds); }
+			if (days < 0)     { days = -(days + 1);
+													seconds = (seconds + 1);   }
+			if (hours < 0)    { hours = (-(hours) - 1);    }
+			if (hours < 10)   { hours = ('0' + hours);     }
+			if (minutes < 0)  { minutes = -(minutes);      }
+			if (minutes < 10) { minutes = ('0' + minutes); }
+			seconds = (seconds -1); //really effing dumb.
+			if (seconds < 0)  { seconds = -(seconds);      }
+			if (seconds < 10) { seconds = ('0' + seconds); }
 
-		document.getElementById(element).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
-	}, 1000);
+			//console.log("Setting Timer on element:" + element);
+
+			var exists = document.getElementById(element);
+			if (exists != null) {
+				document.getElementById(element).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
+			} else {
+				console.log("Could not update: " + element + ", because: " + exists);
+			}
+		}, 1000);
+	}
 }
 
 function formatDate(d) {
@@ -462,6 +502,38 @@ function formatDate(d) {
 function genPunchListItem(elementData, element) {
 	$( elementData ).appendTo( element );
 }
+
+function updateElementData(element, d) {
+
+	var exists = document.getElementById(element);
+
+	if ( exists != null || exists != undefined ) {
+		var e = document.getElementById(element).innerHTML;
+
+		if ( d != e ) {
+			console.log("updating: " + element + ", with: " + d + ", was: " + e);
+			document.getElementById(element).innerHTML = d;
+		} else if ( d === e ) {
+			console.log("Not Updating: " + element + ", because: " + d + " === " + e);
+		} else {
+			console.log("Not updating: " + element + ", because: Something weird happened with: " + d + " & " + e);
+		}
+	} else {
+		console.log("add new element");
+	}
+}
+
+function updatePunchElement(childKey, childData) {
+
+	updateElementData("priority" + childKey, childData.priority);
+	updateElementData("subject" + childKey, childData.subject);
+	updateElementData("progress" + childKey, childData.progress);
+	updateElementData("neededBy" + childKey, childData.needByDate);
+
+	//tags
+
+}
+
 
 function addPunchElement(childKey, childData) {
 
@@ -522,8 +594,8 @@ function addPunchElement(childKey, childData) {
 				tagData = tags[i];
 				if ((tags.length - 1) === i) { var comma = ' '; }
 				else { var comma = ','; }
-				genPunchListItem('<a id="tags-summary' + childKey + '" class="punch-default tags-summary" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + comma + '</a>', '#tags-container-summary' + childKey);
-				genPunchListItem('<a id="tags-details' + childKey + '" class="tags-details" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + comma + '</a>', '#tags-column' + childKey);
+				genPunchListItem('<a id="tags-summary-' + tagData + childKey + '" class="punch-default tags-summary" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + comma + '</a>', '#tags-container-summary' + childKey);
+				genPunchListItem('<a id="tags-details-' + tagData + childKey + '" class="tags-details" href="#" onClick=tagFilter("' + tagData + '")>' + tagData + comma + '</a>', '#tags-column' + childKey);
 			}
 		}
 		if ( childData.notes != "" ) {
@@ -531,8 +603,6 @@ function addPunchElement(childKey, childData) {
 		}
 		genPunchListItem('<button class="button" onClick=editPunch("' + childKey + '")>edit</button>', '#punch-list-backlog-details' + childKey);
 	}
-
-
 }
 
 function deletePunchElement(childKey) {
@@ -541,31 +611,51 @@ function deletePunchElement(childKey) {
 
 function loadPunches(uid) {
 
-	document.getElementById("sortable").innerHTML = '';
+	console.log("Loading Punches...");
+	//document.getElementById("sortable").innerHTML = '';
 	var punchesRef = firebase.database().ref('users/' + uid + '/punches').orderByChild('priority');
 	var itemStyle = "punches";
 //	list = '<ol id="sortable">';
 
 	punchesRef.on('child_added', function(data) {
+		console.log("child Added");
 		addPunchElement(data.key, data.val());
 	});
 
-	punchesRef.on('child_changed', function(data) {
-		deletePunchElement(data.key);
-		addPunchElement(data.key, data.val());
-		loadPunches(uid);
-	});
-
-	punchesRef.on('child_removed', function(data) {
-		deletePunchElement(data.key);
-	});
 
 
+	mkSortable();
 
-mkSortable();
 //enableDetail();
 
 }
+
+function sortList() {
+	console.log('function: sortList()');
+	var items = $('li');
+	items.sort(function(a, b){
+		console.log($(a).data('priority'));
+		return +$(a).data('priority') - +$(b).data('priority');
+	});
+
+	items.appendTo('#sortable');
+}
+
+var looper = setInterval(function() {
+	var uid = window.uid;
+	var punchesRef = firebase.database().ref('users/' + uid + '/punches').orderByChild('priority');
+	punchesRef.on('child_changed', function(data) {
+		console.log("Child Changed");
+		updatePunchElement(data.key, data.val());
+//		deletePunchElement(data.key);
+//		addPunchElement(data.key, data.val());
+	});
+
+	punchesRef.on('child_removed', function(data) {
+		console.log("child Removed");
+		deletePunchElement(data.key);
+	});
+}, 1000);
 
 // create new punch
 function genEventForm() {
@@ -599,7 +689,7 @@ function createNewEvent() {
 
 	disableElement("newEvent");
 	enableElement("punchListAll");
-	loadPunches(window.uid);
+//	loadPunches(window.uid);
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
 
@@ -637,62 +727,6 @@ function getStatus(punchList, statusFilter) {
 window.punches = '';
 
 
-
-function mkSortable() {
-	punchList = window.punches;
-
-	$( function() {
-		$( "#sortable" ).sortable({
-			cancel: ".portlet-toggle",
-			placeholder: "portlet-placeholder ui-corner-all",
-			revert: true,
-			distance: 50,
-			start: function(event, ui) {
-				window.sortObjectUUID = punchList[ui.item.index()].uuid;
-				console.log(`Start Position: ${ui.item.index()}`);
-			},
-			stop: function(event, ui) {
-				setPriority(window.sortObjectUUID, ui.item.index());
-				console.log(`New Position: ${ui.item.index()}`);
-			}
-		});
-
-    $( ".portlet" )
-      .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
-      .find( ".backlog-list-header" )
-        .addClass( "ui-corner-all" )
-        .prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
-
-    $( ".portlet-toggle" ).on( "click", function() {
-      var icon = $( this );
-      icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
-      icon.closest( ".portlet" ).find( ".backlog-list-content" ).toggle();
-    });
-		$( "#sortable" ).disableSelection();
-	} );
-
-// pop-over dialog
-	$( "#dialog" ).dialog({ autoOpen: false });
-	$( "#opener" ).click(function() {
-		$( "#dialog" ).dialog( "open" );
-	});
-}
-
-function setPriority(sortObject, newPosition) {
-	var punchList = window.punches;
-	item = findArrayId(sortObject);
-
-	for (i = 0; i < punchList.length; i++) {
-		if (punchList[i].priority < 100 && punchList[i].priority >= newPosition && punchList[i].uuid != punchList[item].uuid) {
-			punchList[i].priority = i;
-		}
-	}
-
-	punchList[item].priority = newPosition;
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-}
 
 function startPunch(uuid) {
 	var punchList = window.punches;
