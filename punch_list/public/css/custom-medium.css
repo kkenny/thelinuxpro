@@ -1,0 +1,53 @@
+/* Larger than phone */
+@media (min-width: 550px) {
+.progress-wrapper { width: 20%; float:left; text-align:left;}
+#neededBy { display: block; }
+.subject {
+	overflow: hidden;
+	width: 70%;
+  float: left;
+  color: #FFF;
+  font-size: 2rem;
+  font-weight: 900; }
+  .button {
+		padding: 0px;
+		text-align: center;
+		text-decoration: none;
+		font-size: 1rem;
+		vertical-align: middle;
+		border: 1px solid #333;
+		background-color:  #4CAF50;
+		margin-top: auto;
+		margin-bottom: auto;
+		margin-left: auto;
+		margin-right: auto;
+		width: 20%;
+		height: 40px;
+		float: right;}
+  .nav-button {
+		vertical-align: middle;
+    float: right }
+  .two-thirds.column { width: 68.8%; }
+  .column,
+  .columns {
+    background: transparent;
+    margin-left: 3px; }
+  .clock-wrapper {
+    display: block;
+    min-width: 50px;
+  }
+  .clock {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #AAA;
+    padding: 5px;
+    margin-bottom: 0px; }
+  .header {
+    background-color: #666;
+    text-align: center;
+    margin-top: 6rem; }
+  .punches {
+    text-align: left; }
+}
+

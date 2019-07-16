@@ -1,9 +1,12 @@
+/* Mobile first */
+/* and generic stuff */
+.progress-wrapper { width: 40%; float: left; text-align: left; }
 #neededBy { display: none; }
 #whoami { width: 100%; }
+.needby-container { width: 35%; float: left; text-align: center; }
 .button:hover { color: #ddd; }
 button:hover { color: #ddd; }
 .dropdown.menu { float:right; margin-right: 15px;}
-.needby-container { width: 22%; float: left; text-align: center; }
 .details-container { width: 70%; }
 .priority-container { width: 20%; float:left; width:10%;}
 .priority { min-width:50px; color:steel; font-size: 35px; font-weight: 900; }
@@ -20,6 +23,12 @@ a.tags-details:hover { color: #00FFFF; text-shadow: 0px 0px 23px #FFF; }
   color: #FFF;
   font-size: 1.5rem;
   font-weight: 900; }
+body {
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+  background: #222;
+  color: #AAA; }
 .column-left { display: none; }
 .column-right { display: none; }
 .column-middle { width: 100%; overflow: auto; background: #333; padding-bottom: 200px; margin-left: auto; margin-right: auto;}
@@ -85,12 +94,6 @@ i {
 .edit-row { padding-top: 5px; }
 .edit-text-box { width: 100%; min-height: 200px; font-size: 12px; }
 .ui-widget textarea { font-size: 12px; }
-body {
-	width: 90%;
-	margin-left: auto;
-	margin-right: auto;
-  background: #222;
-  color: #AAA; }
 textarea {
 	font-size: 12px;
 	background: #111;
@@ -285,153 +288,3 @@ textarea {
 .punches {
   text-align: left; }
 
-/* Larger than phone */
-@media (min-width: 550px) {
-#neededBy { display: block; }
-.subject {
-	overflow: hidden;
-	width: 70%;
-  float: left;
-  color: #FFF;
-  font-size: 2rem;
-  font-weight: 900; }
-  .button {
-		padding: 0px;
-		text-align: center;
-		text-decoration: none;
-		font-size: 1rem;
-		vertical-align: middle;
-		border: 1px solid #333;
-		background-color:  #4CAF50;
-		margin-top: auto;
-		margin-bottom: auto;
-		margin-left: auto;
-		margin-right: auto;
-		width: 20%;
-		height: 40px;
-		float: right;}
-  .nav-button {
-		vertical-align: middle;
-    float: right }
-  .two-thirds.column { width: 68.8%; }
-  .column,
-  .columns {
-    background: transparent;
-    margin-left: 3px; }
-  .clock-wrapper {
-    display: block;
-    min-width: 50px;
-  }
-  .clock {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #AAA;
-    padding: 5px;
-    margin-bottom: 0px; }
-  .header {
-    background-color: #666;
-    text-align: center;
-    margin-top: 6rem; }
-  .punches {
-    text-align: left; }
-}
-
-/* Larger than tablet */
-@media (min-width: 750px) {
-	#neededBy { display: block; }
-.tags-summary { display: block; font-size: 1em; margin-left: 10px; }
-a.tags-summary { color: #00BFFF; text-decoration: none; float:left;}
-a.tags-summary:hover { color: #00FFFF; text-shadow: 0px 0px 23px #FFF; }
-.tags-details { display: none; }
-.subject {
-	overflow: hidden;
-	width: 70%;
-  float: left;
-  color: #FFF;
-  font-size: 2rem;
-  font-weight: 900; }
-  body { margin-left: auto;
-		margin-right: auto;
-		width: 90%; }
-	.column-left {
-		display: none;
-		margin-top: 100px;
-		margin-left: auto;
-		width: 30%;
-		height: 99%;
-		background-color: #000;
-		overflow: hidden;
-		float: left;
-		border-right: 3px solid #000;
-	}
-	.column-right { display: none; width: 10%; overflow: hidden; float: left;}
-	.column-middle { display: block; width: 55%; overflow: visible; margin-left:auto; margin-right:auto;}
-  /* Navbar */
-  .clock-wrapper {
-    display: block;
-    min-width: 50px; }
-  .clock {
-    display: block;
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #AAA;
-    padding: 5px;
-    margin-bottom: 0px; }
-  .navbar,
-  .navbar-spacer {
-    display: block;
-    width: 100%;
-    height: 6.5rem;
-    background: #222;
-    z-index: 99;
-    border-top: 0px solid #eee;
-    border-bottom: 1px solid #eee; }
-  .navbar-spacer {
-    display: none; }
-  .navbar > .container {
-    width: 100%; }
-  .navbar-list {
-    list-style: none;
-    margin-bottom: 0; }
-  .navbar-item {
-    position: relative;
-    float: left;
-    margin-bottom: 0; }
-  .navbar-link {
-    text-transform: uppercase;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .2rem;
-    margin-right: 35px;
-    text-decoration: none;
-    line-height: 6.5rem;
-    color: #222; }
-  .navbar-link.active {
-    color: #33C3F0; }
-  .has-docked-nav .navbar {
-    position: fixed;
-    top: 0;
-    left: 0; }
-  .has-docked-nav .navbar-spacer {
-    display: block; }
-  /* Re-overiding the width 100% declaration to match size of % based container */
-  .has-docked-nav .navbar > .container {
-    width: 80%; }
-}
-@media (min-width: 1500px) {
-	.column-left {
-		display: none;
-		margin-top: 100px;
-		margin-left: auto;
-		width: 20%;
-		height: 99%;
-		background-color: #000;
-		overflow: hidden;
-		float: left;
-		border-right: 3px solid #000;
-	}
-	.column-middle { display: block; width: 50%; overflow: hidden; margin-left:auto;margin-right:auto;}
-	.column-right { display: none; width: 25%; overflow: hidden; float: left; padding-top: 100px;}
-	#events-list { background-color: #000; }
-}
