@@ -340,6 +340,22 @@ function clearDefault(a){
 	}
 }
 
+function positionLoop() {
+	$( "li" ).each(function( i, l ){
+		var punchRef = firebase.database().ref('users/' + uid + '/punches/' + l.id + '/priority');
+		punchRef.once('value').then(function(snapshot) {
+			var cPriority = snapshot.val();
+			var nPriority = i;
+
+			if ( parseInt(cPriority) < 100 ) {
+				console.log("Updating: " + l.id + " priority, from: " + cPriority + ", to: " + nPriority);
+				setPriority(l.id, nPriority);
+			}
+		});
+		//console.log("i: " + i + " l: " + l.id);
+	});
+}
+
 function mkSortable(){
 	console.log("function: mkSortable()");
 	$( function() {
@@ -358,6 +374,7 @@ function mkSortable(){
 				console.log(event, ui);
 				setPriority(ui.item.context.id, ui.item.index());
 				console.log(`New Position: ${ui.item.index()}`);
+				positionLoop();
 			}
 		});
 	});
