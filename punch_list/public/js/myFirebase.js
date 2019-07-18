@@ -8,19 +8,27 @@ var config = {
   appId: "1:999467953896:web:a4ded59b12ccb9ff"
 };
 
+var logging = false;
+
+function consoleLog(logMessage) {
+	if ( logging === true ) {
+		console.log(logMessage);
+	}
+}
+
 //firebase.initializeApp(firebaseConfig);
 if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 }
 
 function initApp() {
-	console.log("function: initApp()");
+	consoleLog("function: initApp()");
   // Auth state changes.
   // [START authstatelistener]
   firebase.auth().onAuthStateChanged(function(user){
-		console.log(`in onAuthStateChanged`);
+		consoleLog(`in onAuthStateChanged`);
     if (user) {
-			console.log(`${user.displayName}`);
+			consoleLog(`${user.displayName}`);
       // User is signed in.
       var displayName = user.displayName;
       var email = user.email;
@@ -56,7 +64,7 @@ function initApp() {
 // AUTH //
 // [START googlecallback]
 function onSignIn(googleUser) {
-  console.log('Google Auth Response', googleUser);
+  consoleLog('Google Auth Response', googleUser);
   // We need to register an Observer on Firebase Auth to make sure auth is initialized.
   var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
     unsubscribe();
@@ -90,7 +98,7 @@ function onSignIn(googleUser) {
       // [END authwithcred]
     } else {
 			var user = googleUser;
-      console.log('User already signed-in Firebase.');
+      consoleLog('User already signed-in Firebase.');
       var displayName = user.displayName;
       var email = user.email;
       var emailVerified = user.emailVerified;
@@ -136,7 +144,7 @@ function handleSignOut() {
 }
 
 function writeUserData(userId, name, email, imageUrl) {
-	console.log("function: writeUserData(" + userId + ", " + name + ", " + email + ", " + imageUrl + ")");
+	consoleLog("function: writeUserData(" + userId + ", " + name + ", " + email + ", " + imageUrl + ")");
   firebase.database().ref('users/' + userId).update({
     username: name,
     email: email,
@@ -150,7 +158,7 @@ function writeUserData(userId, name, email, imageUrl) {
 //});
 
 function newPunch(uid, subject, priority, progress, needBy, notes, tags) {
-	console.log("function: newPunch(" + uid + ", " + subject + ", " + priority + ", " + progress + ", " + needBy + ", " + notes + ", " + tags + ")");
+	consoleLog("function: newPunch(" + uid + ", " + subject + ", " + priority + ", " + progress + ", " + needBy + ", " + notes + ", " + tags + ")");
 	var punchData = {
 		uid: uid,
 		subject: subject,
@@ -172,10 +180,10 @@ function newPunch(uid, subject, priority, progress, needBy, notes, tags) {
 }
 
 function genDaily() {
-	console.log("function: genDaily()");
+	consoleLog("function: genDaily()");
 
 	var daily = [ "Check Workday", "Check Expenses", "Check Change Cases", "Check TD's", "Check at-mentions" ];
-	console.log(`${daily[1]}`);
+	consoleLog(`${daily[1]}`);
 	priority = parseInt("3");
 
 	var d = new Date();
@@ -192,12 +200,12 @@ function genDaily() {
 }
 
 function genWeekly() {
-	console.log("function: genWeekly()");
+	consoleLog("function: genWeekly()");
 
 //get next monday:
 	// var d = new Date();
 	// d.setDate(d.getDate() + (1 + 7 - d.getDay()) % 7);
-	// console.log(d)
+	// consoleLog(d)
 
 //	};
 	var weekly = [ "Update ORB Notes", "Prep Weekly Meeting", "Build out Broadcast Timer" ];
@@ -217,7 +225,7 @@ function genWeekly() {
 
 // standard functions
 function setPriority(sortObject, newPosition) {
-	console.log("function: setPriority(" + sortObject + ", " + newPosition + ")");
+	consoleLog("function: setPriority(" + sortObject + ", " + newPosition + ")");
 
 	var priority = {};
 
@@ -229,109 +237,113 @@ function setPriority(sortObject, newPosition) {
 }
 
 function startPunch(reference) {
-	console.log("function: startPunch(" + reference + ")");
+	consoleLog("function: startPunch(" + reference + ")");
 
-	var start = new Date().getTime();
-
-	// Write the new punch data
-	var progress = {};
-	var startTime = {};
-
-	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "in progress";
-	startTime['users/' + window.uid + '/punches/' + reference + '/startTime'] = start;
-
-	firebase.database().ref().update(progress);
-	firebase.database().ref().update(startTime);
-
-	$( "#" + reference )
-		.removeClass( "waiting" )
-	$( "#" + reference )
-		.removeClass( "punch-default" )
-	$( "#" + reference )
-		.addClass( "inProgress" );
-	$( "#progress" + reference )
-		.removeClass( "waiting" )
-	$( "#progress" + reference )
-		.removeClass( "punch-default" )
-	$( "#progress" + reference )
-		.addClass( "inProgress" );
 
 	var exists = document.getElementById("timer" + reference);
 	if ( exists === null ) {
-		console.log("Generate Element: timer" + reference);
+		consoleLog("Generate Element: timer" + reference);
 		genPunchListItem('<div id="timer' + reference + '" class="three columns punch-default started"></div>', '#details-col-one' + reference);
 	}
 
 	var timerExists = exists.innerHTML;
-	console.log(timerExists);
+	consoleLog(timerExists);
 	if (timerExists === null || timerExists === '') {
-		console.log("createTimer(" + reference + ", " + time + ")");
+		consoleLog("createTimer(" + reference + ", " + time + ")");
 		var time = new Date(start).getTime();
 		createTimer("timer" + reference, time);
 	}
 }
 
 function completePunch(reference) {
-	console.log("function: completePunch(" + reference + ")");
-	var end = new Date().getTime();
 
-	// Write the new punch data
-	var progress = {};
-	var endTime = {};
-
-	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "done";
-	endTime['users/' + window.uid + '/punches/' + reference + '/endTime'] = end;
-
-	firebase.database().ref().update(progress);
-	firebase.database().ref().update(endTime);
+	consoleLog("function: completePunch(" + reference + ")");
 
 	deletePunchElement(reference);
 
-//	loadPunches(window.uid);
 }
 
-function waitingPunch(reference) {
-	console.log("function: waitingPunch(" + reference + ")");
+function setPunchProgress(reference, p) {
+
+	consoleLog("function: setPunchProgress(" + reference + ", " + p + ")");
+
 	var progress = {};
-	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "waiting";
+	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = p;
 	firebase.database().ref().update(progress);
 
-	$( "#" + reference )
-		.removeClass( "punch-default" )
-	$( "#" + reference )
-		.removeClass( "inProgress" )
-	$( "#" + reference )
-		.addClass( "waiting" );
-	$( "#progress" + reference )
-		.removeClass( "inProgress" )
-	$( "#progress" + reference )
-		.removeClass( "punch-default" )
-	$( "#progress" + reference )
-		.addClass( "waiting" );
+	switch(p.toLowerCase()) {
+		case "in progress":
+			// execute
+			var refClass = "inProgress";
+			var rmClass = [ "punch-default", "waiting" ];
 
-//	loadPunches(window.uid);
+			var start = new Date().getTime();
+			var startTime = {};
+			startTime['users/' + window.uid + '/punches/' + reference + '/startTime'] = start;
+
+			firebase.database().ref().update(startTime);
+			//startPunch(reference);
+			break;
+		case "waiting":
+			// execute
+			var refClass = "waiting";
+			var rmClass = [ "punch-default", "inProgress" ];
+			break;
+		case "done":
+			var end = new Date().getTime();
+			var endTime = {};
+			endTime['users/' + window.uid + '/punches/' + reference + '/endTime'] = end;
+
+			firebase.database().ref().update(endTime);
+			positionLoop();
+			//completePunch(reference);
+			break;
+		default:
+			consoleLog("function: setStyle(" + reference + ", " + progress + "), did not match a condition. :(");
+	}
+//	setStyle(reference, p);
 }
 
-function mkPunchNew(reference) {
-	console.log("function: mkPunchNew(" + reference + ")");
-	var progress = {};
-	progress['users/' + window.uid + '/punches/' + reference + '/progress'] = "new";
-	firebase.database().ref().update(progress);
+function setStyle(reference, progress) {
 
-	console.log("setting classes");
-	$( "#" + reference )
-		.removeClass( "waiting" )
-	$( "#" + reference )
-		.removeClass( "inProgress" )
-	$( "#" + reference )
-		.addClass( "punch-default" );
-	$( "#progress" + reference )
-		.removeClass( "waiting" )
-	$( "#progress" + reference )
-		.removeClass( "inProgress" )
-	$( "#progress" + reference )
-		.addClass( "punch-default" );
-//	loadPunches(window.uid);
+	switch(progress.toLowerCase()) {
+		case "new":
+			// execute
+			var refClass = "punch-default";
+			var rmClass = [ "waiting", "inProgress" ];
+			break;
+		case "in progress":
+			// execute
+			var refClass = "inProgress";
+			var rmClass = [ "punch-default", "waiting" ];
+			startPunch(reference);
+			break;
+		case "waiting":
+			// execute
+			var refClass = "waiting";
+			var rmClass = [ "punch-default", "inProgress" ];
+			break;
+		case "done":
+			completePunch(reference);
+			break;
+		default:
+			consoleLog("function: setStyle(" + reference + ", " + progress + "), did not match a condition. :(");
+	}
+
+	elementIds = [ '#' + reference, '#progress' + reference ];
+
+	var c;
+	var i;
+
+	consoleLog("Element Ids: " + elementIds);
+	for (i in elementIds) {
+		for (c in rmClass) {
+			consoleLog("Removing: " + rmClass[c] + ", from: " + elementIds[i]);
+			$( elementIds[i] ).removeClass( rmClass[c] );
+		}
+		consoleLog("Adding: " + refClass + ", to: " + elementIds[i]);
+		$( elementIds[i] ).addClass( refClass );
+	}
 }
 
 function clearDefault(a){
@@ -348,16 +360,16 @@ function positionLoop() {
 			var nPriority = i;
 
 			if ( parseInt(cPriority) < 100 ) {
-				console.log("Updating: " + l.id + " priority, from: " + cPriority + ", to: " + nPriority);
+				consoleLog("Updating: " + l.id + " priority, from: " + cPriority + ", to: " + nPriority);
 				setPriority(l.id, nPriority);
 			}
 		});
-		//console.log("i: " + i + " l: " + l.id);
+		//consoleLog("i: " + i + " l: " + l.id);
 	});
 }
 
 function mkSortable(){
-	console.log("function: mkSortable()");
+	consoleLog("function: mkSortable()");
 	$( function() {
 		$( "#sortable" ).sortable({
 			cancel: ".portlet-toggle",
@@ -365,15 +377,15 @@ function mkSortable(){
 			revert: true,
 			distance: 50,
 			start: function(event, ui) {
-				//console.log($( this ).( "li" ));
-				console.log(ui.item.context.id);
-				console.log(`Start Position: ${ui.item.index()}`);
+				//consoleLog($( this ).( "li" ));
+				consoleLog(ui.item.context.id);
+				consoleLog(`Start Position: ${ui.item.index()}`);
 			},
 			stop: function(event, ui) {
 //				setPriority(window.sortObjectUUID, ui.item.index());
-				console.log(event, ui);
+				consoleLog(event, ui);
 				setPriority(ui.item.context.id, ui.item.index());
-				console.log(`New Position: ${ui.item.index()}`);
+				consoleLog(`New Position: ${ui.item.index()}`);
 				positionLoop();
 			}
 		});
@@ -381,7 +393,7 @@ function mkSortable(){
 }
 
 function enableDetail(){
-	console.log("function: enableDetail()");
+	consoleLog("function: enableDetail()");
 	$(function() {
     $( ".portlet" )
       .addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
@@ -406,12 +418,12 @@ function enableDetail(){
 
 // some element functions...
 function enableElement(element) {
-	console.log(`enabling ${element}`);
+	consoleLog(`enabling ${element}`);
 	document.getElementById(element).style.display = "block";
 }
 
 function disableElement(element) {
-	console.log(`disabling ${element}`);
+	consoleLog(`disabling ${element}`);
 	document.getElementById(element).style.display = "none";
 }
 
@@ -452,7 +464,7 @@ function editPunch(uuid) {
 
 	punchRef.once('value').then(function(snapshot) {
 		var data = snapshot.val();
-		console.log(data);
+		consoleLog(data);
 
 	var nDate = new Date(data.needByDate);
 	var notes = data.notes;
@@ -531,13 +543,13 @@ function createTimer(element,timeTo) {
 			if (seconds < 0)  { seconds = -(seconds);      }
 			if (seconds < 10) { seconds = ('0' + seconds); }
 
-			//console.log("Setting Timer on element:" + element);
+			//consoleLog("Setting Timer on element:" + element);
 
 			var exists = document.getElementById(element);
 			if (exists != null) {
 				document.getElementById(element).innerHTML = days + "day(s), " + hours + ":" + minutes + ":" + seconds;
 			} else {
-//				console.log("Could not update: " + element + ", because: " + exists);
+//				consoleLog("Could not update: " + element + ", because: " + exists);
 			}
 		}, 1000);
 	}
@@ -571,27 +583,28 @@ function updateElementData(element, d) {
 		var e = document.getElementById(element).innerHTML;
 
 		if ( d != e ) {
-			console.log("updating: " + element + ", with: " + d + ", was: " + e);
+			consoleLog("updating: " + element + ", with: " + d + ", was: " + e);
 			document.getElementById(element).innerHTML = d;
 		} else if ( d === e ) {
-			console.log("Not Updating: " + element + ", because: " + d + " === " + e);
+			consoleLog("Not Updating: " + element + ", because: " + d + " === " + e);
 		} else {
-			console.log("Not updating: " + element + ", because: Something weird happened with: " + d + " & " + e);
+			consoleLog("Not updating: " + element + ", because: Something weird happened with: " + d + " & " + e);
 		}
 	} else {
-		console.log("add new element");
+		consoleLog("add new element");
 	}
 }
 
 function updatePunchElement(childKey, childData) {
 
-	updateElementData("priority" + childKey, childData.priority);
-	updateElementData("subject" + childKey, childData.subject);
-	updateElementData("progress" + childKey, childData.progress);
-	updateElementData("neededby-data" + childKey, childData.needByDate);
+	setStyle(childKey, childData.progress);
 
-	//tags
-
+	if (childData.progress.toLowerCase != "done") {
+		updateElementData("priority" + childKey, childData.priority);
+		updateElementData("subject" + childKey, childData.subject);
+		updateElementData("progress" + childKey, childData.progress);
+		updateElementData("neededby-data" + childKey, childData.needByDate);
+	}
 }
 
 
@@ -616,10 +629,10 @@ function addPunchElement(childKey, childData) {
 		genPunchListItem('<div id="dropdown-wrapper' + childKey + '" class="dropdown"></div>', '#details-container' + childKey);
 		genPunchListItem('<img class="top dropbtn" onclick=progressMenuDrop("' + childKey + '") src="images/down-carrot.png">', '#dropdown-wrapper' + childKey);
 		genPunchListItem('<div id="progressDropdown' + childKey + '" class="dropdown-content punch-default"></div>', '#dropdown-wrapper' + childKey);
-		genPunchListItem('<a href="#" onClick=mkPunchNew("' + childKey + '")>New</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=startPunch("' + childKey + '")>Start</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=waitingPunch("' + childKey + '")>Waiting</a>', '#progressDropdown' + childKey);
-		genPunchListItem('<a href="#" onClick=completePunch("' + childKey + '")>Finish</a>', '#progressDropdown' + childKey);
+		genPunchListItem('<a href="#" onClick=\'setPunchProgress("' + childKey + '", "new")\'>New</a>', '#progressDropdown' + childKey);
+		genPunchListItem('<a href="#" onClick=\'setPunchProgress("' + childKey + '", "in progress")\'>Start</a>', '#progressDropdown' + childKey);
+		genPunchListItem('<a href="#" onClick=\'setPunchProgress("' + childKey + '", "waiting")\'>Waiting</a>', '#progressDropdown' + childKey);
+		genPunchListItem('<a href="#" onClick=\'setPunchProgress("' + childKey + '", "done")\'>Finish</a>', '#progressDropdown' + childKey);
 
 		genPunchListItem('<div id="details-col-three' + childKey + '" class="needby-container punch-default"></div>', '#details-container' + childKey);
 		genPunchListItem('<div id="details-col-five' + childKey + '" class="five columns punch-default"></div>', '#details-container' + childKey);
@@ -670,14 +683,14 @@ function deletePunchElement(childKey) {
 }
 
 function clearTagFilter() {
-	console.log("clearing tags");
+	consoleLog("clearing tags");
 
 	$( "li" )
 		.removeClass( "hide" );
 }
 
 function tagFilter(reference) {
-	console.log("Filtering Punches on: " + reference);
+	consoleLog("Filtering Punches on: " + reference);
 
 	$( "li" )
 		.addClass( "hide" );
@@ -688,14 +701,14 @@ function tagFilter(reference) {
 }
 
 function loadPunches(uid) {
-	console.log("Loading Punches...");
+	consoleLog("Loading Punches...");
 	//document.getElementById("sortable").innerHTML = '';
 	var punchesRef = firebase.database().ref('users/' + uid + '/punches').orderByChild('priority');
 	var itemStyle = "punches";
 //	list = '<ol id="sortable">';
 
 	punchesRef.on('child_added', function(data) {
-		console.log("child Added");
+		consoleLog("child Added");
 		addPunchElement(data.key, data.val());
 	});
 
@@ -703,10 +716,10 @@ function loadPunches(uid) {
 }
 
 function sortList() {
-	console.log('function: sortList()');
+	consoleLog('function: sortList()');
 	var items = $('li');
 	items.sort(function(a, b){
-		console.log($(a).data('priority'));
+		consoleLog($(a).data('priority'));
 		return +$(a).data('priority') - +$(b).data('priority');
 	});
 
@@ -717,14 +730,14 @@ var looper = setInterval(function() {
 	var uid = window.uid;
 	var punchesRef = firebase.database().ref('users/' + uid + '/punches').orderByChild('priority');
 	punchesRef.on('child_changed', function(data) {
-		console.log("Child Changed");
+		consoleLog("Child Changed");
 		updatePunchElement(data.key, data.val());
 //		deletePunchElement(data.key);
 //		addPunchElement(data.key, data.val());
 	});
 
 	punchesRef.on('child_removed', function(data) {
-		console.log("child Removed");
+		consoleLog("child Removed");
 		deletePunchElement(data.key);
 	});
 }, 1000);
@@ -757,7 +770,7 @@ function createNewEvent() {
 	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
 	var newTags = noSpaces.split(",");
 
-	newPunch(window.uid, subjectField, priorityField, progressField, nDateField, notesField, newTags)
+	newPunch(window.uid, subjectField, priorityField, progressField, nDateField, notesField, newTags);
 
 	disableElement("newEvent");
 	enableElement("punchListAll");
@@ -771,309 +784,3 @@ window.onload = function() {
   initApp();
 };
 
-//
-//
-//
-// old script
-//
-//
-//
-
-/*
-function tagFilter(tagItem) {
-	console.log(`In tagFilter function`);
-	window.tagFilterItem = tagItem;
-	getJson();
-}
-
-function cleartagfilter() {
-	console.log(`clear tags`);
-	window.tagfilteritem = undefined;
-	getjson();
-}
-
-function getStatus(punchList, statusFilter) {
-	return punchList.filter(function(punch) { return punch.progress.toLowerCase() != statusFilter; });
-}
-
-window.punches = '';
-
-
-
-function startPunch(uuid) {
-	var punchList = window.punches;
-	item = findArrayId(uuid);
-
-	if ( punchList[item].startTime === undefined ) {
-		punchList[item].startTime = new Date().getTime();
-	}
-
-	punchList[item].progress = "In Progress";
-	punchList[item].priority = 0;
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-}
-function completePunch(uuid) {
-	var punchList = window.punches;
-	item = findArrayId(uuid);
-
-	if ( punchList[item].doneTime === undefined ) {
-		punchList[item].doneTime = new Date().getTime();
-	}
-
-	punchList[item].progress = "Done";
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-}
-
-function waitingPunch(uuid) {
-	var punchList = window.punches;
-	item = findArrayId(uuid);
-
-	punchList[item].progress = "Waiting";
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-}
-
-function mkPunchNew(uuid) {
-	var punchList = window.punches;
-	item = findArrayId(uuid);
-
-	punchList[item].progress = "New";
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-}
-
-function enablePunchDetail(uuid) {
-	var punchList = window.punches;
-	item = findArrayId(uuid);
-	console.log(`inside enablePunchDetail`);
-	disableElement("punchListAll");
-	enableElement("punchDetail");
-//	html = "";
-	html = "<p>subject: " + punchList[item].subject + "<br />Created: " + punchList[item].cDate + "<br />Modified Date: " + punchList[item].mDate + "<br />Priority: " + punchList[item].priority + "<br />Progress: " + punchList[item].progress + "<br /><textarea>" + punchList[item].notes + "</textarea><br /><input onfocus='clearDefault(this)' type='text' id='tag' value='Add tag'><input onClick='addTag()' type=button value='Add' /></p><input type=button value=close onClick=getJson()>";
-	document.getElementById("punchDetail").innerHTML = html;
-}
-
-function genEventForm() {
-
-	document.getElementById("newSubject").value = "subject";
-	document.getElementById("newPriority").value = "priority";
-	document.getElementById("timepickerCreate").value = "date";
-	document.getElementById("newNotes").value = '';
-
-	disableElement('punchListAll');
-	enableElement('newEvent');
-}
-
-function createNewEvent() {
-getJson();
-
-//	console.log(`${punchList}`);
-//	console.log(`${window.punches}`);
-//	disableElement("punchList");
-//	disableElement("punchDetail");
-	punchList = window.punches;
-
-	var subjectField = document.getElementById("newSubject").value;
-	var priorityField = document.getElementById("newPriority").value;
-	var progressField = document.getElementById("newProgress").value;
-	var nDateField = document.getElementById("timepickerCreate").value;
-	var notesField = document.getElementById("newNotes").value;
-
-	var newTag = document.getElementById("tagsCreate").value.toLowerCase();
-	var stripLeadingSpace = newTag.replace(/, /g, ',');
-	var noSpaces = stripLeadingSpace.replace(/ /g, '_');
-	var newTags = noSpaces.split(",");
-
-	// make sure tags object exists
-
-	var newEventJson = { uuid: genUid(), nDate: nDateField, subject: subjectField, priority: priorityField, progress: progressField, tags: newTags, notes: notesField };
-	punchList.push(newEventJson);
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-	disableElement("newEvent");
-	enableElement("punchListAll");
-//	document.getElementById("newEventList").innerHTML = jsonStr;
-}
-
-
-function deletePunch(uuid) {
-getJson();
-
-//	console.log(`${punchList}`);
-//	console.log(`${window.punches}`);
-	punchList = window.punches;
-	item = findArrayId(uuid);
-
-	console.log(`splicing ${item}`);
-
-
-	punchList.splice(item, 1);
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-//	document.getElementById("newEventList").innerHTML = jsonStr;
-}
-
-
-function enableElement(element) {
-	console.log(`enabling ${element}`);
-	document.getElementById(element).style.display = "block";
-}
-
-function disableElement(element) {
-	console.log(`disabling ${element}`);
-	document.getElementById(element).style.display = "none";
-}
-
-function displayMeta() {
-	document.getElementById("meta").innerHTML = "Version: " + version ;
-}
-
-function toggleShowDone() {
-	if (showDone === false) {
-		window.showDone = true;
-	} else if (showDone === true) {
-		window.showDone = false;
-	} else {
-		window.showDone = false;
-	}
-	getJson();
-}
-
-function editPunch(uuid) {
-	disableElement("punchListAll");
-	enableElement("editPunch");
-
-	punchList = window.punches;
-	item = findArrayId(uuid);
-
-	if ( punchList[item].tags === undefined ) {
-		punchList[item].tags = [];
-	}
-
-	var id = item;
-
-	var subject = punchRef.subject;
-	var priority = punchRef.priority;
-	var progress = punchRef.progress;
-	var nDate = punchRef.nDate;
-	var notes = punchRef.notes;
-	var tags = punchRef.tags;
-
-	var html = '<div class="container listWrapper">';
-	html += '<input type=hidden id="editID" value="' + uuid + '">';
-	html += '<div class="edit-row"><div class="three columns">Subject:</div><div class="nine columns"><input class="twelve columns" type=text id="editSubject" value="' + subject + '"></div></div>';
-	html += '<div class="three columns">Priority:</div><div class="nine columns"><input type=text id="editPriority" value="' + priority + '"></div>';
-	html += '<div class="three columns">Need By:</div><div class="nine columns"><input type=text id="timepickerEdit" value="' + nDate + '"></div>';
-	html += '<div class="three columns">Progress:</div><div id="editProgress" class="nine columns">';
-	html +=  progress;
-	html += '</div>';
-	html += '<div class="three columns">Tags:</div><div class="nine columns">' + tags + '&nbsp; </div>';
-	html += '<div class="three columns">Add Tag:</div><div class="nine columns"><input type="text" id="addTag-' + uuid + '"><button onClick=addTag("' + uuid + '")>Add Tag</button></div>';
-	html += '<div class="three columns">Notes: </div><div class="nine columns"><textarea class="edit-text-box" id="editNotes">' + notes + '</textarea></div>';
-	html += '<button onClick=submitEditPunch("' + uuid + '")>Update</button>';
-	html += '<button onClick=\'disableElement("editPunch"),enableElement("punchListAll")\'>Close</button>';
-	html += '</div>';
-
-	document.getElementById("editPunch").innerHTML = html;
-
-}
-
-function submitEditPunch(uuid) {
-	punchList = window.punches;
-
-//	var uuid = document.getElementById("editID").value;
-	var id = findArrayId(uuid);
-	var subjectField = document.getElementById("editSubject").value;
-	var priorityField = document.getElementById("editPriority").value;
-	var progressField = document.getElementById("editProgress").innerHTML;
-	var nDateField = document.getElementById("timepickerEdit").value;
-	//var tagsField = document.getElementById("editTags").value.toLowerCase();
-	var notesField = document.getElementById("editNotes").value;
-
-	punchRef.subject = subjectField;
-	punchRef.priority = priorityField;
-	punchRef.progress = progressField;
-	punchRef.nDate = nDateField;
-	//punchRef.tags = tagsField;
-	punchRef.notes = notesField;
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-	disableElement("editPunch");
-}
-
-function addTag(uuid) {
-
-	var item = findArrayId(uuid);
-//	var item = document.getElementById("addTag-" + uuid).value;
-	var newTag = document.getElementById("addTag-" + uuid).value.toLowerCase();
-	var stripLeadingSpace = newTag.replace(', ', ',');
-	var noSpaces = stripLeadingSpace.replace(' ', '_');
-	var newTags = noSpaces.split(",");
-
-	// make sure tags object exists
-	if (punchList[item].tags === undefined) {
-		console.log(`Adding tags object to punchList[${item}]`);
-		punchList[item].tags = [];
-	}
-
-	for ( nt = 0; nt < newTags.length; nt++ ) {
-		punchList[item].tags.push(newTags[nt]);
-		console.log(`${punchList[item].tags}`);
-	}
-
-	jsonStr = JSON.stringify(punchList);
-	putJson(jsonStr);
-	editpunch(uuid);
-//	disableelement("editpunch");
-//	enableelement("punchlistall");
-		disableelement("punchlistall");
-}
-
-function cleardefault(a){
-	if (a.defaultvalue === a.value) {
-		a.value="";
-	}
-}
-
-function genuid() {
-	function chr4() {
-		return math.random().tostring(16).slice(-4);
-	}
-	return chr4() + chr4() +
-	'-' + chr4() +
-	'-' + chr4() +
-	'-' + chr4() +
-	'-' + chr4() + chr4() + chr4();
-}
-
-//google stuff
-function onsignin(googleuser) {
-//  var profile = googleuser.getbasicprofile();
-//  console.log('id: ' + profile.getid()); // do not send to your backend! use an id token instead.
-//  console.log('name: ' + profile.getname());
-//  console.log('image url: ' + profile.getimageurl());
-//  console.log('email: ' + profile.getemail()); // this is null if the 'email' scope is not present.
-//	getjson();
-}
-
-function signout() {
-  var auth2 = gapi.auth2.getauthinstance();
-  auth2.signout().then(function () {
-    console.log('user signed out.');
-  });
-}
-
-$('li').on("click", function(event){
-  var target = event.target,
-      index = $(target).index();
-    console.log(target, index);
-    document.getelementbyid("debug1").innerhtml = target + "<br />" + index;
-});
-*/
