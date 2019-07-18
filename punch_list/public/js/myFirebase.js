@@ -1,3 +1,5 @@
+var version = "2019.07.18-1600";
+
 var config = {
   apiKey: "AIzaSyA4De5itV56yaOBfBW6Cnk3fS7skPmDCHM",
   authDomain: "punchlist-1561043639952.firebaseapp.com",
@@ -251,7 +253,7 @@ function startPunch(reference) {
 	consoleLog(timerExists);
 	if (timerExists === null || timerExists === '') {
 		consoleLog("createTimer(" + reference + ", " + time + ")");
-		var time = new Date(start).getTime();
+		var time = new Date().getTime();
 		createTimer("timer" + reference, time);
 	}
 }
@@ -795,3 +797,4 @@ window.onload = function() {
   initApp();
 };
 
+document.getElementById("versionInfo").innerHTML = version;
