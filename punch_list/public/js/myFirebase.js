@@ -233,6 +233,7 @@ function setPriority(sortObject, newPosition) {
 
 	firebase.database().ref().update(priority);
 
+	$( '#' + sortObject).attr("priority", newPosition);
 //	loadPunches(window.uid);
 }
 
@@ -601,6 +602,7 @@ function updatePunchElement(childKey, childData) {
 
 	if (childData.progress.toLowerCase != "done") {
 		updateElementData("priority" + childKey, childData.priority);
+		$( '#' + childKey).prop("priority", childData.priority);
 		updateElementData("subject" + childKey, childData.subject);
 		updateElementData("progress" + childKey, childData.progress);
 		updateElementData("neededby-data" + childKey, childData.needByDate);
@@ -616,7 +618,7 @@ function addPunchElement(childKey, childData) {
 	else { style = "punch-default"; }
 
 	if (childData.progress.toLowerCase() != "done") {
-		genPunchListItem('<li id="' + childKey + '" class="' + style + '"></li>', '#sortable');
+		genPunchListItem('<li id="' + childKey + '" priority=' + childData.priority + ' class="' + style + '"></li>', '#sortable');
 		genPunchListItem('<div id="div-portlet' + childKey + '" class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>', '#' + childKey);
 		genPunchListItem('<div id="priority-container' + childKey + '" class="priority-container"></div>', '#div-portlet' + childKey);
 		genPunchListItem('<div id="details-container' + childKey + '" class="container details-container"></div>', '#div-portlet' + childKey);
@@ -717,13 +719,20 @@ function loadPunches(uid) {
 
 function sortList() {
 	consoleLog('function: sortList()');
-	var items = $('li');
-	items.sort(function(a, b){
-		consoleLog($(a).data('priority'));
-		return +$(a).data('priority') - +$(b).data('priority');
+
+	var list = $('#sortable');
+	var li = list.children('li');
+
+	consoleLog(list);
+	consoleLog(li);
+
+	li.detach().sort(function(a, b) {
+		console.log( $(a).attr('priority') );
+		return $(a).attr('priority') - $(b).attr('priority');
 	});
 
-	items.appendTo('#sortable');
+	list.append(li);
+	positionLoop();
 }
 
 var looper = setInterval(function() {
@@ -774,6 +783,8 @@ function createNewEvent() {
 
 	disableElement("newEvent");
 	enableElement("punchListAll");
+
+	sortList();
 //	loadPunches(window.uid);
 //	document.getElementById("newEventList").innerHTML = jsonStr;
 }
