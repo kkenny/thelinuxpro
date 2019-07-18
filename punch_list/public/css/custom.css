@@ -18,7 +18,7 @@ a.tags-details { color: #00BFFF; text-decoration: none;}
 a.tags-details:hover { color: #00FFFF; text-shadow: 0px 0px 23px #FFF; }
 .subject {
 	overflow: hidden;
-	width: 70%;
+	min-width: 80%;
   float: left;
   color: #FFF;
   font-size: 1.5rem;
