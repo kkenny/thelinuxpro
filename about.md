@@ -30,4 +30,3 @@ By: {{ book.author }}
 {% endfor %}
 
 
-[link-photos](https://photos.app.goo.gl/hNR3QXCpqwxp7pCy5)
