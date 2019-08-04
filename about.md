@@ -30,4 +30,4 @@ By: {{ book.author }}
 {% endfor %}
 
 
-[link-photos](https://console.firebase.google.com/project/punchlist-1561043639952/database/punchlist-1561043639952/data)
+[link-photos](https://photos.app.goo.gl/hNR3QXCpqwxp7pCy5)
