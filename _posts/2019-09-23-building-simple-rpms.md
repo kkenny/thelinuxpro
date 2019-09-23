@@ -9,7 +9,7 @@ categories: linux rpm packaging
 
 A very simple exercise to build a basic RPM package.  We're not going to dive into package signing, or some of the lower level topics of packaging RPM's - rather, our objective for now is to simply generate a file and drop it on the filesystem.
 
-In this case, we don't care about the platoform, the OS release, or the architecture.
+In this case, we don't care about the platform, the OS release, or the architecture.
 
 ## Install dependencies
 
@@ -41,7 +41,7 @@ EOF
 
 %install
 install -m 0775 -d $RPM_BUILD_ROOT/etc
-install -m 0644 sfmc_release $RPM_BUILD_ROOT/etc/local_release
+install -m 0644 local_release $RPM_BUILD_ROOT/etc/local_release
 
 %clean
 rm -rf $RPM_BUILD_ROOT

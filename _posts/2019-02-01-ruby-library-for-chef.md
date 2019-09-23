@@ -47,7 +47,7 @@ This code simply accepts a file name, then calculates it's age in days.
 
 ## Use Your Library
 Let's say we want Pulp to sync a repo every seven days...
-Create an attribute for the cadance by putting the following into `attributes/default.rb`
+Create an attribute for the cadence by putting the following into `attributes/default.rb`
 
 {% highlight ruby %}
 default['pulp-mirror']['sync']['cadence']       = 7       #In Days

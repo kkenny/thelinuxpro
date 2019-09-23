@@ -3,7 +3,7 @@ layout: post
 title:  "Working with git"
 date:   2019-02-27 11:35:00 -0500
 tags: [git, repo, repository, source, code]
-excerpt: "Git is a free and open source version control system that is distributed. Let's dive into the usage and fundamentals needed to get started with versioning your codebase."
+excerpt: "Git is a free and open source version control system that is distributed. Let's dive into the usage and fundamentals needed to get started with versioning your code base."
 categories: git
 ---
 
