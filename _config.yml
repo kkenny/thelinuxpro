@@ -44,3 +44,5 @@ markdown: kramdown
 
 
 theme: jekyll-theme-midnight
+plugins:
+  - jekyll-feed
